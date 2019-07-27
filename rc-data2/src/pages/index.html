@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成大数据首页</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--bin-ui-->
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+<div id="app" v-cloak>
+  <div class="screen-wrapper">
+    <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合分析平台</v-header>
+    <div class="main">
+      main
+    </div>
+  </div>
+</div>
+<script src="../js/components/v-header.js"></script>
+<!--测试模拟请求-->
+<script src="../js/lib/utils/mock.js"></script>
+<script src="../mock/main.js"></script>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        msg: ''
+      }
+    },
+    methods: {
+      onClick: function () {
+        this.$log.print('测试发起请求')
+        axios.get('/demo').then(function (response) {
+          vm.$log.print('测试请求成功', 'success')
+          vm.$log.print(response.data.msg, 'danger')
+          vm.msg = response.data.msg
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
