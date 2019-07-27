@@ -12,6 +12,10 @@
   <!--bin-ui-->
   <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
   <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <link rel="stylesheet" href="../js/lib/echarts/v-charts/style.min.css">
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/echarts/v-charts/index.min.js"></script>
   <!--self-->
   <link rel="stylesheet" href="../styles/index.css">
 </head>
@@ -20,20 +24,136 @@
   <div class="screen-wrapper">
     <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合分析平台</v-header>
     <div class="main">
-      main
+      <v-block label="全市人口基础情况" :rect="[40, 20, 460, 462]">
+        <div class="block1">
+          <div class="top mb15 o-hide" flex>
+            <span class="total t-justify">全市人口总数</span>
+            <div class="number" v-html="allCityPeople"></div>
+            <span class="ren">人</span>
+          </div>
+          <div flex="main:justify wrap:wrap">
+            <div class="box">
+              <h2>601710</h2>
+              <p>实际本地人口 (人)</p>
+            </div>
+            <div class="box">
+              <h2>213939</h2>
+              <p>实际外来人口 (人)</p>
+            </div>
+            <div class="box">
+              <h2>22</h2>
+              <p>本市镇街数量 (个)</p>
+            </div>
+            <div class="box">
+              <h2>946</h2>
+              <p>本市村居数量 (个)</p>
+            </div>
+          </div>
+          <h2>全市法人基础情况</h2>
+          <div class="charts" flex="main:justify">
+            <div class="ring">
+              <ve-ring :data="corpData" :extend="ringExtend" :legend-visible="false" :tooltip-visible="false"
+                       width="170px" height="170px" :colors="colors"></ve-ring>
+            </div>
+            <div flex-box="1">
+              <h2>实际法人总数(个)</h2>
+              <h4 class="font24 blue1">77286</h4>
+              <p class="item">
+                <span class="icon" style="background-color:#0f36ac;"></span>
+                <span class="label t-justify">企业法人:</span>
+                <span class="fff">{{corp[0]}}</span> 个
+              </p>
+              <p class="item">
+                <span class="icon" style="background-color:#0b87ed;"></span>
+                <span class="label t-justify">个体工商户:</span>
+                <span class="fff">{{corp[1]}}</span> 个
+              </p>
+              <p class="item">
+                <span class="icon" style="background-color:#ffea68;"></span>
+                <span class="label t-justify">其他:</span>
+                <span class="fff">{{corp[2]}}</span> 个
+              </p>
+            </div>
+          </div>
+        </div>
+      </v-block>
+      <v-block label="部门数据报送量总量排行" :rect="[520, 20, 460, 462]">
+        <div class="block2">
+
+        </div>
+      </v-block>
+      <v-block label="数据归集情况" :rect="[40, 500, 460, 462]">
+        <div class="block3">
+
+        </div>
+      </v-block>
+      <v-block label="镇街部门报送总量排行" :rect="[520, 500, 460, 462]">
+        <div class="block2">
+
+        </div>
+      </v-block>
+      <v-block label="信用评级数据分析" :rect="[1000, 20, 1880, 944]">
+        <div class="block2">
+
+        </div>
+      </v-block>
+      <v-block label="信用报告使用情况分析" :rect="[2900, 20, 920, 944]">
+        <div class="block2">
+
+        </div>
+      </v-block>
     </div>
   </div>
 </div>
 <script src="../js/components/v-header.js"></script>
+<script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-dot-label.js"></script>
 <!--测试模拟请求-->
-<script src="../js/lib/utils/mock.js"></script>
-<script src="../mock/main.js"></script>
+<!--<script src="../js/lib/utils/mock.js"></script>-->
+<!--<script src="../mock/main.js"></script>-->
 <script>
+  var corp = [54800, 22486, 22486]
   var vm = new Vue({
     el: '#app',
     data: function () {
+      this.colors = [
+        '#0f36ac', '#0b87ed', '#ffea68', '#6fc36f',
+        '#fc5976', '#ae74f3', '#ff7391', '#ffb759',
+        '#4c83ff', '#60daab']
+      this.ringExtend = {
+        legend: { show: false },
+        series: {
+          center: ['50%', '50%'],
+          radius: [25, 60],
+          hoverAnimation: false,
+          label: {
+            position: 'inside',
+            formatter: '{d}'
+          }
+        }
+      }
       return {
-        msg: ''
+        peopleTotal: 8156489,
+        corp: corp,
+        corpData: {
+          columns: ['name', 'count'],
+          rows: [
+            { name: '企业法人', count: corp[0] },
+            { name: '个体工商户', count: corp[1] },
+            { name: '卫计委', count: corp[2] }
+          ]
+        }
+      }
+    },
+    computed: {
+      allCityPeople: function () {
+        var arr = this.peopleTotal.toString().split('')
+        if (arr && arr.length > 0) {
+          return arr.map(function (item) {
+            return '<span>' + item + '</span>'
+          }).join('')
+        }
+        return ''
       }
     },
     methods: {

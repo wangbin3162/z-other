@@ -1,6 +1,7 @@
 body {
   width: 3840px;
   height: 1080px;
+  line-height: 1.5;
 }
 #app {
   height: 100%;
@@ -56,21 +57,21 @@ body {
   color: #0278b9;
 }
 #app .screen-wrapper .v-block {
-  position: relative;
+  position: absolute;
   padding: 10px 20px;
   border: 1px solid #293f53;
   border-radius: 5px;
-  box-shadow: 0 0 30px #1a3a63 inset;
-  background-color: rgba(19,33,63,0.5);
+  box-shadow: 0 0 30px rgba(26,58,99,0.5) inset;
+  background-color: rgba(19,33,63,0.2);
   margin-bottom: 20px;
+  color: #4d5e8c;
 }
-#app .screen-wrapper .v-block .header span {
+#app .screen-wrapper .v-block .header {
+  padding: 8px;
+  text-align: center;
   font-size: 18px;
-  color: #0cf;
+  color: #d7edfd;
   font-weight: bold;
-}
-#app .screen-wrapper .v-block .content {
-  padding: 10px 0;
 }
 #app .screen-wrapper .v-block .angle {
   position: absolute;
@@ -175,10 +176,62 @@ body {
   user-select: none;
   box-sizing: border-box;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
 .t-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.t-justify {
+  text-align: justify;
+  -ms-text-align-last: justify;
+  text-align-last: justify;
+}
+.o-hide {
+  overflow: hidden;
+}
+.font16 {
+  font-size: 16px;
+}
+.font18 {
+  font-size: 18px;
+}
+.font20 {
+  font-size: 20px;
+}
+.font22 {
+  font-size: 22px;
+}
+.font24 {
+  font-size: 24px;
+}
+.fff {
+  color: #fff;
+}
+.blue1 {
+  color: #00aeff;
+}
+.blue2 {
+  color: #0cf;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mb15 {
+  margin-bottom: 15px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mr20 {
+  margin-right: 20px;
 }
 #app .screen-wrapper {
   user-select: none;
@@ -187,5 +240,67 @@ body {
   background: #02061a;
 }
 #app .screen-wrapper .main {
+  position: relative;
   height: calc(100% - 96px);
+  padding: 20px 40px;
+}
+#app .screen-wrapper .main .block1 .total {
+  width: 74px;
+  padding-right: 10px;
+  color: #fff;
+  font-size: 16px;
+}
+#app .screen-wrapper .main .block1 .number span {
+  color: #ddd088;
+  font-size: 36px;
+  line-height: 36px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 2px;
+  background-color: #232e4c;
+}
+#app .screen-wrapper .main .block1 .ren {
+  padding: 25px 0 0 5px;
+  font-size: 16px;
+}
+#app .screen-wrapper .main .block1 .box {
+  width: 208px;
+  margin-bottom: 2px;
+  padding: 6px 20px;
+  background-color: #0f1432;
+}
+#app .screen-wrapper .main .block1 .box h2 {
+  font-size: 24px;
+  color: #fff;
+  font-weight: normal;
+}
+#app .screen-wrapper .main .block1 > h2 {
+  text-align: center;
+  font-size: 18px;
+  color: #d7edfd;
+  font-weight: bold;
+}
+#app .screen-wrapper .main .block1 .charts h2 {
+  font-size: 16px;
+  color: #fff;
+  padding-top: 20px;
+}
+#app .screen-wrapper .main .block1 .charts .item {
+  line-height: 24px;
+}
+#app .screen-wrapper .main .block1 .charts .item .icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #2d8cf0;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+#app .screen-wrapper .main .block1 .charts .item .label {
+  display: inline-block;
+  width: 80px;
+}
+.echarts {
+  width: 100%;
+  height: 100%;
 }

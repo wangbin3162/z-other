@@ -1,6 +1,7 @@
 body {
   width: 3840px;
   height: 1080px;
+  line-height: 1.5;
 }
 #app {
   height: 100%;
@@ -57,22 +58,20 @@ body {
       }
     }
     .v-block {
-      position: relative;
+      position: absolute;
       padding: 10px 20px;
       border: 1px solid #293f53;
       border-radius: 5px;
-      box-shadow: 0 0 30px #1a3a63 inset;
-      background-color: rgba(19, 33, 63, 0.5);
+      box-shadow: 0 0 30px rgba(26, 58, 99, 0.5) inset;
+      background-color: rgba(19, 33, 63, 0.2);
       margin-bottom: 20px;
+      color: #4d5e8c;
       .header {
-        span {
-          font-size: 18px;
-          color: #00ccff;
-          font-weight: bold;
-        }
-      }
-      .content {
-        padding: 10px 0;
+        padding: 8px;
+        text-align: center;
+        font-size: 18px;
+        color: #d7edfd;
+        font-weight: bold;
       }
       .angle {
         position: absolute;
@@ -176,6 +175,7 @@ body {
   }
 }
 
+// 通用样式
 * {
   margin: 0;
   padding: 0;
@@ -186,8 +186,60 @@ body {
   box-sizing: border-box;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
 .t-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.t-justify {
+  text-align: justify;
+  -ms-text-align-last: justify;
+  text-align-last: justify;
+}
+.o-hide {
+  overflow: hidden;
+}
+//  font-size
+.font16 {
+  font-size: 16px;
+}
+.font18 {
+  font-size: 18px;
+}
+.font20 {
+  font-size: 20px;
+}
+.font22 {
+  font-size: 22px;
+}
+.font24 {
+  font-size: 24px;
+}
+//  color
+.fff {
+  color: #fff;
+}
+.blue1 {
+  color: #00aeff;
+}
+.blue2 {
+  color: #00ccff;
+}
+
+//  margin
+.mb20 {
+  margin-bottom: 20px;
+}
+.mb15 {
+  margin-bottom: 15px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mr20 {
+  margin-right: 20px;
 }
