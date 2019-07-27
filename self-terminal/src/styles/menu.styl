@@ -1,0 +1,60 @@
+@import "./common/base.styl"
+@import "./common/menu-header.styl"
+#app {
+  .main {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: url("../images/bg2.jpg") no-repeat center 0
+    .index-logo {
+      position: absolute;
+      right: 310px;
+      top: 225px;
+    }
+    .menu-box {
+      position: absolute;
+      top: 380px;
+      left: 312px;
+      right: 282px;
+      bottom: 200px;
+      .item {
+        display: inline-block;
+        width: 20%;
+        height: 236px;
+        text-align: center;
+        margin-bottom: 26px;
+        transition: all 1s;
+        p {
+          color: #fff;
+          font-size: 18px;
+          padding-top: 35px;
+        }
+      }
+    }
+    .timer-back {
+      position: absolute;
+      right: 210px;
+      bottom: 90px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+      font-size: 20px;
+      border-top: 1px solid rgba(238, 238, 238, 0.2)
+      border-bottom: 1px solid rgba(238, 238, 238, 0.2)
+      color: #fff;
+      background: rgba(51, 54, 54, 0.2);
+      span {
+        color: #d5563e;
+      }
+    }
+  }
+}
+
+
+.list-complete-enter, .list-complete-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}

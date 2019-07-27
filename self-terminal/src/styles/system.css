@@ -1,0 +1,348 @@
+#app {
+  width: 100%;
+  height: 100%;
+  font-family: "Microsoft Yahei", sans-serif, "Helvetica Neue", Arial, Helvetica;
+  color: #333;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+a {
+  color: #2d8cf0;
+  text-decoration: none;
+}
+.main .menu-header {
+  position: relative;
+  width: 100%;
+  height: 202px;
+  background: url("../images/header2.png") no-repeat 0 0;
+}
+.main .menu-header .info {
+  position: absolute;
+  top: 35px;
+  left: 910px;
+  width: 970px;
+  height: 100px;
+}
+.main .menu-header .info .title {
+  width: 500px;
+  font-size: 44px;
+  font-weight: bold;
+  color: #bed4ff;
+  padding-left: 90px;
+  padding-top: 10px;
+  background: url("../images/button-icon1.png") no-repeat 0 0;
+  background-size: 70px 70px;
+}
+.main .menu-header .info .ctrl span {
+  width: 96px;
+  height: 96px;
+  display: inline-block;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.main .menu-header .info .ctrl span.back {
+  background: url("../images/back.png") no-repeat 0 0;
+}
+.main .menu-header .info .ctrl span.home {
+  background: url("../images/home.png") no-repeat 0 0;
+}
+#app .main {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  background: url("../images/bg3.jpg") no-repeat 0 0;
+}
+#app .main .content {
+  position: absolute;
+  top: 210px;
+  left: 90px;
+  bottom: 90px;
+  width: 1726px;
+}
+#app .main .content .left {
+  width: 314px;
+  user-select: none;
+}
+#app .main .content .left .top {
+  position: relative;
+  width: 100%;
+  height: 207px;
+  background: #6999f7;
+  margin-bottom: 8px;
+}
+#app .main .content .left .top img {
+  position: absolute;
+  top: 0;
+  left: -14px;
+}
+#app .main .content .left .menu {
+  width: 100%;
+  height: 462px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+#app .main .content .left .menu .menu-scroll {
+  transition: 0.3s ease;
+  transform: translateY(-50%);
+}
+#app .main .content .left .menu .menu-scroll .item {
+  display: inline-block;
+  width: 100%;
+  height: 86px;
+  line-height: 86px;
+  background: #6999f7;
+  color: #fff;
+  padding: 0 20px 0 40px;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+#app .main .content .left .menu .menu-scroll .item.active {
+  background: #ffcf71;
+}
+#app .main .content .left .page > div {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  background: #6999f7;
+  margin-right: 8px;
+}
+#app .main .content .left .page > div span {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  color: #fff;
+  text-align: center;
+  padding-top: 55px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+}
+#app .main .content .left .page > div.prev span {
+  background: url("../images/icon-up.png") no-repeat center 20px;
+}
+#app .main .content .left .page > div.next span {
+  background: url("../images/icon-down.png") no-repeat center 20px;
+}
+#app .main .content .left .page > div.disable span {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+#app .main .content .right {
+  width: 1398px;
+  background: #fff;
+}
+#app .main .content .right .step-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+#app .main .content .right .step-wrap .step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#app .main .content .right .search-panel {
+  position: relative;
+  padding: 60px 100px;
+}
+#app .main .content .right .search-panel h2 {
+  font-size: 48px;
+  color: #333;
+  font-weight: normal;
+}
+#app .main .content .right .search-panel .form {
+  padding: 90px 0;
+  width: 850px;
+}
+#app .main .content .right .search-panel .form .el-form-item {
+  margin-bottom: 32px;
+}
+#app .main .content .right .search-panel .form .el-form-item .el-form-item__label {
+  font-size: 28px;
+  line-height: 50px;
+}
+#app .main .content .right .search-panel .form .el-form-item .el-form-item__content {
+  line-height: 50px;
+}
+#app .main .content .right .search-panel .form .el-form-item .el-form-item__content .el-input__inner {
+  line-height: 50px;
+  height: 50px;
+}
+#app .main .content .right .search-panel .search-btn {
+  display: inline-block;
+  width: 378px;
+  heigth: 70px;
+  line-height: 70px;
+  text-align: center;
+  background: #6999f7;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+}
+#app .main .content .right .search-panel .level-panel {
+  position: absolute;
+  right: 0;
+  top: 150px;
+  width: 122px;
+  height: 516px;
+  box-sizing: border-box;
+  padding: 40px 0 40px 30px;
+  background-color: #f7f7f7;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+#app .main .content .right .search-panel .level-panel span {
+  width: 54px;
+  height: 54px;
+  line-height: 54px;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(1) {
+  background-color: #4e4ee6;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(2) {
+  background-color: #647dee;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(3) {
+  background-color: #7e95fb;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(4) {
+  background-color: #bcc7f5;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(5) {
+  background-color: #ffcf71;
+}
+#app .main .content .right .search-panel .level-panel span:nth-child(6) {
+  background-color: #ff8571;
+}
+#app .main .content .right .table-panel {
+  position: relative;
+  padding: 46px 96px 46px;
+}
+#app .main .content .right .table-panel h2 {
+  font-size: 36px;
+  color: #333;
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 22px;
+}
+#app .main .content .right .table-panel .key-table table {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+#app .main .content .right .table-panel .key-table table tr td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+#app .main .content .right .table-panel .key-table table tr td.key {
+  width: 162px;
+  background-color: #f2fbff;
+}
+#app .main .content .right .table-panel .common-table {
+  margin-bottom: 20px;
+}
+#app .main .content .right .table-panel .common-table.min {
+  min-height: 561px;
+}
+#app .main .content .right .table-panel .common-table a {
+  color: #2d8cf0;
+  text-decoration: none;
+}
+#app .main .content .right .table-panel .common-table a:hover {
+  text-decoration: underline;
+}
+#app .main .content .right .table-panel .common-table .el-table th {
+  background: #f7f7f7;
+  color: #333;
+  font-weight: bold;
+  padding: 14px 0;
+}
+#app .main .content .right .table-panel .common-table .el-table td,
+#app .main .content .right .table-panel .common-table .el-table th.is-leaf {
+  border-bottom: none;
+}
+#app .main .content .right .table-panel .common-table .el-table td {
+  color: #666;
+  padding: 14px 0;
+}
+#app .main .content .right .table-panel .common-table .el-table__fixed-right::before,
+#app .main .content .right .table-panel .common-table .el-table__fixed::before,
+#app .main .content .right .table-panel .common-table .el-table::before {
+  background-color: #fff;
+}
+#app .main .content .right .table-panel .common-page {
+  padding: 10px 0;
+  text-align: right;
+}
+#app .main .content .right .table-panel .common-page .total {
+  line-height: 32px;
+  font-size: 14px;
+  color: #999;
+  padding-right: 80px;
+}
+#app .main .content .right .table-panel .common-page .el-pagination {
+  font-weight: normal;
+}
+#app .main .content .right .table-panel .common-page .el-pagination.is-background .btn-next,
+#app .main .content .right .table-panel .common-page .el-pagination.is-background .btn-prev {
+  padding: 0 10px;
+}
+#app .main .content .right .table-panel .title-info {
+  font-size: 20px;
+  color: #f7b200;
+  line-height: 70px;
+}
+#app .main .content .right .table-panel .info-tab {
+  margin-bottom: 20px;
+}
+#app .main .content .right .table-panel .info-tab span {
+  display: inline-block;
+  line-height: 38px;
+  width: 148px;
+  text-align: center;
+  color: #666;
+  border: 1px solid #dfdfdf;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 20px;
+  transition: 0.3s;
+}
+#app .main .content .right .table-panel .info-tab span.active {
+  background-color: #6999f7;
+  color: #fff;
+}
+#app .main .content .right .table-panel .back {
+  position: absolute;
+  top: 46px;
+  right: 46px;
+}
+.step .bin-scrollbar .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.move-transverse-enter-active,
+.move-transverse-leave-active {
+  transition: 0.5s;
+}
+.move-transverse-enter,
+.move-transverse-leave-to {
+  opacity: 0;
+  transform: translateX(50%);
+}

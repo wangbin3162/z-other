@@ -1,0 +1,172 @@
+@import "common/base.styl"
+#app {
+  .main {
+    background: #f4f4f4;
+    .inner {
+      width: 1300px;
+      margin: 0 auto;
+      padding: 30px 0;
+      .top-box {
+        background: #fff;
+        margin-bottom: 30px;
+        h2 {
+          padding: 38px 34px 0;
+          font-size: 32px;
+          color: #333;
+          font-weight: normal;
+          span {
+            position: relative;
+            top: -2px;
+            display: inline-block;
+            vertical-align: middle;
+            box-sizing: border-box;
+            width: 40px;
+            height: 26px;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #36d8da;
+            border-radius: 4px;
+            margin-left: 24px;
+            border: 1px solid #36d8da;
+          }
+        }
+        .info {
+          padding: 30px 34px 0;
+          font-size: 0;
+          .item {
+            position: relative;
+            display: inline-block;
+            box-sizing: border-box;
+            width: 50%;
+            font-size: 14px;
+            color: #666666;
+            padding: 0 0 18px 20px;
+            &:before {
+              content: '';
+              position: absolute;
+              top: 4px;
+              left: 0;
+              width: 8px;
+              height: 8px;
+              background-color: #108bed;
+            }
+          }
+        }
+        .bottom {
+          border-top: 1px solid #eeeeee;
+          padding: 12px 34px;
+          .left {
+            > div {
+              height: 38px;
+              border: 1px solid #eee;
+              background-color: #fbfbfb;
+              margin-right: 10px;
+              i {
+                display: inline-block;
+                vertical-align: top;
+                width: 40px;
+                height: 38px;
+                border-right: 1px solid #eee;
+              }
+              span {
+                display: inline-block;
+                vertical-align: top;
+                font-size: 12px;
+                text-align: center;
+                line-height: 38px;
+                padding: 0 20px;
+                color: #333;
+              }
+            }
+            .red, .black {
+              background-color: #ff7575;
+              i {
+                border-right: none;
+                background: #f26d6d url("../images/record/icon-roster@2x.png") no-repeat 8px 6px;
+              }
+              span {
+                color: #fff;
+              }
+            }
+            .black {
+              background-color: #4c4c4c;
+              i {
+                background-color: #333333;
+              }
+            }
+            .score {
+              i {
+                background: #f4f4f4 url("../images/record/icon-branch@2x.png") no-repeat 8px 6px;
+              }
+            }
+            .level {
+              i {
+                background: #f4f4f4 url("../images/record/icon-grade@2x.png") no-repeat 8px 6px;
+              }
+            }
+          }
+          .download {
+            display: inline-block;
+            height: 36px;
+            line-height: 36px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 18px;
+            background: -webkit-linear-gradient(left, #1fd3d4, #1ee6b8); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #1fd3d4, #1ee6b8); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #1fd3d4, #1ee6b8); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #1fd3d4, #1ee6b8); /* 标准的语法 */
+            padding: 0 25px 0 17px;
+            &:before {
+              content: ''
+              display: inline-block;
+              position: relative;
+              bottom: 2px;
+              vertical-align: middle;
+              width: 24px;
+              height: 24px;
+              background: url("../images/record/download@2x.png") no-repeat 0 0;
+            }
+          }
+        }
+      }
+      .info-box {
+        .panel {
+          background: #fff;
+          padding: 0 20px 30px;
+        }
+        .between-box {
+          height: 30px;
+          background #f4f4f4;
+        }
+        .left {
+          width: 910px;
+          background: #fff;
+        }
+        .right {
+          width: 360px;
+        }
+      }
+    }
+  }
+}
+
+//  覆盖element-ui样式
+.el-tabs--card > .el-tabs__header .el-tabs__nav {
+  border: none;
+}
+
+.el-tabs--card > .el-tabs__header .el-tabs__item {
+  border-left: none;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+  border-bottom-color: #E4E7ED;
+}
+
+.el-timeline-item__node {
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #E4E7ED;
+}

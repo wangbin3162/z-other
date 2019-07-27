@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  function goTo (url) {
+    let a = document.createElement('a')
+    a.setAttribute('href', url)
+    a.setAttribute('id', 'b-link-temp')
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(document.getElementById('b-link-temp'))
+  }
+  goTo('./src/pages/index.html')
+</script>
+</body>
+</html>

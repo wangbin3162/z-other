@@ -1,0 +1,270 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+}
+#app .main {
+  width: 100%;
+  height: 100%;
+  min-width: 1200px;
+}
+#app .main .wrapper h2 {
+  text-indent: 8px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  padding-bottom: 20px;
+}
+#app .main .wrapper .box-card {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+#app .main .wrapper .box-card:last-child {
+  margin-right: 0;
+}
+#app .main .wrapper .box-card .slot-header {
+  font-size: 16px;
+}
+#app .main .wrapper .box-card .barrage-box {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+#app .main .wrapper .box-card .barrage-box .bg1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 240px;
+  background: url("../images/wave1.png") repeat-x;
+  background-position-y: 0;
+  background-position-x: 0;
+  animation: bgAnimate 35s infinite linear;
+  -webkit-animation: bgAnimate 35s infinite linear;
+}
+#app .main .wrapper .box-card .barrage-box .bg2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 240px;
+  background: url("../images/wave2.png") repeat-x;
+  background-position-y: 0;
+  background-position-x: 0;
+  animation: bgAnimate2 45s infinite linear;
+  -webkit-animation: bgAnimate2 45s infinite linear;
+}
+#app .main .wrapper .box-card .barrage-box .barrage-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+}
+#app .main .wrapper .top-wrap {
+  padding: 5px 5px;
+}
+#app .main .wrapper .top-wrap .left {
+  width: 60%;
+  line-height: 30px;
+}
+#app .main .wrapper .top-wrap .left h2 {
+  font-weight: 400;
+  font-size: 28px;
+  margin: 10px 0;
+}
+#app .main .wrapper .top-wrap .left .credit-grade {
+  font-weight: 400;
+  margin: 0;
+  color: #999;
+}
+#app .main .wrapper .top-wrap .left .credit-percent {
+  font-weight: 700;
+  font-size: 24px;
+  font-style: normal;
+}
+#app .main .wrapper .top-wrap .right .data {
+  position: relative;
+  text-align: center;
+}
+#app .main .wrapper .top-wrap .right .data:after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  right: 0;
+  width: 1px;
+  background-color: #d8d8d8;
+}
+#app .main .wrapper .top-wrap .right .data:last-child:after {
+  display: none;
+}
+#app .main .wrapper .top-wrap .right .data p {
+  color: #8e8e8e;
+}
+#app .main .wrapper .top-wrap .right .data p strong {
+  font-size: 26px;
+  font-weight: normal;
+  color: #333;
+}
+.bin-hover-label {
+  position: absolute;
+  padding: 0 30px;
+  border-radius: 34px;
+  line-height: 34px;
+  background-color: #60b8f6;
+  color: #fff;
+  transition: all 0.35s;
+  width: 270px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 3;
+  cursor: pointer;
+  right: 0;
+  transform: translateX(100%);
+}
+.bin-hover-label:hover {
+  z-index: 5;
+  -webkit-box-shadow: 0 0 10px #a9a9a9;
+  -moz-box-shadow: 0 0 10px #a9a9a9;
+  box-shadow: 0 0 10px #a9a9a9;
+  transform: translate(100%, -20%);
+}
+.animate-right {
+  animation: animateRight 13s infinite linear;
+  -webkit-animation: animateRight 13s infinite linear;
+}
+.animate-paused {
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+@-webkit-keyframes animateRight {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: 150%;
+  }
+}
+@-webkit-keyframes bgAnimate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1528px;
+  }
+}
+@-webkit-keyframes bgAnimate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1528px;
+  }
+}
+.main .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.bin-rate__icon {
+  margin-right: 2px;
+}
+@-moz-keyframes animateRight {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: 150%;
+  }
+}
+@-webkit-keyframes animateRight {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: 150%;
+  }
+}
+@-o-keyframes animateRight {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: 150%;
+  }
+}
+@keyframes animateRight {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: 150%;
+  }
+}
+@-moz-keyframes bgAnimate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1528px;
+  }
+}
+@-webkit-keyframes bgAnimate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1528px;
+  }
+}
+@-o-keyframes bgAnimate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1528px;
+  }
+}
+@keyframes bgAnimate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1528px;
+  }
+}
+@-moz-keyframes bgAnimate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1528px;
+  }
+}
+@-webkit-keyframes bgAnimate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1528px;
+  }
+}
+@-o-keyframes bgAnimate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1528px;
+  }
+}
+@keyframes bgAnimate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1528px;
+  }
+}

@@ -1,0 +1,49 @@
+.key-table table {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+  margin-bottom: 20px;
+}
+.key-table table tr td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+.key-table table tr td.key {
+  width: auto;
+  background-color: #f2fbff;
+}
+.common-table {
+  margin-bottom: 20px;
+}
+.common-table a {
+  color: #2d8cf0;
+  text-decoration: none;
+}
+.common-table a:hover {
+  text-decoration: underline;
+}
+.common-table .el-table th {
+  background: #f6fbff;
+}
+.common-table .el-table td,
+.common-table .el-table th.is-leaf {
+  border-bottom: none;
+}
+.common-table .el-table__fixed-right::before,
+.common-table .el-table__fixed::before,
+.common-table .el-table::before {
+  background-color: #fff;
+}
+.common-page {
+  padding: 10px 0;
+  text-align: right;
+}
+.common-page .el-pagination {
+  font-weight: normal;
+}

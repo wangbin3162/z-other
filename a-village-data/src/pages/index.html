@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>首页</title>
+  <!--required-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/axios.min.js"></script>
+  <script src="../js/lib/mock.js"></script>
+  <!--css-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.7.0/index.css">
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <link rel="stylesheet" href="../js/lib/v-charts/style.min.css">
+  <!--ui components-->
+  <script src="../js/lib/element-ui@2.7.0/index.js"></script>
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+<div id="app" v-cloak flex="dir:top">
+  <!--header-->
+  <div class="header">
+    <div class="logo"><img src="../images/logo@2x.png"/></div>
+    <b-tooltip theme="dark" placement="bottom-start">
+      <div slot="content">
+        <div class="header-tip" flex="cross:center">
+          <img src="../images/icon_attention@2x.png"/>
+          <span>点击这里选择城镇</span>
+        </div>
+      </div>
+      <el-cascader :options="topOptions" change-on-select v-model="topValue"
+                   separator=">"
+                   style="width: 300px;" @change="onTopChange"></el-cascader>
+    </b-tooltip>
+  </div>
+  <!--main-->
+  <div class="main" flex-box="1">
+    <div class="inner">
+      <b-scrollbar style="height: 100%;">
+        <div class="wrapper" style="margin: 20px;">
+          <div class="top-box" flex="main:justify">
+            <b-card class="box-card" :bordered="false" bg-color="#77aaff">
+              <div class="card-item people">
+                <h4>{{ topData.data1.title }}</h4>
+                <h2>{{ topData.data1.count }}</h2>
+                <p flex="main:justify">
+                  <span>{{ topData.data1.obj1.key }}&nbsp;{{ topData.data1.obj1.val }}</span>
+                  <span>{{ topData.data1.obj2.key }}&nbsp;{{ topData.data1.obj2.val }}</span>
+                </p>
+              </div>
+            </b-card>
+            <b-card class="box-card" :bordered="false" bg-color="#ff6e8f">
+              <div class="card-item message">
+                <h4>{{ topData.data2.title }}</h4>
+                <h2>{{ topData.data2.count }}</h2>
+                <p flex="main:justify">
+                  <span>{{ topData.data2.obj1.key }}&nbsp;{{ topData.data2.obj1.val }}</span>
+                  <span>{{ topData.data2.obj2.key }}&nbsp;{{ topData.data2.obj2.val }}</span>
+                </p>
+              </div>
+            </b-card>
+            <b-card class="box-card" :bordered="false" bg-color="#ffa15c">
+              <div class="card-item case">
+                <h4>{{ topData.data3.title }}</h4>
+                <h2>{{ topData.data3.count }}</h2>
+                <p flex="main:justify">
+                  <span>{{ topData.data3.obj1.key }}&nbsp;{{ topData.data3.obj1.val }}</span>
+                  <span>{{ topData.data3.obj2.key }}&nbsp;{{ topData.data3.obj2.val }}</span>
+                </p>
+              </div>
+            </b-card>
+            <b-card class="box-card" :bordered="false" bg-color="#74c6ff">
+              <div class="card-item reward">
+                <h4>{{ topData.data4.title }}</h4>
+                <h2>{{ topData.data4.count }}</h2>
+                <p flex="main:justify">
+                  <span>{{ topData.data4.obj1.key }}&nbsp;{{ topData.data4.obj1.val }}</span>
+                  <span>{{ topData.data4.obj2.key }}&nbsp;{{ topData.data4.obj2.val }}</span>
+                </p>
+              </div>
+            </b-card>
+          </div>
+          <!--图表1-->
+          <div class="center" flex="main:justify">
+            <!--信用指数柱状图-->
+            <b-card class="box-card" width="66%" head-tip radius="0" :bordered="false" divider="no">
+              <template v-slot:header>
+                <div flex="main:justify cross:center">
+                  <span>信用指数柱状图</span>
+                  <b-button-png @on-click="handleDetail('信用指数柱状图')"></b-button-png>
+                </div>
+              </template>
+              <ve-bar :data="histogramData" :extend="histogramExtend" :legend-visible="false"></ve-bar>
+            </b-card>
+            <!--信用排行的-->
+            <b-card class="box-card rank" width="32%" head-tip radius="0" :bordered="false" divider="no">
+              <template v-slot:header>
+                <div flex="main:justify cross:center">
+                  <span>信用排行</span>
+                  <b-button-png @on-click="handleDetail('信用排行')"></b-button-png>
+                </div>
+              </template>
+              <div class="tab">
+                <span :class="{'active':rankType==='village'}" @click="changeRank('village')">村居</span>
+                <b-divider type="vertical"></b-divider>
+                <span :class="{'active':rankType==='person'}" @click="changeRank('person')">个人</span>
+              </div>
+              <div class="rank-box">
+                <b-scrollbar style="height: 100%;">
+                  <p v-for="(item,index) in rankingData" :key="index" class="item" flex>
+                    <span :class="{'top':index<3}">{{index+1}}</span>
+                    <span flex-box="1">{{item.name}}</span>
+                    <span>{{item.rank}}</span>
+                  </p>
+                </b-scrollbar>
+              </div>
+            </b-card>
+          </div>
+          <!--图表2-->
+          <div class="center" flex="main:justify">
+            <!--信用评级结果统计-->
+            <b-card class="box-card" width="32%" head-tip radius="0" :bordered="false" divider="no">
+              <template v-slot:header>
+                <div flex="main:justify cross:center">
+                  <span>信用评级结果统计</span>
+                  <b-button-png @on-click="handleDetail('信用评级结果统计')"></b-button-png>
+                </div>
+              </template>
+              <ve-ring :data="resultData" :settings="pieSettings" :colors="colors" :extend="pieExtend"></ve-ring>
+            </b-card>
+            <!--信用指标分类统计-->
+            <b-card class="box-card" width="32%" head-tip radius="0" :bordered="false" divider="no">
+              <template v-slot:header>
+                <div flex="main:justify cross:center">
+                  <span>信用指标分类统计</span>
+                  <b-button-png @on-click="handleDetail('信用指标分类统计')"></b-button-png>
+                </div>
+              </template>
+              <ve-pie :data="typeData" :legend-visible="false" :colors="colors" :settings="typeSettings"></ve-pie>
+            </b-card>
+            <!--信用指标维度pk-->
+            <b-card class="box-card" width="32%" head-tip radius="0" :bordered="false" divider="no">
+              <template v-slot:header>
+                <div flex="main:justify cross:center">
+                  <div class="title">
+                    <span>信用指标维度pk</span>
+                    <el-select @change="changeCity"
+                               v-model="valueCity" size="mini" multiple collapse-tags filterable
+                               style="margin-left: 20px;width:auto;" placeholder="城镇设置">
+                      <el-option v-for="item in cityOptions" :key="item.value"
+                                 :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                  </div>
+                  <b-button-png @on-click="handleDetail('信用指标维度pk')"></b-button-png>
+                </div>
+              </template>
+              <ve-radar :data="radarData" :extend="radarExtend"></ve-radar>
+            </b-card>
+          </div>
+        </div>
+      </b-scrollbar>
+    </div>
+    <!--信用指数柱状图弹窗-->
+    <b-modal v-model="showHistogramModal" title="信用指数柱状图" footer-hide width="900">
+      <ve-bar :data="histogramData" :extend="histogramExtend" :legend-visible="false" ref="chartHistogram"></ve-bar>
+    </b-modal>
+    <!--信用排行弹窗-->
+    <b-modal v-model="showRankModal" title="信用排行" footer-hide>
+      <div class="rank-box-wrap">
+        <div class="rank-box">
+          <b-scrollbar style="height: 100%;">
+            <p v-for="(item,index) in rankingData" :key="index" class="item" flex>
+              <span>{{index+1}}</span>
+              <span flex-box="1">{{item.name}}</span>
+              <span>{{item.rank}}</span>
+            </p>
+          </b-scrollbar>
+        </div>
+      </div>
+    </b-modal>
+    <!--信用评级结果统计弹窗-->
+    <b-modal v-model="showResultModal" title="信用评级结果统计" footer-hide>
+      <ve-ring :data="resultData" :settings="pieSettings" :colors="colors" :extend="pieExtend"
+               ref="chartResult"></ve-ring>
+    </b-modal>
+    <!--信用指标分类统计-->
+    <b-modal v-model="showTypeModal" title="信用指标分类统计" footer-hide>
+      <ve-pie :data="typeData" :legend-visible="false" :colors="colors" :settings="typeSettings"
+              ref="chartType"></ve-pie>
+    </b-modal>
+    <!--信用指标维度pk-->
+    <b-modal v-model="showRadarModal" title="信用指标维度pk" footer-hide>
+      <ve-radar :data="radarData" :extend="radarExtend" ref="chartRadar"></ve-radar>
+    </b-modal>
+  </div>
+</div>
+
+<script src="../js/mixin.js"></script>
+<script src="../mock/main.js"></script>
+<script src="../js/components/lib/button-png.min.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.colors = ['#60b8f6', '#55da8d', '#ffcc41',
+        '#ba5eed', '#ff6e8c', '#1f9bff',
+        '#ca8622', '#bda29a', '#6e7074',
+        '#546570', '#c4ccd3']
+      // 环图设置 labelMap 设置别名使用
+      this.pieSettings = {
+        labelMap: {level: '星级', number: '数量'},
+        radius: [80, 120],
+        offsetY: 200,
+        selectedMode: 'single'
+      }
+      this.pieExtend = {
+        series: {
+          label: false
+        },
+        legend: {
+          bottom: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          icon: 'circle',
+          itemGap: 20
+        }
+      }
+      // 分类统计的设置
+      this.typeSettings = {
+        labelMap: {name: '类别', number: '数量'},
+        radius: [120],
+        offsetY: 200,
+        selectedMode: 'single'
+      }
+      // 雷达图配置
+      this.radarExtend = {
+        legend: {
+          bottom: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          icon: 'circle',
+          itemGap: 20
+        }
+      }
+      return {
+        topOptions: [],
+        topValue: [],
+        topData: {},
+        histogramData: {
+          columns: ['地区', '指数'],
+          rows: []
+        },
+        histogramExtend: {
+          yAxis: {
+            inverse: true
+          },
+          grid: {
+            top: '10px',
+            bottom: '0',
+            right: '10%'
+          },
+          itemStyle: {
+            color: '#60b8f6'
+          }
+        },
+        rankingData: [],
+        rankType: 'village',
+        resultData: {
+          columns: ['level', 'number'],
+          rows: []
+        },
+        typeData: {
+          columns: ['name', 'number'],
+          rows: []
+        },
+        radarData: {
+          columns: ['区域', '数据量', '奖惩开展', '基金使用', '案例报送', '信用指数'],
+          rows: []
+        },
+        cityOptions: [],
+        valueCity: [],
+        showHistogramModal: false,
+        showRankModal: false,
+        showResultModal: false,
+        showTypeModal: false,
+        showRadarModal: false
+      }
+    },
+    created: function () {
+      // 初始化顶部数据
+      this.topData = {
+        data1: {title: '', count: '', obj1: {key: '', val: 0}, obj2: {key: '', val: 0}},
+        data2: {title: '', count: '', obj1: {key: '', val: 0}, obj2: {key: '', val: 0}},
+        data3: {title: '', count: '', obj1: {key: '', val: 0}, obj2: {key: '', val: 0}},
+        data4: {title: '', count: '', obj1: {key: '', val: 0}, obj2: {key: '', val: 0}}
+      }
+      this.getTopOptions()
+      this.getTopData()
+      this.getHistogramData()
+      this.getRankingData()
+      this.getResultData()
+      this.getTypeData()
+      this.getRadar()
+      this.getCity()
+    },
+    methods: {
+      // 顶部级联选择改变事件
+      onTopChange: function (val) {
+        this.$message(val.join('/'))
+      },
+      // 获取顶部的动态级联菜单
+      getTopOptions: function () {
+        this.getRequest('/stat_getTopOptions').then(function (response) {
+          vm.topOptions = response.data.topOptions
+          vm.topValue = response.data.normal
+        })
+      },
+      // 获取顶部的数据
+      getTopData: function () {
+        this.getRequest('/topData').then(function (response) {
+          vm.topData = response.data
+        })
+      },
+      // 获取指数柱状图数据
+      getHistogramData: function () {
+        this.getRequest('/histogramData').then(function (response) {
+          vm.histogramData.rows = response.data.rows
+          vm.calcHistogramExtend(vm.histogramData.rows.length)
+        })
+      },
+      // 获取排名
+      getRankingData: function () {
+        this.getRequest('/rankingData/' + this.rankType).then(function (response) {
+          vm.rankingData = response.data.rows
+        })
+      },
+      // 调用事件
+      changeRank: function (val) {
+        if (this.rankType !== val) {
+          this.rankType = val
+          this.getRankingData()
+        }
+      },
+      // 获取评级结果统计数据
+      getResultData: function () {
+        this.getRequest('/resultData').then(function (response) {
+          vm.resultData.rows = response.data.rows
+        })
+      },
+      // 获取分类统计的数据
+      getTypeData: function () {
+        this.getRequest('/typeData').then(function (response) {
+          vm.typeData.rows = response.data.rows
+        })
+      },
+      // 获取城镇
+      getCity: function () {
+        this.getRequest('/getCity').then(function (response) {
+          vm.cityOptions = response.data
+          vm.valueCity.push(vm.cityOptions[0].value)
+          vm.changeCity(vm.valueCity)
+        })
+      },
+      // 城市改变事件，需要在此进行调用查询雷达图数据
+      changeCity: function (val) {
+        this.valueCity = val
+        this.getRadar()
+      },
+      // 获取指标维度雷达图
+      getRadar: function () {
+        // 这里需要根据valueCity进行条件查询
+        this.getRequest('/radarData').then(function (response) {
+          vm.radarData.rows = response.data
+        })
+      },
+      // 弹窗显示详情
+      handleDetail: function (title) {
+        switch (title) {
+          case '信用指数柱状图':
+            this.showHistogramModal = true
+            this.resizeChart('chartHistogram')
+            break
+          case '信用排行':
+            this.showRankModal = true
+            break
+          case '信用评级结果统计':
+            this.showResultModal = true
+            this.resizeChart('chartResult')
+            break
+          case '信用指标分类统计':
+            this.showTypeModal = true
+            this.resizeChart('chartType')
+            break
+          case '信用指标维度pk':
+            this.showRadarModal = true
+            this.resizeChart('chartRadar')
+            break
+        }
+      },
+      resizeChart: function (name) {
+        this.$nextTick(function () {
+          vm.$refs[name].echarts.resize()
+        })
+      },
+      // 计算信用指数柱状图需要显示的百分比
+      calcHistogramExtend: function (rows) {
+        if (rows > 10) {
+          // 如果大于10条数据在进行缩放配置
+          this.setDataZoom((10 / rows) * 100)
+        }
+      },
+      // 设置柱状图的datazoom
+      setDataZoom: function (endPos) {
+        this.histogramExtend.dataZoom = [
+          {
+            type: 'inside',
+            yAxisIndex: [0],
+            show: true,
+            start: 0,
+            end: endPos,
+            width: 18,
+            zoomOnMouseWheel: false,
+            moveOnMouseWheel: true
+          },
+          {
+            type: 'slider',
+            show: true,
+            yAxisIndex: [0],
+            right: '20px',
+            start: 0,
+            end: endPos,
+            zoomLock: true,
+            width: 18,
+            showDataShadow: false,
+            borderColor: '#fff',
+            handleSize: '0',
+            showDetail: false,
+            fillerColor: '#dddddd'
+          }
+        ]
+      }
+    }
+  })
+</script>
+</body>
+</html>

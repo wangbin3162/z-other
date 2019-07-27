@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市社会信用管理系统 [菜单]</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <script src="../js/lib/utils/velocity.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <!--<link rel="stylesheet" href="src/js/lib/element-ui@2.9.1/index.css">-->
+  <!--<script src="src/js/lib/element-ui@2.9.1/index.js"></script>-->
+  <!--bin-ui@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+
+  <!--self-->
+  <link rel="stylesheet" href="../styles/menu.css">
+</head>
+<body>
+<div id="app">
+  <div class="main">
+    <v-header @on-back="backHome" @on-home="backHome"></v-header>
+    <div class="index-logo"><img src="../images/slogan.png" height="128" width="500" alt="slogan"/></div>
+    <transition-group name="list-complete" tag="div" class="menu-box">
+      <a :key="item.id" class="item" v-for="(item,index) in completeData"
+         :href="'./system.html?id='+item.id">
+        <img :src="'../images/icon-'+(index+1)+'.png'" height="160" width="160" alt="icon"/>
+        <p>{{item.name}}</p>
+      </a>
+    </transition-group>
+    <div class="timer-back">
+      <span>{{time}}秒</span> 返回主页...
+    </div>
+  </div>
+</div>
+<script src="../js/components/lib/header.min.js"></script>
+<script src="../js/mixin.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      return {
+        menuData: [
+          {id: '1', name: '企业信用等级查询'},
+          {id: '2', name: '个体工商户信用查询'},
+          {id: '3', name: '社会团体信息查询'},
+          {id: '4', name: '中介服务机构信息查询'},
+          {id: '5', name: '民办非企业信息查询'},
+          {id: '6', name: '重点人群信息查询'},
+          {id: '7', name: '社会法人黑名单'},
+          {id: '8', name: '自然人黑名单'},
+          {id: '9', name: '机关事业单位信息查询'},
+          {id: '10', name: '村居组织信息查询'}
+        ],
+        completeData: [],
+        time: 60
+      }
+    },
+    mounted: function () {
+      this.animateItem(true)
+      this.startTimer()
+    },
+    methods: {
+      animateItem: function (flag) {
+        var _self = this
+        for (var i = 0; i < this.menuData.length; i++) {
+          (function (index) {
+            if (flag) {
+              setTimeout(function () {
+                _self.completeData.push(_self.menuData[index])
+              }, 200 * index)
+            } else {
+              _self.completeData.push(_self.menuData[index])
+            }
+          })(i)
+        }
+      },
+      startTimer: function () {
+        var _self = this
+        if (!this.timer) {
+          this.timer = setInterval(function () {
+            _self.time -= 1
+            if (_self.time === 0) {
+              clearInterval(_self.timer)
+              _self.backHome()
+            }
+          }, 1000)
+        }
+      },
+      backHome: function () {
+        this.goTo('./index.html')
+      }
+    }
+  })
+</script>
+</body>
+</html>

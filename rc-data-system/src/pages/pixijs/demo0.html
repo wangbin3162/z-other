@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>demo0 官方教程</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../../js/lib/vue.min.js"></script>
+  <script src="../../js/lib/utils/axios.min.js"></script>
+  <!--bin-ui@1.4.5@1.4.4-->
+  <link rel="stylesheet" href="../../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <script src="../../js/lib/pixi/pixi.js"></script>
+</head>
+<body>
+<div id="app">
+  <div id="px-render"></div>
+</div>
+<script>
+  //创建画布
+  let app = new PIXI.Application({
+    width: 400,         // default: 800
+    height: 300,        // default: 600
+    antialias: false,    // default: false
+    transparent: true, // default: false
+    resolution: 1       // default: 1
+  })
+  var color = '#d14417'
+  // app.renderer.backgroundColor = 0x061639
+  // 重绘大小
+  // app.renderer.autoResize = true
+  // app.renderer.resize(512, 512)
+  // 根据浏览器宽高重绘
+  // app.renderer.view.style.position = 'absolute'
+  // app.renderer.view.style.display = 'block'
+  // app.renderer.autoResize = true
+  // app.renderer.resize(window.innerWidth, window.innerHeight)
+  // 添加到dom
+  PIXI.Loader
+    .add('images/view.jpg')
+    .load(setup)
+
+  function setup () {
+    let sprite = new PIXI.Sprite(
+      PIXI.Loader.shared['images/view.jpg']
+    )
+  }
+
+  document.getElementById('px-render').appendChild(app.view)
+</script>
+</body>
+</html>

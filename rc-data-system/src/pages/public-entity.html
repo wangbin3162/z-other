@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市市场主体专项分析平台</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.5@1.4.5-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <link rel="stylesheet" href="../js/lib/echarts/v-charts/style.min.css">
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/echarts/extension/bmap.min.js"></script>
+  <script src="../js/lib/echarts/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/screen.css">
+  <script src="../js/lib/utils/mock.js"></script>
+  <script src="../mock/main.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <b-scrollbar style="height: 100%;" normal>
+    <div class="screen-wrapper" flex="dir:top">
+      <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市市场主体专项分析平台</v-header>
+      <div class="main" flex-box="1" flex>
+        <div class="left">
+          <v-block label="数据归集情况">
+            <div class="block1">
+              <div class="top" flex>
+                <div class="frame">
+                  <h2>企业法人数据总量</h2>
+                  <h4>656.5万条</h4>
+                </div>
+                <ul class="list" flex-box="1">
+                  <li>上月入库总量：<span>58.3</span>万条</li>
+                  <li>上月数据总量：<span>42.8</span>万条</li>
+                  <li>回流数量总数：<span>106</span>万条</li>
+                  <li>验证通过率：<span>88.21</span>%</li>
+                </ul>
+              </div>
+              <div flex="main:justify">
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t4.png" height="29" width="28" alt="t1"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>执法信息</p>
+                </div>
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t5.png" height="29" width="28" alt="t2"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>监管信息</p>
+                </div>
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t6.png" height="29" width="28" alt="t3"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>评价信息</p>
+                </div>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="行业占比">
+            <div slot="header">
+              <img @click="modal1=true" src="../images/icon-enlarge.png" height="22" width="22" alt="enlarge"/>
+            </div>
+            <div>
+              <v-chart-bar :data="formatIndustry" :max-length="8"
+                           hide-index legend-pos="left" name-color="#556490"
+              ></v-chart-bar>
+            </div>
+          </v-block>
+          <v-block label="行政执法记录">
+            <div slot="header">
+              <img @click="modal2=true" src="../images/icon-enlarge.png" height="22" width="22" alt="enlarge"/>
+            </div>
+            <div class="block-enforce" style="height:220px;padding-top:11px;overflow:hidden;">
+              <table>
+                <tr>
+                  <th>执法信息</th>
+                  <th>企业名称</th>
+                  <th>执法内容</th>
+                  <th>执法部门</th>
+                </tr>
+                <tr v-for="(item,index) in enforceData" :key="index">
+                  <td style="color:#4d5e8c;">{{item.info}}</td>
+                  <td>{{item.company}}</td>
+                  <td>{{item.content}}</td>
+                  <td>{{item.dept}}</td>
+                </tr>
+              </table>
+            </div>
+          </v-block>
+        </div>
+        <div class="center" flex-box="1">
+          <div class="top-data">
+            <v-block no-header>
+              <div flex="box:mean">
+                <div class="item">
+                  <div></div>
+                  <div style="color: #05acda;">法 人</div>
+                </div>
+                <div class="item" v-for="item in levelData" :key="item.level">
+                  <div><span class="c" :style="{'backgroundColor':item.color}"></span>{{item.level}}</div>
+                  <div>{{item.score}}</div>
+                </div>
+              </div>
+            </v-block>
+          </div>
+          <ve-bmap height="935px"
+                   :settings="mapSettings" :extend="mapExtend"
+                   :series="mapSeries" log
+                   :tooltip="false">
+          </ve-bmap>
+        </div>
+        <div class="right">
+          <v-block no-header>
+            <div class="block-name">
+              <div class="top">
+                <img src="../images/icon2.png" height="81" width="81"/>
+                <div class="frame">
+                  <p>名单总数</p>
+                  <h4>6568</h4>
+                </div>
+              </div>
+              <div flex="wrap:wrap">
+                <div class="card">
+                  <div class="icon"><img src="../images/icon-redname.png" height="44" width="44"/></div>
+                  <div><h2>{{nameList[0]}}</h2>
+                    <p>红名单(条)</p></div>
+                </div>
+                <div class="card">
+                  <div class="icon"><img src="../images/icon-blackname.png" height="44" width="44"/></div>
+                  <div><h2>{{nameList[1]}}</h2>
+                    <p>黑名单(条)</p></div>
+                </div>
+                <div class="card">
+                  <div class="icon"><img src="../images/icon-grayname.png" height="44" width="44"/></div>
+                  <div><h2>{{nameList[2]}}</h2>
+                    <p>灰名单(条)</p></div>
+                </div>
+                <div class="card">
+                  <div class="icon"><img src="../images/icon-bluename.png" height="44" width="44"/></div>
+                  <div><h2>{{nameList[3]}}</h2>
+                    <p>重点关注(条)</p></div>
+                </div>
+              </div>
+              <div class="chart" flex="box:mean">
+                <div>
+                  <b-circle :percent="nameListPercent[0]" :size="100" stroke-color="#f03f58" trail-color="#394760">
+                    <span style="font-size:26px;">{{nameListPercent[0]}}</span>%
+                  </b-circle>
+                  <p>红名单</p>
+                </div>
+                <div>
+                  <b-circle :percent="nameListPercent[1]" :size="100" stroke-color="#ffa63d" trail-color="#394760">
+                    <span style="font-size:26px;">{{nameListPercent[1]}}</span>%
+                  </b-circle>
+                  <p>黑名单</p>
+                </div>
+                <div>
+                  <b-circle :percent="nameListPercent[2]" :size="100" stroke-color="#00d98b" trail-color="#394760">
+                    <span style="font-size:26px;">{{nameListPercent[2]}}</span>%
+                  </b-circle>
+                  <p>灰名单</p>
+                </div>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="信易管理星级统计">
+            <div class="block-level">
+              <ul>
+                <li>
+                  <div>
+                    <b-rate :value="5" disabled disabled-void-color="#3d475d"
+                            :colors="['#f03f58', '#f03f58', '#f03f58']"></b-rate>
+                  </div>
+                  <div>红五星</div>
+                  <div>891</div>
+                </li>
+                <li>
+                  <div>
+                    <b-rate :value="4" disabled disabled-void-color="#3d475d"
+                            :colors="['#f03f58', '#f03f58', '#f03f58']"></b-rate>
+                  </div>
+                  <div>红四星</div>
+                  <div>800</div>
+                </li>
+                <li>
+                  <div>
+                    <b-rate :value="3" disabled disabled-void-color="#3d475d"
+                            :colors="['#f03f58', '#f03f58', '#f03f58']"></b-rate>
+                  </div>
+                  <div>红三星</div>
+                  <div>523</div>
+                </li>
+                <li>
+                  <div>
+                    <b-rate :value="2" disabled disabled-void-color="#3d475d"
+                            :colors="['#f03f58', '#f03f58', '#f03f58']"></b-rate>
+                  </div>
+                  <div>红二星</div>
+                  <div>316</div>
+                </li>
+                <li>
+                  <div>
+                    <b-rate :value="1" disabled disabled-void-color="#3d475d"
+                            :colors="['#f03f58', '#f03f58', '#f03f58']"></b-rate>
+                  </div>
+                  <div>红一星</div>
+                  <div>261</div>
+                </li>
+                <li>
+                  <div style="padding-top: 7px;"><img src="../images/star-black.png" alt="black"/></div>
+                  <div>黑星</div>
+                  <div>247</div>
+                </li>
+              </ul>
+            </div>
+          </v-block>
+        </div>
+      </div>
+    </div>
+    <!--行业占比 弹窗-->
+    <b-modal v-model="modal1" footer-hide class-name="top-modal"
+             :mask-closable="false" :styles="{width:'1000px',top:'200px'}">
+      <div class="top-header">行业占比情况</div>
+      <div class="top-content" style="height: 565px;padding: 40px 60px;">
+        <b-scrollbar style="height: 100%;" always>
+          <el-table :data="industryData" style="width: 95%;" border>
+            <el-table-column type="index" label="排名" width="80" align="center"></el-table-column>
+            <el-table-column prop="name" label="行业名称" min-width="250" align="center"></el-table-column>
+            <el-table-column prop="count" label="数量" min-width="180" align="center"></el-table-column>
+            <el-table-column prop="percent" label="占比" min-width="180" align="center"></el-table-column>
+          </el-table>
+        </b-scrollbar>
+      </div>
+      <div class="angle top-left"></div>
+      <div class="angle top-right"></div>
+      <div class="angle bottom-left"></div>
+      <div class="angle bottom-right"></div>
+    </b-modal>
+    <!--行政执法记录 弹窗-->
+    <b-modal v-model="modal2" footer-hide class-name="top-modal"
+             :mask-closable="false" :styles="{width:'1000px',top:'200px'}">
+      <div class="top-header">行政执法记录</div>
+      <div class="top-content" style="height: 565px;padding: 40px 60px;">
+        <b-scrollbar style="height: 100%;" always>
+          <el-table :data="enforceData" style="width: 95%;" border>
+            <el-table-column prop="info" label="执法信息" align="center"></el-table-column>
+            <el-table-column prop="company" label="企业名称" min-width="250" align="center"></el-table-column>
+            <el-table-column prop="content" label="执法内容" align="center"></el-table-column>
+            <el-table-column prop="dept" label="执法部门" align="center"></el-table-column>
+          </el-table>
+        </b-scrollbar>
+      </div>
+      <div class="angle top-left"></div>
+      <div class="angle top-right"></div>
+      <div class="angle bottom-left"></div>
+      <div class="angle bottom-right"></div>
+    </b-modal>
+    <!--介绍弹窗-->
+    <b-drawer v-model="recommend" fullscreen footer-hide>
+      <div slot="header" class="recommend-header">
+        荣成市市场主体专项分析平台
+        <img @click="recommend=false" src="../images/icon-close.png" height="56" width="56" alt="close"/>
+      </div>
+      <div class="recommend-content" flex="main:justify">
+        <div class="left">
+          <div v-for="item in recData" :key="item.id" class="item"
+               :class="{'active':item.id===recActive}"
+               @click="recommendClick(item)">
+            {{item.name}}
+          </div>
+        </div>
+        <div class="right">
+          <b-scrollbar style="height:100%;" always ref="scroll">
+            <div class="inner">
+              <!--两种类型的box-->
+              <!--这里每个都不同，所以只能写死-->
+              <!--社会信用系统介绍-->
+              <div class="box">
+                <h2 :id="recData[0].id">{{recData[0].name}}</h2>
+                <div flex>
+                  <div class="section">
+                    <p>
+                      市场主体信用监管系统是市场主体信用平台及信用大数据分析应用系统的重点子系统，主要提供给各职能/主管部门、执法部门使用。职能/主管部门和执法部门各级领导、工作人员通过“用户名/密码”登录系统进行操作。系统对市场主体基本信息、各维度信用信息进行展示，同时集成融合各行业、领域的专项系统进行多维度数据关联应用，通过大数据分析为主管部门提供监管、执法和决策依据，通过监测平台提供监管建议。
+                    </p>
+                  </div>
+                  <div class="bg"><img src="../images/recommend/pic-1.png" height="767" width="482" alt="pic1"/></div>
+                </div>
+              </div>
+              <!--系统应用架构图-->
+              <div class="box bg">
+                <h2 :id="recData[1].id">{{recData[1].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-2-1.png" alt="pic2"/></div>
+              </div>
+            </div>
+          </b-scrollbar>
+        </div>
+      </div>
+    </b-drawer>
+  </b-scrollbar>
+</div>
+<script src="../js/components/v-header.js"></script>
+<script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-select.js"></script>
+<script src="../js/components/v-chart-bar.js"></script>
+<script src="../js/mixin.js"></script>
+<script src="../js/lib/echarts/geoCoordMap.js"></script>
+<script>
+  var convertData = function (data) {
+    var res = []
+    for (var i = 0; i < data.length; i++) {
+      var geoCoord = geoCoordMap[data[i].name]
+      if (geoCoord) {
+        res.push({
+          name: data[i].name,
+          value: geoCoord.concat(data[i].value)
+        })
+      }
+    }
+    return res
+  }
+  new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.mapSettings = {
+        key: 'mf9v9D2wro0QuBfsuhPl8wltrwcFSZqX',
+        bmap: {
+          center: [122.279306, 37.24094],
+          zoom: 11,
+          roam: false,
+          mapStyle: {style: 'midnight'}
+        }
+      }
+      this.mapExtend = {
+        visualMap: {
+          type: 'piecewise',
+          min: 0,
+          max: 200,
+          calculable: true,
+          inRange: {
+            color: ['#ff7391', '#ffea68', '#ae74f3', '#17d59d', '#004eff']
+          },
+          textStyle: {
+            color: '#fff'
+          }
+        }
+      }
+      return {
+        industryData: [],
+        industryMax: 0,
+        enforceData: [],
+        mapSeries: [
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            showEffectOn: 'render',
+            symbolSize: 15,
+            rippleEffect: {
+              brushType: 'stroke',
+              scale: 3
+            },
+            label: {
+              normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              }
+            },
+            data: convertData([{name: '荣成', value: 34}, {name: '威海', value: 100}])
+          }
+        ],
+        levelData: [
+          {level: 'AAA', score: 2000, color: '#00ff24'},
+          {level: 'AA', score: 1800, color: '#004eff'},
+          {level: 'A+', score: 1600, color: '#4c83ff'},
+          {level: 'A', score: 1400, color: '#00d2ff'},
+          {level: 'A-', score: 1200, color: '#17d59d'},
+          {level: 'B', score: 1000, color: '#ae74f3'},
+          {level: 'C', score: 800, color: '#ffea68'},
+          {level: 'D', score: 600, color: '#ff7391'},
+        ],
+        nameList: [],// 红黑灰重点关注名单
+        nameListPercent: [],// 红黑灰名单百分比
+        modal1: false,
+        modal2: false,
+        recommend: false,
+        recData: [
+          {id: 'r1', name: '市场主体系统介绍'},
+          {id: 'r2', name: '系统应用架构图'}
+        ],
+        recActive: 'r1'
+      }
+    },
+    created: function () {
+      // 行业占比
+      this.getIndustryAccount()
+      // 获取执法信息
+      this.getEnforceData()
+      // 红黑灰重点名单
+      this.getNameList()
+    },
+    methods: {
+      // 行业占比
+      getIndustryAccount: function () {
+        var _self = this
+        this.getRequest('/getIndustryAccount').then(function (res) {
+          _self.industryData = res.data.list
+          _self.industryMax = res.data.max
+        })
+      },
+      // 执法信息
+      getEnforceData: function () {
+        var _self = this
+        this.getRequest('/getEnforceData').then(function (res) {
+          _self.enforceData = res.data.list
+        })
+      },
+      // 红黑灰重点名单
+      getNameList: function () {
+        var _self = this
+        this.getRequest('/getNameList').then(function (res) {
+          _self.nameList = res.data.list
+          _self.nameListPercent = res.data.listPercent
+        })
+      },
+      // 详情切换事件
+      recommendClick: function (item) {
+        if (this.recActive !== item.id) {
+          this.recActive = item.id
+        }
+        var dom = document.getElementById(item.id)
+        this.scrollTo(dom.offsetTop)
+      },
+      scrollTo: function (to) {
+        // 如果父级是自定义滚动则绑定滚动为父级元素dom
+        if (!this.domEl) {
+          this.domEl = this.$refs.scroll.$el.querySelector('.bin-scrollbar__wrap')
+        }
+        var sTop = this.domEl.pageYOffset || this.domEl.scrollTop
+        this.$scrollTop(this.domEl, sTop, to, 1000)
+      }
+    },
+    computed: {
+      // v-chart-bar data 格式
+      // {index:'前方数据项、排名',name:'数据名称',value:'数据显示值',percent:'计算百分比',label:'尾端显示样式'}
+      formatIndustry: function () {
+        var max = this.industryMax
+        return this.industryData.map(function (item) {
+          return {
+            name: item.name,
+            value: item.count,
+            percent: item.count / max * 100,
+            label: item.percent
+          }
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>

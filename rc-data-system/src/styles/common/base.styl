@@ -1,0 +1,382 @@
+.t-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#app {
+  height: 100%;
+  font-size: 14px;
+  color: #fff;
+  // 基础样式库
+  .screen-wrapper {
+    .v-header {
+      position: relative;
+      width: 1920px;
+      height: 103px;
+      background: url("../images/header-bg.png") no-repeat 0 0;
+      .label {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        margin-left: -300px;
+        letter-spacing: 5px;
+        height: 60px;
+        line-height: 60px;
+        width: 600px;
+        text-align: center;
+        font-size: 38px;
+        color: #4bdbff;
+      }
+      .btn {
+        position: absolute;
+        top: 40px;
+        right: 50px;
+        span {
+          display: inline-block;
+          vertical-align: middle;
+          background: url("../images/button-bg.png") no-repeat 0 0;
+          width: 118px;
+          height: 33px;
+          line-height: 34px;
+          text-align: center;
+          font-size: 18px;
+          color: #00ccff;
+          cursor: pointer;
+          margin: 0 10px;
+        }
+      }
+    }
+    .v-block {
+      position: relative;
+      padding: 10px 20px;
+      border: 1px solid #293f53;
+      border-radius: 5px;
+      box-shadow: 0 0 30px #1a3a63 inset;
+      background-color: rgba(19, 33, 63, 0.5);
+      margin-bottom: 20px;
+      .header {
+        span {
+          font-size: 18px;
+          color: #00ccff;
+          font-weight: bold;
+        }
+      }
+      .content {
+        padding: 10px 0;
+      }
+      .angle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-color: #15e9f2;
+        border-style: solid;
+        &.top-left {
+          top: 0;
+          left: 0;
+          margin-top: -1px;
+          margin-left: -1px;
+          border-top-left-radius: 5px;
+          border-top-width: 1px;
+          border-left-width: 1px;
+        }
+        &.top-right {
+          top: 0;
+          right: 0;
+          margin-top: -1px;
+          margin-right: -1px;
+          border-top-right-radius: 5px;
+          border-top-width: 1px;
+          border-right-width: 1px;
+        }
+        &.bottom-left {
+          bottom: 0;
+          left: 0;
+          margin-bottom: -1px;
+          margin-left: -1px;
+          border-bottom-left-radius: 5px;
+          border-bottom-width: 1px;
+          border-left-width: 1px;
+        }
+        &.bottom-right {
+          bottom: 0;
+          right: 0;
+          margin-bottom: -1px;
+          margin-right: -1px;
+          border-bottom-right-radius: 5px;
+          border-bottom-width: 1px;
+          border-right-width: 1px;
+        }
+      }
+    }
+    .v-select {
+      position: relative;
+      display: block;
+      padding: 0 5px;
+      width: auto;
+      cursor: pointer;
+      .select {
+        .iconfont {
+          font-size: 18px;
+          color: #00ccff;
+          transition: .35s;
+          transform: rotateZ(180deg);
+          &.show {
+            transform: rotateZ(0deg);
+          }
+        }
+      }
+      .options {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transform: translateY(100%)
+        width: 690px;
+        padding: 20px 10px 10px 20px;
+        background-color: #192648;
+        z-index: 2000;
+        .item {
+          display: inline-block;
+          background-color: #303b5a;
+          font-size: 12px;
+          color: #fff;
+          font-weight: normal;
+          text-align: center;
+          line-height: 30px;
+          width: 210px;
+          margin: 0 10px 10px 0;
+          &.active {
+            background-color: #1985d2;
+          }
+        }
+      }
+    }
+    .v-chart-bar {
+      .item {
+        margin-bottom: 5px;
+        .index {
+          width: 30px;
+          padding-top: 12px;
+        }
+        .legend {
+          font-size: 12px;
+          padding-right: 60px;
+        }
+      }
+    }
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+// 滚动条样式
+.bin-scrollbar__bar.is-vertical {
+  background-color: #283956;
+}
+.bin-scrollbar__thumb {
+  background-color: #1985d2;
+}
+
+//  弹窗遮罩
+.bin-modal-mask {
+  background-color: rgba(12, 23, 40, 0.61);
+}
+//  模态框覆盖
+.top-modal {
+  .bin-modal-content {
+    background-color: #102344;
+    border: 1px solid #586ea2;
+    border-radius: 0;
+    .bin-modal-close {
+      z-index: 1;
+      font-size: 12px;
+      position: absolute;
+      right: -80px;
+      top: -20px;
+      overflow: hidden;
+      cursor: pointer;
+      .icon-ios-close {
+        font-size: 50px;
+      }
+    }
+  }
+  .top-header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%)
+    font-size: 22px;
+    color: #fff;
+    padding: 2px 40px;
+    background-color: #00addd;
+    border-radius: 19px;
+  }
+  .angle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: #15e9f2;
+    border-style: solid;
+    &.top-left {
+      top: 0;
+      left: 0;
+      margin-top: -1px;
+      margin-left: -1px;
+      border-top-width: 1px;
+      border-left-width: 1px;
+    }
+    &.top-right {
+      top: 0;
+      right: 0;
+      margin-top: -1px;
+      margin-right: -1px;
+      border-top-width: 1px;
+      border-right-width: 1px;
+    }
+    &.bottom-left {
+      bottom: 0;
+      left: 0;
+      margin-bottom: -1px;
+      margin-left: -1px;
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+    }
+    &.bottom-right {
+      bottom: 0;
+      right: 0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+      border-bottom-width: 1px;
+      border-right-width: 1px;
+    }
+  }
+}
+
+//  抽屉覆盖
+.bin-drawer-wrapper .drawer-box {
+  background: #051425;
+  .header {
+    border-bottom: none;
+    padding: 0;
+    .recommend-header {
+      position: relative;
+      width: 1920px;
+      height: 110px;
+      line-height: 110px;
+      font-size: 28px;
+      color: #00ccff;
+      background: url("../images/header.png") no-repeat 0 0;
+      text-align: center;
+      img {
+        position: absolute;
+        top: 26px;
+        right: 4px;
+      }
+    }
+  }
+  .body {
+    height: 100%;
+    .recommend-content {
+      width: 1700px;
+      height: 767px;
+      margin: 40px auto;
+      .left {
+        width: 280px;
+        .item {
+          background-color: #182338;
+          color: #fff;
+          font-size: 20px;
+          padding: 25px 40px;
+          margin-bottom: 10px;
+          &.active {
+            background-color: #1985d2;
+          }
+        }
+      }
+      .right {
+        width: 1400px;
+        .inner {
+          width: 1350px;
+          padding-bottom: 100px;
+          background-color: #182338;
+          .box {
+            padding: 0 30px;
+            > h2 {
+              position: relative;
+              line-height: 40px;
+              padding: 30px 0 30px 40px;
+              color: #ffffff;
+              font-size: 20px;
+              font-weight: normal;
+              &:before {
+                content: '';
+                position: absolute;
+                left: 10px;
+                top: 44px;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background-color #00ccff;
+              }
+            }
+            .section {
+              font-size: 16px;
+              color: #7181a6;
+              line-height: 2em;
+              padding: 0 50px 0 20px;
+              p {
+                text-indent: 2.5em;
+              }
+            }
+            .img {
+              width: 100%;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//el-table覆盖
+.el-table {
+  th {
+    padding: 6px 0;
+    background-color #132a50;
+    color: #fff;
+    border-color: #586ea2;
+  }
+  td {
+    padding: 10px 0;
+    background-color #102344;
+    color: #fff;
+    border-color: #2a406b;
+  }
+  th.is-leaf {
+    border-color: #2a406b;
+  }
+  a {
+    color: #00ccff;
+    text-decoration: none;
+  }
+  &.el-table--border, &.el-table--group {
+    border: 1px solid #2a406b;
+  }
+  &.el-table--border::after, &.el-table--group::after, &:before {
+    display: none;
+  }
+}
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #102344;
+}
+// 百度地图去下标
+.anchorBL {
+  display: none;
+}

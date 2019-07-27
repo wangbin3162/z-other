@@ -1,0 +1,71 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f7f7;
+  .header {
+    padding: 5px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #f7f7f7;
+    .logo {
+      display: inline-block;
+      vertical-align: middle;
+      width: 60px;
+      height: 100%;
+      img {
+        width: 100%;
+      }
+    }
+    .header-tip {
+      img {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+      }
+    }
+    .bin-tooltip-inner {
+      padding: 12px 20px;
+      border-radius: 10px;
+    }
+  }
+  .main {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .wrapper {
+      margin: 20px;
+      .top-header {
+        font-size: 16px;
+        font-weight: 500;
+        span {
+          color: #0a98e4;
+        }
+      }
+      .box-card {
+        margin-bottom: 20px;
+      }
+      .center {
+      }
+    }
+  }
+}
+.main .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.divider20 {
+  width: 20px;
+}
+
+/*地区选择及日期选择调整*/
+.select-address > .el-input--mini .el-input__inner {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #fff;
+  border-color: #DCDFE6;
+}
+.select-address {
+  vertical-align: bottom;
+}
+.el-range-editor--mini.el-input__inner {
+  vertical-align: middle;
+}

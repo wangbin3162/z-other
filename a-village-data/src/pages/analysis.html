@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>数据分析页面</title>
+  <!--required-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/axios.min.js"></script>
+  <script src="../js/lib/mock.js"></script>
+
+  <link rel="stylesheet" href="../js/lib/element-ui@2.7.0/index.css">
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <link rel="stylesheet" href="../js/lib/v-charts/style.min.css">
+  <!--ui components-->
+  <script src="../js/lib/element-ui@2.7.0/index.js"></script>
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/v-charts/index.min.js"></script>
+  <link rel="stylesheet" href="../styles/analysis.css">
+</head>
+<body>
+<div id="app" v-cloak flex="dir:top">
+  <!--header-->
+  <div class="header">
+    <div class="logo"><img src="../images/logo@2x.png"/></div>
+    <b-tooltip theme="dark">
+      <div slot="content">
+        <div class="header-tip" flex="cross:center">
+          <img src="../images/icon_attention@2x.png"/>
+          <span>点击这里选择城镇</span>
+        </div>
+      </div>
+      <el-cascader :options="topOptions" change-on-select v-model="topValue" size="small"></el-cascader>
+    </b-tooltip>
+    &nbsp;选择日期：
+    <el-date-picker
+        v-model="dateValue" size="small"
+        type="daterange"
+        value-format="yyyy-MM-dd"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期">
+    </el-date-picker>
+    <b-button type="primary" v-waves size="small" @click="getData"
+              style="margin-left: 20px;">查&nbsp;询
+    </b-button>
+  </div>
+  <div class="main" flex-box="1">
+    <b-scrollbar style="height: 100%;">
+      <div class="wrapper">
+        <!--正负面信息趋势分析-->
+        <b-card class="box-card" head-tip radius="0" :bordered="false" divider="no">
+          <div slot="header" class="top-header"><span>{{ currentCity }}</span>正负面信息趋势分析</div>
+          <ve-line :data="lineData" :settings="lineSettings" :colors="colors"
+                   :extend="lineExtend" :legend-visible="false"></ve-line>
+        </b-card>
+        <!--图表1-->
+        <div class="center" flex="main:justify">
+          <!--数据总量-->
+          <b-card class="box-card" width="50%" head-tip radius="0" :bordered="false" divider="no">
+            <div slot="header" class="top-header"><span>{{ currentCity }}</span>数据总量</div>
+            <ve-bar :data="histogramData" :extend="histogramExtend" :settings="histogramSettings"
+                    height="850px" :legend-visible="false"></ve-bar>
+          </b-card>
+          <div class="divider20"></div>
+          <div class="right" flex-box="1">
+            <!--正负信息对比-->
+            <b-card class="box-card" head-tip radius="0" :bordered="false" divider="no">
+              <div slot="header" class="top-header"><span>{{ currentCity }}</span>正负信息对比</div>
+              <ve-histogram :data="compareData" :settings="compareSettings" :extend="compareExtend"
+                            :colors="colors"></ve-histogram>
+            </b-card>
+            <!--人均数据量-->
+            <b-card class="box-card" head-tip radius="0" :bordered="false" divider="no">
+              <div slot="header" class="top-header"><span>{{ currentCity }}</span>人均数据量</div>
+              <ve-ring :data="perCapitaData" :settings="pieSettings" :colors="colorsCapita"
+                       :legend-visible="false"></ve-ring>
+            </b-card>
+          </div>
+        </div>
+        <!--图表2-->
+        <b-card class="box-card" head-tip radius="0" :bordered="false" divider="no">
+          <div slot="header" class="title">
+            <span>{{ currentCity }}</span>
+            <span style="margin-right: 20px;">对比</span>
+            <el-select @change="changeCity"
+                       v-model="valueCity" size="mini" multiple collapse-tags filterable
+                       style="margin-left: 20px;width:auto;" placeholder="城镇设置">
+              <el-option v-for="item in cityOptions" :key="item.value"
+                         :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </div>
+          <ve-line :data="comparelineData" :extend="compareLineExtend"></ve-line>
+        </b-card>
+      </div>
+    </b-scrollbar>
+  </div>
+</div>
+
+<script src="../js/mixin.js"></script>
+<script src="../mock/analysis.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.colors = ['#60b8f6', '#ff6e8c', '#ffcc41',
+        '#ba5eed', '#ff6e8c', '#1f9bff',
+        '#ca8622', '#bda29a', '#6e7074',
+        '#546570', '#c4ccd3']
+      // 折线图配置数据
+      this.lineSettings = {
+        labelMap: {
+          'date': '日期',
+          'front': '正面信息',
+          'negative': '负面信息'
+        },
+        axisSite: {right: ['negative']},
+        yAxisName: ['正面信息', '负面信息'],
+        dimension: ['date'],
+      }
+      this.lineExtend = {
+        grid: {
+          bottom: 20
+        },
+        series: {
+          smooth: false,
+          itemStyle: {
+            opacity: 0
+          }
+        }
+      }
+      // 总量映射
+      this.histogramSettings = {
+        labelMap: {
+          'area': '地区',
+          'number': '指数'
+        }
+      }
+      // 正负信息设置参数
+      this.compareSettings = {
+        labelMap: {
+          'area': '地区',
+          'front': '正面信息',
+          'negative': '负面信息'
+        },
+        dimension: ['area']
+      }
+      this.compareExtend = {
+        legend: {
+          right: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          icon: 'circle',
+          itemGap: 20
+        }
+      }
+      // 人均数据量 labelMap 设置别名使用
+      this.pieSettings = {
+        labelMap: {area: '区域', number: '数量'},
+        radius: [80, 120],
+        selectedMode: 'single'
+      }
+      this.colorsCapita = [
+        '#3c117c',
+        '#324395',
+        '#0168b3',
+        '#0090cf',
+        '#08a3f3',
+        '#00acc5',
+        '#009f7a',
+        '#02af3b',
+        '#7ec720',
+        '#c1df05',
+        '#f9f500',
+        '#f5cc00',
+        '#f09d01',
+        '#e7641c',
+        '#de0029',
+        '#ff047c',
+        '#e1017e',
+        '#ba077f',
+        '#910278',
+        '#67087c'
+      ]
+      // 城镇之间对比
+      this.compareLineExtend = {
+        grid: {
+          bottom: 20
+        },
+        series: {
+          smooth: false,
+          itemStyle: {
+            opacity: 0
+          },
+          lineStyle: {
+            width: 1,
+            opacity: 0.2
+          },
+          areaStyle: {
+            opacity: 0.2
+          }
+        }
+      }
+      return {
+        topOptions: [],
+        topValue: [],
+        currentCity: '',
+        dateValue: '',
+        lineData: {
+          columns: ['date', 'number'],
+          rows: []
+        },
+        histogramData: {
+          columns: ['area', 'number'],
+          rows: []
+        },
+        histogramExtend: {
+          yAxis: {
+            inverse: true
+          },
+          grid: {
+            top: '10px',
+            bottom: '0',
+            right: '10%'
+          },
+          series: {
+            barWidth: 20
+          },
+          itemStyle: {
+            color: '#60b8f6'
+          }
+        },
+        compareData: {
+          columns: ['area', 'front', 'negative'],
+          rows: []
+        },
+        perCapitaData: {
+          columns: ['area', 'number'],
+          rows: []
+        },
+        comparelineData: {
+          columns: ['date', 'area'],
+          rows: []
+        },
+        cityOptions: [],
+        valueCity: []
+      }
+    },
+    created: function () {
+      this.getTopOptions()
+      this.getData()
+      this.getHistogramData()
+      this.getCompareData()
+      this.getPerCapitaData()
+      this.getCity()
+    },
+    methods: {
+      // 获取顶部的动态级联菜单
+      getTopOptions: function () {
+        this.getRequest('/stat_getTopOptions').then(function (response) {
+          vm.topOptions = response.data.topOptions
+          vm.topValue = response.data.normal
+        })
+      },
+      // 查询顶部数据，根据时间查
+      getData: function () {
+        // 查询数据时显示当前的城镇
+        this.getRequest('/getData').then(function (response) {
+          vm.lineData = response.data
+          vm.currentCity = '成山镇'
+        })
+      },
+      // 获取总量数据
+      getHistogramData: function () {
+        this.getRequest('/histogramData').then(function (response) {
+          vm.histogramData.rows = response.data.rows
+          vm.calcHistogramExtend(vm.histogramData.rows.length)
+        })
+      },
+      // 获取对比数据
+      getCompareData: function () {
+        this.getRequest('/compareData').then(function (response) {
+          vm.compareData.rows = response.data.rows
+        })
+      },
+      // 获取人均数据量
+      getPerCapitaData: function () {
+        this.getRequest('/perCapitaData').then(function (response) {
+          vm.perCapitaData.rows = response.data.rows
+        })
+      },
+      // 获取城镇
+      getCity: function () {
+        this.getRequest('/getCity').then(function (response) {
+          vm.cityOptions = response.data
+          vm.valueCity.push(vm.cityOptions[0].value)
+          vm.changeCity(vm.valueCity)
+        })
+      },
+      getComparelineData: function () {
+        this.getRequest('/comparelineData').then(function (response) {
+          vm.comparelineData = response.data
+        })
+      },
+      // 城市改变事件，需要在此进行调用查询雷达图数据
+      changeCity: function (val) {
+        this.valueCity = val
+        this.getComparelineData()
+      },
+      // 计算信用指数柱状图需要显示的百分比
+      calcHistogramExtend: function (rows) {
+        if (rows > 20) {
+          // 如果大于10条数据在进行缩放配置
+          this.setDataZoom((20 / rows) * 100)
+        }
+      },
+      // 设置柱状图的datazoom
+      setDataZoom: function (endPos) {
+        this.histogramExtend.dataZoom = [
+          {
+            type: 'inside',
+            yAxisIndex: [0],
+            show: true,
+            start: 0,
+            end: endPos,
+            width: 18,
+            zoomOnMouseWheel: false,
+            moveOnMouseWheel: true
+          },
+          {
+            type: 'slider',
+            show: true,
+            yAxisIndex: [0],
+            right: '20px',
+            start: 0,
+            end: endPos,
+            zoomLock: true,
+            width: 18,
+            showDataShadow: false,
+            borderColor: '#fff',
+            handleSize: '0',
+            showDetail: false,
+            fillerColor: '#dddddd'
+          }
+        ]
+      }
+    }
+  })
+</script>
+</body>
+</html>

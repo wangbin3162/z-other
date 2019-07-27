@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市社会信用综合展示平台</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.5@1.4.5-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <link rel="stylesheet" href="../js/lib/echarts/v-charts/style.min.css">
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/echarts/extension/bmap.min.js"></script>
+  <script src="../js/lib/echarts/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/screen.css">
+  <script src="../js/lib/utils/mock.js"></script>
+  <script src="../mock/main.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <b-scrollbar style="height: 100%;" normal>
+    <div class="screen-wrapper" flex="dir:top">
+      <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合展示平台</v-header>
+      <div class="main" flex-box="1" flex>
+        <div class="left">
+          <v-block label="数据归集情况">
+            <div class="block1">
+              <div class="top" flex>
+                <div class="frame">
+                  <h2>企业法人数据总量</h2>
+                  <h4>656.5万条</h4>
+                </div>
+                <ul class="list" flex-box="1">
+                  <li>上月入库总量：<span>58.3</span>万条</li>
+                  <li>上月数据总量：<span>42.8</span>万条</li>
+                  <li>回流数量总数：<span>106</span>万条</li>
+                  <li>验证通过率：<span>88.21</span>%</li>
+                </ul>
+              </div>
+              <div flex="main:justify">
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t1.png" height="29" width="28" alt="t1"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>企业法人</p>
+                </div>
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t2.png" height="29" width="28" alt="t2"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>企业法人</p>
+                </div>
+                <div class="box">
+                  <div class="icon"><img src="../images/icon-t3.png" height="29" width="28" alt="t3"/></div>
+                  <h2><span>448.5</span>万条</h2>
+                  <p>企业法人</p>
+                </div>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="指标领域统计">
+            <div class="block2" style="height:157px;overflow:hidden;">
+              <table>
+                <tr>
+                  <th></th>
+                  <th>政务领域</th>
+                  <th>商务领域</th>
+                  <th>社会领域</th>
+                  <th>司法领域</th>
+                  <th>合计</th>
+                </tr>
+                <tr>
+                  <td>指标数量</td>
+                  <td>44</td>
+                  <td>72</td>
+                  <td>138</td>
+                  <td>40</td>
+                  <td>466</td>
+                </tr>
+                <tr>
+                  <td>自然人正面信息</td>
+                  <td>0</td>
+                  <td>2</td>
+                  <td>2</td>
+                  <td>2</td>
+                  <td>6</td>
+                </tr>
+                <tr class="red">
+                  <td>自然人负面信息</td>
+                  <td>0</td>
+                  <td>2055</td>
+                  <td>2007</td>
+                  <td>36</td>
+                  <td>8888</td>
+                </tr>
+                <tr>
+                  <td>法人正面信息</td>
+                  <td>0</td>
+                  <td>6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>6</td>
+                </tr>
+                <tr class="red">
+                  <td>法人负面信息</td>
+                  <td>466</td>
+                  <td>197</td>
+                  <td>225</td>
+                  <td>889</td>
+                  <td>8888</td>
+                </tr>
+              </table>
+            </div>
+          </v-block>
+          <v-block label="双公示数据统计">
+            <div slot="header" class="block3-header">双公示总数<span>1516</span>条</div>
+            <div class="block3">
+              <div class="data-top" flex="box:last">
+                <div>
+                  <p>自然人行政许可:<span>316</span></p>
+                  <p>自然人行政处罚:<span>316</span></p>
+                </div>
+                <div>
+                  <p>法人行政许可:<span>438</span></p>
+                  <p>法人行政处罚:<span>340</span></p>
+                </div>
+                <div>
+                  <p class="permission">行政许可</p>
+                  <p class="punish">行政处罚</p>
+                </div>
+              </div>
+              <ve-bar :data="sgsData" :colors="['#1c86f1','#f03f58']" height="290px"
+                      :legend-visible="false" :tooltip-visible="false"
+                      :settings="sgsSettings" :extend="sgsExtend"></ve-bar>
+            </div>
+          </v-block>
+        </div>
+        <div class="center" flex-box="1">
+          <div class="top-data">
+            <v-block no-header>
+              <div flex="box:mean">
+                <div class="item">
+                  <div></div>
+                  <div style="color: #05acda;">法 人</div>
+                </div>
+                <div class="item" v-for="item in levelData" :key="item.level">
+                  <div><span class="c" :style="{'backgroundColor':item.color}"></span>{{item.level}}</div>
+                  <div>{{item.score}}</div>
+                </div>
+              </div>
+            </v-block>
+          </div>
+          <ve-bmap height="935px"
+                   :settings="mapSettings" :extend="mapExtend"
+                   :series="mapSeries" log
+                   :tooltip="false">
+          </ve-bmap>
+        </div>
+        <div class="right">
+          <v-block no-header>
+            <div class="block4" flex="main:justify">
+              <img src="../images/icon1.png" height="81" width="81" alt="icon1"/>
+              <div class="frame">
+                <p>连续8个月获得</p>
+                <p>城市信用检测排名</p>
+                <h4>第一名</h4>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="企业信用排名Top100">
+            <div slot="header" class="block5-header" flex="cross:center">
+              <v-select label="选择行业" v-model="industry" :options="industryOptions"
+                        @on-select="industrySelectChange"></v-select>
+              <img @click="modal1=true" src="../images/icon-enlarge.png" height="22" width="22" alt="enlarge"/>
+            </div>
+            <div class="block5">
+              <v-chart-bar :data="formatIndustry" :max-length="5" @on-click="showDetail"
+                           label-color="#f3e491"></v-chart-bar>
+            </div>
+          </v-block>
+          <v-block label="重点人群排名Top100">
+            <div slot="header" class="block5-header" flex="cross:center">
+              <v-select label="重点人群类别" v-model="occ" :options="occOptions"
+                        @on-select="occSelectChange"></v-select>
+              <img @click="modal2=true" src="../images/icon-enlarge.png" height="22" width="22" alt="enlarge"/>
+            </div>
+            <div class="block6">
+              <v-chart-bar :data="formatPeople" :max-length="5"
+                           label-color="#f3e491"></v-chart-bar>
+            </div>
+          </v-block>
+          <v-block label="各部门数据采集排名">
+            <div class="block7">
+              <ve-histogram :data="gatherData" height="220px"
+                            :legend-visible="false" :tooltip-visible="false"
+                            :extend="gatherExtend"></ve-histogram>
+            </div>
+          </v-block>
+        </div>
+      </div>
+    </div>
+    <!--企业信用排名Top100 弹窗-->
+    <b-modal v-model="modal1" footer-hide class-name="top-modal"
+             :mask-closable="false" :styles="{width:'1000px',top:'200px'}">
+      <div class="top-header">企业信用排名Top100</div>
+      <div class="top-content" style="height: 565px;padding: 40px 60px;">
+        <b-scrollbar style="height: 100%;" always>
+          <el-table :data="industryTop" style="width: 95%;" border>
+            <el-table-column type="index" label="排名" width="80" align="center"></el-table-column>
+            <el-table-column prop="name" label="名称" min-width="250" align="center">
+              <template slot-scope="scope">
+                <a href="javascript:;" @click="showDetail(scope.row)">{{scope.row.name}}</a>
+              </template>
+            </el-table-column>
+            <el-table-column prop="score" label="信用分" min-width="180" align="center"></el-table-column>
+            <el-table-column prop="level" label="信用等级" min-width="180" align="center">
+              <template slot-scope="scope">
+                <span style="color:#00ff24;">{{scope.row.level}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </b-scrollbar>
+      </div>
+      <div class="angle top-left"></div>
+      <div class="angle top-right"></div>
+      <div class="angle bottom-left"></div>
+      <div class="angle bottom-right"></div>
+    </b-modal>
+    <!--重点人群排名Top100 弹窗-->
+    <b-modal v-model="modal2" footer-hide class-name="top-modal"
+             :mask-closable="false" :styles="{width:'1000px',top:'200px'}">
+      <div class="top-header">重点人群排名Top100</div>
+      <div class="top-content" style="height: 565px;padding: 40px 60px;">
+        <b-scrollbar style="height: 100%;" always>
+          <el-table :data="peopleTop" style="width: 95%;" border>
+            <el-table-column type="index" label="排名" width="80" align="center"></el-table-column>
+            <el-table-column prop="name" label="名称" min-width="250" align="center">
+              <template slot-scope="scope">
+                <a href="javascript:;">{{scope.row.name}}</a>
+              </template>
+            </el-table-column>
+            <el-table-column prop="score" label="信用分" min-width="180" align="center"></el-table-column>
+            <el-table-column prop="level" label="信用等级" min-width="180" align="center">
+              <template slot-scope="scope">
+                <span style="color:#00ff24;">{{scope.row.level}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </b-scrollbar>
+      </div>
+      <div class="angle top-left"></div>
+      <div class="angle top-right"></div>
+      <div class="angle bottom-left"></div>
+      <div class="angle bottom-right"></div>
+    </b-modal>
+    <!--企业详情页面弹窗-->
+    <b-modal v-model="modal3" footer-hide class-name="top-modal"
+             :mask-closable="false" :styles="{width:'1300px'}">
+      <div class="top-header">{{compDetail.keyTable.name}}</div>
+      <div class="top-content" style="height: 665px;padding: 40px 60px;">
+        <b-scrollbar style="height: 100%;" always>
+          <div style="width:95%;">
+            <div class="key-table">
+              <table>
+                <tr>
+                  <td class="key">名称</td>
+                  <td>{{ compDetail.keyTable.name }}</td>
+                  <td class="key">法定代表人</td>
+                  <td>{{ compDetail.keyTable.corporation }}</td>
+                </tr>
+                <tr>
+                  <td class="key">注册资金</td>
+                  <td>{{ compDetail.keyTable.regCapital }}</td>
+                  <td class="key">联系方式</td>
+                  <td>{{ compDetail.keyTable.tel }}</td>
+                </tr>
+                <tr>
+                  <td class="key">开业时间</td>
+                  <td>{{ compDetail.keyTable.date }}</td>
+                  <td class="key">经济性质</td>
+                  <td>{{ compDetail.keyTable.economicNature }}</td>
+                </tr>
+                <tr>
+                  <td class="key">统一信用代码</td>
+                  <td>{{ compDetail.keyTable.unifiedCode }}</td>
+                  <td class="key">工商注册号</td>
+                  <td>{{ compDetail.keyTable.registration }}</td>
+                </tr>
+                <tr>
+                  <td class="key">地址</td>
+                  <td colspan="3">{{ compDetail.keyTable.address }}</td>
+                </tr>
+                <tr>
+                  <td class="key">经营范围</td>
+                  <td colspan="3">{{ compDetail.keyTable.scope }}</td>
+                </tr>
+                <tr>
+                  <td class="key">信用等级</td>
+                  <td colspan="3">
+                    {{ compDetail.keyTable.level }}
+                    <span style="margin-left:20px;color:#ffeda1;">信用分：{{ compDetail.keyTable.score }}</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="title-info">正负面信息</div>
+            <div class="info-tab">
+              <span :class="{'active':infoTab===0}" @click="infoTab=0">正面信息 ({{ compDetail.plusData.length }})</span>
+              <span :class="{'active':infoTab===1}" @click="infoTab=1">负面信息 ({{ compDetail.minusData.length }})</span>
+            </div>
+            <!--正面信息-->
+            <div class="common-table" v-if="infoTab===0">
+              <el-table :data="compDetail.plusData" border>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" width="200" label="主体名称"></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" label="描述"></el-table-column>
+                <el-table-column prop="index" label="指标"></el-table-column>
+                <el-table-column prop="submission" label="指标"></el-table-column>
+              </el-table>
+            </div>
+            <!--负面信息-->
+            <div class="common-table" v-if="infoTab===1">
+              <el-table :data="compDetail.minusData" border>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" width="200" label="主体名称"></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" label="描述"></el-table-column>
+                <el-table-column prop="index" label="指标"></el-table-column>
+                <el-table-column prop="submission" label="指标"></el-table-column>
+              </el-table>
+            </div>
+          </div>
+        </b-scrollbar>
+      </div>
+      <div class="angle top-left"></div>
+      <div class="angle top-right"></div>
+      <div class="angle bottom-left"></div>
+      <div class="angle bottom-right"></div>
+    </b-modal>
+    <!--介绍弹窗-->
+    <b-drawer v-model="recommend" fullscreen footer-hide>
+      <div slot="header" class="recommend-header">
+        荣成市社会信用综合展示平台
+        <img @click="recommend=false" src="../images/icon-close.png" height="56" width="56" alt="close"/>
+      </div>
+      <div class="recommend-content" flex="main:justify">
+        <div class="left">
+          <div v-for="item in recData" :key="item.id" class="item"
+               :class="{'active':item.id===recActive}"
+               @click="recommendClick(item)">
+            {{item.name}}
+          </div>
+        </div>
+        <div class="right">
+          <b-scrollbar style="height:100%;" always ref="scroll">
+            <div class="inner">
+              <!--两种类型的box-->
+              <!--这里每个都不同，所以只能写死-->
+              <!--社会信用系统介绍-->
+              <div class="box">
+                <h2 :id="recData[0].id">{{recData[0].name}}</h2>
+                <div flex>
+                  <div class="section">
+                    <p>
+                      荣成市按照“三库一网一平台 +N 应用”的模式建设了社会信用管理平台，包含自然人信用数据库、
+                      企业信用数据库、信用荣成门户网站、公共信用信息管理平台、政务诚信管理系统、村居组织信用管理系统、市场主体信用管理系统、信用大数据分析系统、自助服务终端等。系统归集了荣成市 140
+                      多个单位掌握的信用信息，实现了信用主体全覆盖，为政府监管、经济发展提供有利支撑，同时结合各项信用应用功能为荣成信用管理体系和理论的实践提供有效的支撑。
+                    </p>
+                    <p>
+                      荣成市奖惩并举，通过信用平台实现规范化的信用信息应用。该市将信用等级分为AAA 诚信模范、AA诚信优秀、A诚信、B 较诚信、C 诚信警示、D
+                      不诚信六个级别，根据信用主体的信用评估报告，依法在各类社会管理活动中给予激励或约束，在全社会形成“守信路路畅通、失信处处受制”的局面。通过建设政务、村居组织等信用管理系统，加强在专项领域的信用监管，辅助综合执法，创新性开展社会治理工作。为优化营商环境，荣成建设市场主体信用管理系统，借助移动
+                      APP，将执法巡查、信用二维码、商户消费者互评、综合监管实现便捷应用，有效提升全市营商投资环境；通过接入第三方资源，如：政府资源、商业资源、医疗资源等构建“信用骑”、“信用医”、“信用贷”等一系列便民惠企措施，设立自助信用报告打印机提升便民服务体验，从信用惠民应用的广度和细节上让每一位守信市民享受到更好的信用生活。
+                    </p>
+                  </div>
+                  <div class="bg"><img src="../images/recommend/pic-1.png" height="767" width="482" alt="pic1"/></div>
+                </div>
+              </div>
+              <!--系统应用架构图-->
+              <div class="box bg">
+                <h2 :id="recData[1].id">{{recData[1].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-2.png" alt="pic2"/></div>
+              </div>
+            </div>
+          </b-scrollbar>
+        </div>
+      </div>
+    </b-drawer>
+  </b-scrollbar>
+</div>
+<script src="../js/components/v-header.js"></script>
+<script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-select.js"></script>
+<script src="../js/components/v-chart-bar.js"></script>
+<script src="../js/mixin.js"></script>
+<script src="../js/lib/echarts/geoCoordMap.js"></script>
+<script>
+  var convertData = function (data) {
+    var res = []
+    for (var i = 0; i < data.length; i++) {
+      var geoCoord = geoCoordMap[data[i].name]
+      if (geoCoord) {
+        res.push({
+          name: data[i].name,
+          value: geoCoord.concat(data[i].value)
+        })
+      }
+    }
+    return res
+  }
+  new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.colors = ['#60b8f6', '#55da8d', '#ffcc41',
+        '#ba5eed', '#ff6e8c', '#1f9bff',
+        '#e1017e', '#e7641c', '#c1df05',
+        '#00acc5', '#de0029', '#02af3b',
+        '#c23531', '#2f4554', '#ca8622',
+        '#7ec720', '#3c117c', '#0168b3']
+      this.sgsSettings = {
+        labelMap: {
+          'permission': '行政许可',
+          'punish': '行政处罚'
+        },
+        stack: {
+          'xxx': ['permission', 'punish']
+        }
+      }
+      this.sgsExtend = {
+        grid: {left: 20, top: 20, right: 20, bottom: 0},
+        xAxis: {
+          show: false,
+        },
+        yAxis: {
+          show: true,
+          axisLabel: {
+            color: '#43689a',
+            fontSize: 12
+          },
+          axisLine: {
+            show: false
+          },
+          inverse: true
+        },
+        series: {
+          label: {
+            show: true,
+            color: '#fff',
+            position: 'top',
+            distance: 2
+          },
+          barWidth: '6px' // 可选
+        },
+      }
+      this.gatherExtend = {
+        grid: {left: 0, top: 20, right: 0, bottom: 0},
+        xAxis: {
+          show: true,
+          axisLabel: {
+            color: '#5c73a6',
+            fontSize: 10,
+            interval: 0
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#6079ab'
+            }
+          }
+        },
+        yAxis: {
+          show: true,
+          axisLabel: {
+            color: '#6079ab',
+            fontSize: 12
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#6079ab'
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: '#0b2341'
+            }
+          }
+        },
+        series: {
+          label: {
+            show: true,
+            color: '#fff',
+            position: 'top'
+          },
+          itemStyle: {
+            color: function (params) {
+              return params.dataIndex % 2 === 0 ? '#c486fe' : '#7ba4ef'
+            },
+            barBorderRadius: [3, 3, 0, 0]
+          },
+          barWidth: '20px' // 可选
+        }
+      }
+      this.mapSettings = {
+        key: 'mf9v9D2wro0QuBfsuhPl8wltrwcFSZqX',
+        bmap: {
+          center: [122.279306, 37.24094],
+          zoom: 11,
+          roam: false,
+          mapStyle: {style: 'midnight'}
+        }
+      }
+      this.mapExtend = {
+        visualMap: {
+          type: 'piecewise',
+          min: 0,
+          max: 200,
+          calculable: true,
+          inRange: {
+            color: ['#ff7391', '#ffea68', '#ae74f3', '#17d59d', '#004eff']
+          },
+          textStyle: {
+            color: '#fff'
+          }
+        }
+      }
+
+      return {
+        industryOptions: [
+          {label: '全部', value: ''},
+          {label: '批发和零售业', value: '批发和零售业'},
+          {label: '制造业', value: '制造业'},
+          {label: '建筑业', value: '建筑业'},
+          {label: '农、林、牧、渔业', value: '农、林、牧、渔业'},
+          {label: '租赁和商务服务业', value: '租赁和商务服务业'},
+          {label: '科学研究和技术服务业', value: '科学研究和技术服务业'},
+          {label: '房地产业', value: '房地产业'},
+          {label: '交通运输、仓储和邮政业', value: '交通运输、仓储和邮政业'},
+          {label: '信息传输、软件和信息技术服务业', value: '信息传输、软件和信息技术服务业'},
+          {label: '金融业', value: '金融业'},
+          {label: '居民服务、修理和其他服务业', value: '居民服务、修理和其他服务业'},
+          {label: '住宿和餐饮业', value: '住宿和餐饮业'},
+          {label: '水利、环境和公共设施管理业', value: '水利、环境和公共设施管理业'},
+          {label: '电力、热力、燃气及水生产和供应业', value: '电力、热力、燃气及水生产和供应业'},
+          {label: '卫生和社会工作', value: '卫生和社会工作'},
+          {label: '教育', value: '教育'},
+          {label: '采矿业', value: '采矿业'},
+          {label: '其他', value: '其他'},
+        ],
+        industry: '',
+        occOptions: [
+          {label: '全部', value: ''},
+          {label: '人大代表', value: '人大代表'},
+          {label: '政协委员', value: '政协委员'},
+          {label: '领导干部', value: '领导干部'},
+          {label: '党代表', value: '党代表'},
+          {label: '村居干部', value: '村居干部'},
+          {label: '团员干部', value: '团员干部'},
+          {label: '妇女干部', value: '妇女干部'},
+          {label: '工会干部', value: '工会干部'},
+          {label: '医护人员', value: '医护人员'},
+          {label: '教师', value: '教师'},
+          {label: '律师', value: '律师'},
+          {label: '企业法定代表人', value: '企业法定代表人'},
+          {label: '会计从业人员', value: '会计从业人员'},
+          {label: '公正人员', value: '公正人员'},
+          {label: '法律援助工作人员', value: '法律援助工作人员'},
+          {label: '记者', value: '记者'},
+          {label: '粮食经纪人', value: '粮食经纪人'},
+          {label: '统计从业人员', value: '统计从业人员'},
+          {label: '注册税务师', value: '注册税务师'},
+          {label: '审计师', value: '审计师'},
+          {label: '评估师', value: '评估师'},
+          {label: '认证和检验检测从业人员', value: '认证和检验检测从业人员'},
+          {label: '证券期货从业人员', value: '证券期货从业人员'},
+          {label: '上市公司高管人员', value: '上市公司高管人员'},
+          {label: '保险经纪人', value: '保险经纪人'},
+          {label: '科研人员', value: '科研人员'},
+          {label: '专利服务从业人员', value: '专利服务从业人员'},
+          {label: '导游', value: '导游'},
+          {label: '执业兽医', value: '执业兽医'},
+          {label: '海船船员', value: '海船船员'},
+          {label: '中共党员', value: '中共党员'},
+          {label: '未知', value: '未知'}
+        ],
+        occ: '',
+        industryTop: [],
+        industryMax: 0,
+        peopleTop: [],
+        peopleMax: 0,
+        sgsData: {
+          columns: ['unit', 'permission', 'punish'],
+          rows: []
+        },
+        gatherData: {
+          columns: ['unit', 'gather'],
+          rows: []
+        },
+        mapSeries: [
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            showEffectOn: 'render',
+            symbolSize: 15,
+            rippleEffect: {
+              brushType: 'stroke',
+              scale: 3
+            },
+            label: {
+              normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              }
+            },
+            data: convertData([{name: '荣成', value: 34}, {name: '威海', value: 100}])
+          }
+        ],
+        levelData: [
+          {level: 'AAA', score: 2000, color: '#00ff24'},
+          {level: 'AA', score: 1800, color: '#004eff'},
+          {level: 'A+', score: 1600, color: '#4c83ff'},
+          {level: 'A', score: 1400, color: '#00d2ff'},
+          {level: 'A-', score: 1200, color: '#17d59d'},
+          {level: 'B', score: 1000, color: '#ae74f3'},
+          {level: 'C', score: 800, color: '#ffea68'},
+          {level: 'D', score: 600, color: '#ff7391'},
+        ],
+        modal1: false,
+        modal2: false,
+        modal3: false,
+        infoTab: 0,// 详情的正负面信息
+        compDetail: {
+          keyTable: {},
+          plusData: [],
+          minusData: []
+        },
+        recommend: false,
+        recData: [
+          {id: 'r1', name: '社会信用系统介绍'},
+          {id: 'r2', name: '系统应用架构图'}
+        ],
+        recActive: 'r1'
+      }
+    },
+    created: function () {
+      this.getSgsData()
+      this.getGatherData()
+      this.getTopIndustry()
+      this.getTopPeople()
+    },
+    methods: {
+      getSgsData: function () {
+        var _self = this
+        this.getRequest('/sgsData').then(function (res) {
+          _self.sgsData.rows = res.data.rows
+        })
+      },
+      getGatherData: function () {
+        var _self = this
+        this.getRequest('/gatherData').then(function (res) {
+          _self.gatherData.rows = res.data.rows
+        })
+      },
+      // 获取企业top100
+      getTopIndustry: function () {
+        var _self = this
+        this.getRequest('/getTopIndustry').then(function (res) {
+          _self.industryTop = res.data.list
+          _self.industryMax = res.data.max
+        })
+      },
+      // 获取个人top100
+      getTopPeople: function () {
+        var _self = this
+        this.getRequest('/getTopPeople').then(function (res) {
+          _self.peopleTop = res.data.list
+          _self.peopleMax = res.data.max
+        })
+      },
+      industrySelectChange: function (value) {
+        this.$message(value)
+        this.$print(this.industry, 'primary')
+      },
+      occSelectChange: function (value) {
+        this.$message(value)
+        this.$print(this.occ, 'success')
+      },
+      // 根据企业名称查询详情
+      showDetail: function (item) {
+        this.modal1 = false
+        var _self = this
+        // 需要根据item拼接查询参数
+        this.getRequest('/compDetail', {id: item.id}).then(function (response) {
+          _self.compDetail = response.data
+          _self.infoTab = 0 // 默认显示正面信息
+          _self.modal3 = true// 打开模态框3
+        })
+      },
+      // 详情切换事件
+      recommendClick: function (item) {
+        if (this.recActive !== item.id) {
+          this.recActive = item.id
+        }
+        var dom = document.getElementById(item.id)
+        this.scrollTo(dom.offsetTop)
+      },
+      scrollTo: function (to) {
+        // 如果父级是自定义滚动则绑定滚动为父级元素dom
+        if (!this.domEl) {
+          this.domEl = this.$refs.scroll.$el.querySelector('.bin-scrollbar__wrap')
+        }
+        var sTop = this.domEl.pageYOffset || this.domEl.scrollTop
+        this.$scrollTop(this.domEl, sTop, to, 1000)
+      }
+    },
+    computed: {
+      // v-chart-bar data 格式
+      // {index:'前方数据项、排名',name:'数据名称',value:'数据显示值',percent:'计算百分比',label:'尾端显示样式'}
+      formatIndustry: function () {
+        var max = this.industryMax
+        return this.industryTop.map(function (item) {
+          return {
+            name: item.name,
+            value: item.score + '分',
+            percent: item.score / max * 100,
+            label: item.level
+          }
+        })
+      },
+      formatPeople: function () {
+        var max = this.peopleMax
+        return this.peopleTop.map(function (item) {
+          return {
+            name: item.name,
+            value: item.score + '分',
+            percent: item.score / max * 100,
+            label: item.level
+          }
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+  .main {
+    width: 100%;
+    height: 100%;
+    .wrapper {
+      .box-card {
+        margin-bottom: 20px;
+      }
+      .slot-header {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .level-table {
+        width: 800px;
+        margin: 0 auto;
+        border: 1px solid #efefef;
+        li {
+          line-height: 40px;
+          text-align: center
+          span {
+            display: block;
+            &:first-child {
+              font-weight: bold;
+              background-color #f7f7f7;
+              border-bottom: 1px solid #efefef;
+            }
+          }
+        }
+      }
+      .radio-wrap {
+        padding: 40px 30px;
+      }
+      .info-list {
+        li {
+          text-align: center;
+          line-height: 40px;
+          span {
+            &:nth-child(odd) {
+              background-color: #f9f9f9;
+            }
+            &:first-child {
+              background-color: #f3faff;
+              font-weight :bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.main .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+

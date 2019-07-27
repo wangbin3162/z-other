@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>demo2 动画精灵</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../../js/lib/vue.min.js"></script>
+  <script src="../../js/lib/utils/axios.min.js"></script>
+  <!--bin-ui@1.4.5@1.4.4-->
+  <link rel="stylesheet" href="../../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <script src="../../js/lib/pixi/pixi.js"></script>
+  <script src="../../js/lib/pixi/spriteUtilities.js"></script>
+</head>
+<body>
+<div id="app">
+  <div id="px-render"></div>
+</div>
+<script>
+  // 创建一个 Pixi应用
+  let app = new PIXI.Application({width: 400, height: 300, transparent: true})
+  // 获取渲染器
+  let renderer = app.renderer
+  let playground = document.getElementById('px-render')
+  // 把 Pixi 创建的 canvas 添加到页面上
+  playground.appendChild(renderer.view)
+  // 设置别名
+  let TextureCache = PIXI.utils.TextureCache
+  // 纹理存储对象
+  let Texture = PIXI.Texture
+  // 矩形对象是由它的位置定义的区域，由它的左上角点(x, y)以及它的宽度和高度表示。
+  let Rectange = PIXI.Rectangle
+  // AnimatedSprite是一种显示由纹理列表描述的动画的简单方法。
+  let AnimatedSprite = PIXI.AnimatedSprite
+
+  let su = new SpriteUtilities(PIXI)
+  // 需要加载的雪碧图地址
+  let imgUrl = 'images/dnf.png'
+  // let imgUrl2 = 'images/rabbit-big.png'
+  // 加载图像加载完成后执行setup函数
+  // PIXI.loader实例已经移动至PIXI.Loader.shared
+  PIXI.Loader.shared.add(imgUrl).load(setup)
+
+  function setup () {
+    // 获取纹理
+    // let base = TextureCache[imgUrl2]
+    // 加载四个纹理
+    // let texture1 = new Texture(base)
+    // texture1.frame = new Rectange(0, 0, 80, 143)
+    // let texture2 = new Texture(base)
+    // texture2.frame = new Rectange(80, 0, 80, 143)
+    // let texture3 = new Texture(base)
+    // texture3.frame = new Rectange(160, 0, 80, 143)
+    // let texture4 = new Texture(base)
+    // texture4.frame = new Rectange(240, 0, 80, 143)
+
+    // 普通创建纹理数组方式
+    // let textures = [texture1, texture2, texture3, texture4]
+
+    // 创建纹理数组
+    let frames = su.filmstrip(imgUrl, 80, 143)
+    // 创建纹理数组2
+    // let frames2 = su.frames(imgUrl, [[0, 0], [80, 0], [160, 0], [240, 0]], 80, 143)
+    // 创建动画精灵
+    let pixie = new AnimatedSprite(frames)
+    // let pixie2 = new AnimatedSprite(frames2)
+    // 设置动画精灵的速度
+    pixie.animationSpeed = 0.1
+    // pixie2.animationSpeed = 0.2
+    // 把动画精灵添加到舞台
+    app.stage.addChild(pixie)
+    // 把动画精灵添加到舞台
+    // app.stage.addChild(pixie2)
+    // 开始播放动画精灵
+    pixie.play()
+    // pixie2.play()
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+@import "./common/base.styl"
+#app {
+  .main {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: url("../images/bg1.jpg") no-repeat center 0
+    .index-logo {
+      position: absolute;
+      right: 310px;
+      top: 225px;
+    }
+    .index-btn {
+      padding: 264px 400px 0;
+      .btn {
+        width: 438px;
+        height: 264px;
+        &.search {
+          background: url("../images/button-bg1.png") no-repeat 0 0
+        }
+        &.web {
+          background: url("../images/button-bg2.png") no-repeat 0 0
+        }
+        span {
+          font-size: 38px;
+          font-weight: bold;
+          color: #fff;
+          padding-top: 30px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市社会信用管理系统 [菜单]</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <script src="../js/lib/utils/velocity.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+
+  <!--self-->
+  <link rel="stylesheet" href="../styles/system.css">
+</head>
+<body>
+<div id="app" v-cloak>
+  <div class="main">
+    <v-header title @on-back="back" @on-home="backHome"></v-header>
+    <div class="content" flex="main:justify">
+      <div class="left">
+        <div class="top"><img src="../images/title.png" height="207" width="327" alt="title"/></div>
+        <div class="menu">
+          <div class="menu-scroll" :style="menuScroll">
+            <a :key="item.id" class="item" :class="{'active':activeIndex===index}" v-for="(item,index) in menuData"
+               :href="'./system.html?id='+item.id">
+              {{item.name}}
+            </a>
+          </div>
+        </div>
+        <div class="page">
+          <div class="prev" :class="{'disable':currentPage===0}" @click="currentPage=0">
+            <span>上一页</span>
+          </div>
+          <div class="next" :class="{'disable':currentPage===1}" @click="currentPage=1">
+            <span>下一页</span>
+          </div>
+        </div>
+      </div>
+      <!--右侧查询和列表项-->
+      <div class="right">
+        <!--由于每个菜单项都不同，这里需要分别编写，step可以共用-->
+        <!--企业信用等级查询-->
+        <v-steps :active="step" v-if="activeIndex===0">
+          <v-search-panel slot="step0" label="企业信用等级查询"
+                          @on-search="handleSearch" @on-level-click="handleLevelSearch">
+            <el-form :model="form0" label-width="300px" label-position="left">
+              <el-form-item label="名称:">
+                <el-input v-model="form0.name" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="工商注册号:">
+                <el-input v-model="form0.registration" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="统一社会信用代码:">
+                <el-input v-model="form0.unifiedCode" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="法人:">
+                <el-input v-model="form0.corporation" clearable></el-input>
+              </el-form-item>
+            </el-form>
+          </v-search-panel>
+          <v-table-panel slot="step1" label="企业信息查询" @on-back="step=0">
+            <div class="common-table min">
+              <el-table :data="tableData0" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <a href="#" @click.stop.prevent="getDetail0(scope.row)">{{ scope.row.name }}</a>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="registration" width="220" label="工商注册号"></el-table-column>
+                <el-table-column prop="corporation" width="130" label="法人"></el-table-column>
+                <el-table-column prop="level" width="130" label="信用等级"></el-table-column>
+              </el-table>
+            </div>
+            <div class="common-page" flex="main:right">
+              <div class="total">共{{total}}条记录&nbsp;&nbsp;第{{tablePage}}/{{totalPage}}页</div>
+              <el-pagination background layout="prev, pager, next"
+                             prev-text="上一页" next-text="下一页" @current-change="pageChange"
+                             :total="total" :current-page.sync="tablePage"></el-pagination>
+            </div>
+          </v-table-panel>
+          <v-table-panel slot="step2" :label="detail0.keyTable.name" @on-back="step=1">
+            <div class="key-table">
+              <table>
+                <tr>
+                  <td class="key">名称</td>
+                  <td>{{ detail0.keyTable.name }}</td>
+                  <td class="key">法定代表人</td>
+                  <td>{{ detail0.keyTable.corporation }}</td>
+                </tr>
+                <tr>
+                  <td class="key">注册资金</td>
+                  <td>{{ detail0.keyTable.regCapital }}</td>
+                  <td class="key">联系方式</td>
+                  <td>{{ detail0.keyTable.tel }}</td>
+                </tr>
+                <tr>
+                  <td class="key">开业时间</td>
+                  <td>{{ detail0.keyTable.date }}</td>
+                  <td class="key">经济性质</td>
+                  <td>{{ detail0.keyTable.economicNature }}</td>
+                </tr>
+                <tr>
+                  <td class="key">统一信用代码</td>
+                  <td>{{ detail0.keyTable.unifiedCode }}</td>
+                  <td class="key">工商注册号</td>
+                  <td>{{ detail0.keyTable.registration }}</td>
+                </tr>
+                <tr>
+                  <td class="key">地址</td>
+                  <td colspan="3">{{ detail0.keyTable.address }}</td>
+                </tr>
+                <tr>
+                  <td class="key">经营范围</td>
+                  <td colspan="3">{{ detail0.keyTable.scope }}</td>
+                </tr>
+                <tr>
+                  <td class="key">信用等级</td>
+                  <td colspan="3">{{ detail0.keyTable.level }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="title-info">正负面信息</div>
+            <div class="info-tab">
+              <span :class="{'active':infoTab===0}" @click="infoTab=0">正面信息 ({{ detail0.plusData.length }})</span>
+              <span :class="{'active':infoTab===1}" @click="infoTab=1">负面信息 ({{ detail0.minusData.length }})</span>
+            </div>
+            <!--正面信息-->
+            <div class="common-table" v-if="infoTab===0">
+              <el-table :data="detail0.plusData" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" width="300" label="描述" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="index" width="250" label="指标" show-overflow-tooltip></el-table-column>
+              </el-table>
+            </div>
+            <!--负面信息-->
+            <div class="common-table" v-if="infoTab===1">
+              <el-table :data="detail0.minusData" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" width="300" label="描述" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="index" width="250" label="指标" show-overflow-tooltip></el-table-column>
+              </el-table>
+            </div>
+          </v-table-panel>
+        </v-steps>
+        <!--个体工商户信用查询-->
+        <v-steps :active="step" v-if="activeIndex===1">
+          <v-table-panel slot="step0" label="个体工商户信用查询" no-back>
+            <div class="common-table min">
+              <el-table :data="tableData1" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <a href="#" @click.stop.prevent="getDetail0(scope.row)">{{ scope.row.name }}</a>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="registration" width="220" label="工商注册号"></el-table-column>
+                <el-table-column prop="corporation" width="130" label="法人"></el-table-column>
+                <el-table-column prop="level" width="130" label="信用等级"></el-table-column>
+              </el-table>
+            </div>
+            <div class="common-page" flex="main:right">
+              <div class="total">共{{total}}条记录&nbsp;&nbsp;第{{tablePage}}/{{totalPage}}页</div>
+              <el-pagination background layout="prev, pager, next"
+                             prev-text="上一页" next-text="下一页" @current-change="pageChange"
+                             :total="total" :current-page.sync="tablePage"></el-pagination>
+            </div>
+          </v-table-panel>
+        </v-steps>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../js/components/lib/header.min.js"></script>
+<script src="../js/components/lib/steps.min.js"></script>
+<script src="../js/components/lib/search-panel.min.js"></script>
+<script src="../js/components/lib/table-panel.min.js"></script>
+<script src="../js/mixin.js"></script>
+<script src="../js/lib/utils/mock.js"></script>
+<script src="../mock/main.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      return {
+        menuData: [
+          {id: '1', name: '企业信用等级查询'},
+          {id: '2', name: '个体工商户信用查询'},
+          {id: '3', name: '社会团体信息查询'},
+          {id: '4', name: '中介服务机构信息查询'},
+          {id: '5', name: '民办非企业信息查询'},
+          {id: '6', name: '重点人群信息查询'},
+          {id: '7', name: '社会法人黑名单'},
+          {id: '8', name: '自然人黑名单'},
+          {id: '9', name: '机关事业单位信息查询'},
+          {id: '10', name: '村居组织信息查询'}
+        ],
+        activeIndex: 0, // 选中菜单项索引
+        currentPage: 0, // 页数只有0 和 1
+        step: 0, // 步骤索引，0 ,1 ,2
+        total: 0,
+        tablePage: 1,
+        infoTab: 0, // 正负面信息公用值
+        form0: {
+          name: '',
+          registration: '',
+          unifiedCode: '',
+          corporation: ''
+        },
+        tableData0: [],
+        detail0: {
+          keyTable: {},
+          plusData: [],
+          minusData: []
+        },
+        tableData1: []
+      }
+    },
+    created: function () {
+      this.initData() //初始化数据
+    },
+    methods: {
+      // 根据选项菜单进行初始化内容
+      initData: function () {
+        // 获取浏览器的传入参数id来设置选中项
+        var id = this.getQueryString('id')
+        // 查找对应菜单
+        var itemIndex = this.menuData.findIndex(function (item) {
+          return item.id === id
+        })
+        if (itemIndex) {
+          this.activeIndex = itemIndex
+          this.currentPage = itemIndex > 4 ? 1 : 0
+        }
+        this.step = 0
+        this.infoTab = 0
+        console.log(this.current.name)
+        switch (this.current.name) {
+          case '个体工商户信用查询':
+            this.search1()
+            break
+        }
+      },
+      back: function () {
+        this.goTo('./menu.html')
+      },
+      backHome: function () {
+        this.goTo('./index.html')
+      },
+      handleSearch: function () {
+        this.$message('点击查询:' + this.current.name)
+        // 这里需要判断当前是哪个选项卡去查询不同的数据并塞入不同的tableData
+        this.search0()
+      },
+      handleLevelSearch: function (level) {
+        this.$message('查询 [' + this.current.name + '] 等级' + level)
+        this.search0()
+      },
+      pageChange: function () {
+        // 这里依然需要判断当前是哪个选项卡去查询不同的数据并塞入不同的tableData
+        switch (this.current.name) {
+          case '企业信用等级查询':
+            this.search0()
+            break
+          case '个体工商户信用查询':
+            this.search1()
+            break
+        }
+      },
+      // 企业信用等级查询
+      search0: function () {
+        var _self = this
+        this.getRequest('/tableData0', this.form0).then(function (response) {
+          _self.tableData0 = response.data.rows
+          _self.total = response.data.total
+          _self.step = 1
+        })
+      },
+      // 个体工商户信用查询
+      search1: function () {
+        var _self = this
+        this.getRequest('/tableData1', this.form0).then(function (response) {
+          _self.tableData1 = response.data.rows
+          _self.total = response.data.total
+          _self.step = 0
+        })
+      },
+      // 获取详情并跳转
+      getDetail0: function (item) {
+        var _self = this
+        this.$message('查询 [' + item.id + '] 详情')
+        // 需要根据item拼接查询参数
+        this.getRequest('/tableDetail0', {id: item.id}).then(function (response) {
+          console.log(response)
+          _self.detail0 = response.data
+          _self.infoTab = 0 // 默认显示正面信息
+          _self.step = 2 // 跳转到第二个
+        })
+      }
+    },
+    computed: {
+      menuScroll: function () {
+        if (this.currentPage === 0) {
+          return {transform: 'translateY(0)'}
+        } else {
+          return {transform: 'translateY(-50%)'}
+        }
+      },
+      // 当前的菜单数据
+      current: function () {
+        return this.menuData[this.activeIndex]
+      },
+      // 计算总页数
+      totalPage: function () {
+        return this.total % 10 === 0 ? this.total / 10 : ((this.total / 10) | 0) + 1
+      }
+    }
+  })
+</script>
+</body>
+</html>

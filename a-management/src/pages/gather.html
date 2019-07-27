@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>采集员页面</title><!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <script src="../js/lib/utils/velocity.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+  <!--自定义组件-->
+  <script src="../js/components/lib/v-scroll-wrapper.min.js"></script>
+  <script src="../js/components/lib/gather-menu.min.js"></script>
+  <script src="../js/components/lib/gather-title.min.js"></script>
+  <script src="../js/components/lib/gather-box.min.js"></script>
+  <link rel="stylesheet" href="../styles/gather.css">
+</head>
+<body>
+<div id="app" v-cloak flex="dir:top">
+  <div class="header">
+    <div class="header-inner" flex="main:justify">
+      <div class="logo"></div>
+      <div class="info" flex="cross:center">
+        <div class="user">用户昵称 , <a href="#">退出</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="main" flex-box="1">
+    <!--左侧导航栏-->
+    <v-scroll-wrapper custom-class="menu-wrap">
+      <gather-menu :data="menuData" @on-item-click="handleMenuClick"></gather-menu>
+    </v-scroll-wrapper>
+    <!--右侧列表-->
+    <v-scroll-wrapper custom-class="content-wrap" ref="scroll">
+      <collapse-transition>
+        <div v-show="expand">
+          <div class="top-card" flex="main:justify">
+            <div class="card card1">
+              <h2>目录数量</h2>
+              <p>28</p>
+            </div>
+            <div class="card card2">
+              <h2>数据总量</h2>
+              <p>2098</p>
+            </div>
+            <div class="card card3">
+              <h2>月数据填报数</h2>
+              <p>28</p>
+            </div>
+            <div class="card card4">
+              <h2>最新报送时间</h2>
+              <p>2019-06-04</p>
+            </div>
+          </div>
+        </div>
+      </collapse-transition>
+      <div class="search-bar" flex="main:center">
+        <div class="search">
+          <b-input placeholder="输入目录标题" v-model="filterText" @on-keyup.enter="onFilter">
+            <b-button type="primary" slot="suffix" v-waves @click="onFilter">搜索</b-button>
+          </b-input>
+        </div>
+        <div class="ctrl" flex="main:justify cross:center">
+          <div class="notice">
+            <b-badge :value="12" class="item">
+              <img src="../images/gather/icon1-notice@2x.png" height="28" width="28" alt="notice"/>
+            </b-badge>
+          </div>
+          <div class="pack-up" flex="cross:center" @click="expand=!expand"
+               :class="{'is-expand':expand}">
+            <img src="../images/gather/icon-tj@2x.png" height="25" width="25" alt="icon"/>
+            <span>{{ expand?'收起':'展开' }}</span>
+            <img class="arrow" src="../images/gather/icon-down@2x.png" height="11" width="11" alt="up"/>
+          </div>
+        </div>
+      </div>
+      <gather-title label="常用目录"></gather-title>
+      <gather-box :data="filterCommon"></gather-box>
+      <!--循环遍历标题和数组-->
+      <div v-for="menu in filterData" :key="menu.menuId">
+        <gather-title :label="menu.menuName" :id="menu.menuId"></gather-title>
+        <gather-box :data="menu.data" v-if="menu.data&&menu.data.length>0"></gather-box>
+        <!--判断是否有子节点-->
+        <template v-if="menu.child&&menu.child.length>0">
+          <div v-for="child in menu.child" :key="child.menuId">
+            <gather-title :label="child.menuName" child :id="child.menuId"></gather-title>
+            <gather-box :data="child.data" v-if="child.data&&child.data.length>0"></gather-box>
+          </div>
+        </template>
+      </div>
+
+      <b-back-top :right="15"></b-back-top>
+    </v-scroll-wrapper>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        expand: true,
+        filterText: '',
+        query: '',
+        commonMenu: [
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '大数据图表',
+            resourceDesc: '这是目录说明',
+            count: 40,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: false,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '自然人基础数据',
+            resourceDesc: '这是目录说明',
+            count: 80,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: true,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '大数据图表',
+            resourceDesc: '这是目录说明',
+            count: 40,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: false,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '自然人基础数据',
+            resourceDesc: '这是目录说明',
+            count: 80,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: true,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '大数据图表',
+            resourceDesc: '这是目录说明',
+            count: 40,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: false,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '自然人基础数据',
+            resourceDesc: '这是目录说明',
+            count: 80,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: true,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '大数据图表',
+            resourceDesc: '这是目录说明',
+            count: 40,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: false,
+            tempId: ''
+          },
+          {
+            resourceId: 'DIR-20180123-104201-942',
+            resourceName: '自然人基础数据',
+            resourceDesc: '这是目录说明',
+            count: 80,
+            gatherDate: '2019-01-01 17:25:50',
+            fill: true,
+            tempId: ''
+          }
+        ],
+        menuData: [
+          {
+            menuId: '1',
+            menuName: '自然人信息采集',
+            data: [
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              }
+            ]
+          },
+          {
+            menuId: '2',
+            menuName: '法人信息采集',
+            data: [
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              }
+            ],
+            child: [
+              {
+                menuId: '2-1',
+                menuName: '测试',
+                data: [
+                  {
+                    resourceId: 'DIR-20180123-104201-942',
+                    resourceName: '大数据图表',
+                    resourceDesc: '这是目录说明',
+                    count: 40,
+                    gatherDate: '2019-01-01 17:25:50',
+                    fill: false,
+                    tempId: ''
+                  },
+                  {
+                    resourceId: 'DIR-20180123-104201-942',
+                    resourceName: '自然人基础数据',
+                    resourceDesc: '这是目录说明',
+                    count: 80,
+                    gatherDate: '2019-01-01 17:25:50',
+                    fill: true,
+                    tempId: ''
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            menuId: '3',
+            menuName: '其他信息采集',
+            data: [
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '大数据图表',
+                resourceDesc: '这是目录说明',
+                count: 40,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: false,
+                tempId: ''
+              },
+              {
+                resourceId: 'DIR-20180123-104201-942',
+                resourceName: '自然人基础数据',
+                resourceDesc: '这是目录说明',
+                count: 80,
+                gatherDate: '2019-01-01 17:25:50',
+                fill: true,
+                tempId: ''
+              }
+            ]
+          }
+        ]
+      }
+    },
+    mounted () {
+      // 如果父级是自定义滚动则绑定滚动为父级元素dom
+      this.domEl = this.$refs.scroll.$el.querySelector('.bin-scrollbar__wrap')
+    },
+    methods: {
+      handleMenuClick: function (item) {
+        var dom = document.getElementById(item.menuId)
+        this.scrollTo(dom.offsetTop)
+      },
+      onFilter: function () {
+        this.query = this.filterText
+      },
+      scrollTo: function (to) {
+        var sTop = this.domEl.pageYOffset || this.domEl.scrollTop
+        this.$scrollTop(this.domEl, sTop, to, 1000)
+      }
+    },
+    computed: {
+      filterCommon: function () {
+        var _self = this
+        var newData = JSON.parse(JSON.stringify(this.commonMenu))
+        newData = newData.filter(function (item) {
+          return item.resourceName.indexOf(_self.query) > -1
+        })
+        return newData
+      },
+      filterData: function () {
+        var _self = this
+        var newData = JSON.parse(JSON.stringify(this.menuData))
+        newData.forEach(function (menu) {
+          menu.data = menu.data.filter(function (item) {
+            return item.resourceName.indexOf(_self.query) > -1
+          })
+          if (menu.child && menu.child.length > 0) {
+            menu.child.forEach(function (child) {
+              child.data = child.data.filter(function (item) {
+                return item.resourceName.indexOf(_self.query) > -1
+              })
+            })
+          }
+        })
+        return newData
+      }
+    }
+  })
+</script>
+</body>
+</html>

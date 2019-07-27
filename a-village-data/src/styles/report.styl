@@ -1,0 +1,108 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+  .main {
+    width: 100%;
+    height: 100%;
+    .wrapper {
+      .box-card {
+        margin-bottom: 20px;
+      }
+      .top-wrap {
+        padding: 20px;
+        .left {
+          width: 60%;
+          h2 {
+            font-weight: 500;
+            font-size: 28px;
+            margin: 10px 0;
+          }
+        }
+        .right {
+          .data {
+            position: relative;
+            text-align: center;
+            &:after {
+              content: ''
+              position: absolute;
+              top: 10px;
+              bottom: 10px;
+              right: 0;
+              width: 1px;
+              background-color: #d8d8d8;
+            }
+            &:last-child {
+              &:after {
+                display: none;
+              }
+            }
+            p {
+              color: #8e8e8e;
+              strong {
+                font-size: 26px;
+                font-weight: normal;
+                color: #333;
+              }
+            }
+          }
+        }
+      }
+      .rank-title {
+        margin-bottom: 0;
+      }
+      .proportion-wrap {
+        margin-top: 20px;
+        .box-card {
+          width: 32.5%;
+          .top-wrap {
+            padding: 0;
+            .left {
+              width: 60%;
+              h2 {
+                font-weight: 600;
+                font-size: 14px;
+                margin: 10px 0;
+              }
+              p {
+                font-size: 12px;
+              }
+              h5 {
+                font-size: 20px;
+                margin: 0;
+              }
+            }
+            .right {
+              h5 {
+                font-weight: normal;
+                font-size: 20px;
+                margin: 0;
+              }
+            }
+          }
+        }
+      }
+      .info-list {
+        li {
+          &:nth-child(odd) {
+            background-color: #f9f9f9;
+          }
+          &:first-child {
+            background-color: #f3faff;
+            font-weight: bold;
+          }
+          span {
+            padding-left: 30px;
+            line-height: 40px;
+            &:last-child {
+              width: 100px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.main .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}

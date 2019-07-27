@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市社会信用管理系统</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <script src="../js/lib/utils/velocity.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <!--<link rel="stylesheet" href="src/js/lib/element-ui@2.9.1/index.css">-->
+  <!--<script src="src/js/lib/element-ui@2.9.1/index.js"></script>-->
+  <!--bin-ui@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+<div id="app">
+  <div class="main">
+    <div class="index-header"><img src="../images/header.png" height="189" width="1920" alt="header"/></div>
+    <div class="index-logo"><img src="../images/slogan.png" height="128" width="500" alt="slogan"/></div>
+    <div class="index-btn" flex="main:justify">
+      <a href="./menu.html" class="btn search" flex="dir:top main:center cross:center">
+        <img src="../images/button-icon1.png" height="100" width="100"/>
+        <span>信用查询系统</span>
+      </a>
+      <a href="https://www.rccredit.gov.cn/" class="btn web" target="_blank" flex="dir:top main:center cross:center">
+        <img src="../images/button-icon2.png" height="100" width="100"/>
+        <span>信用荣成网站</span>
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {}
+    }
+  })
+</script>
+</body>
+</html>

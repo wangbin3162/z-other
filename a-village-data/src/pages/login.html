@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登录页面</title>
+  <!--required-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/axios.min.js"></script>
+  <!--css-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.7.0/index.css">
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <!--ui components-->
+  <script src="../js/lib/element-ui@2.7.0/index.js"></script>
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+<div id="app" v-cloak>
+  <div class="logo"><img src="../images/logo@2x.png" height="53" width="227"/></div>
+  <b-alert type="error" closable style="width:800px;margin: 0 auto;">登录失败</b-alert>
+  <div class="form-box">
+    <h1>系统管理平台<span>1.0</span></h1>
+    <el-form @submit.navite="submitForm"
+        :model="loginForm" ref="ruleForm" label-width="0" class="demo-ruleForm">
+      <el-form-item label="账号" prop="name">
+        <el-input v-model="loginForm.name" placeholder="请输入账号" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="loginForm.password" placeholder="请输入密码" clearable type="password"></el-input>
+      </el-form-item>
+      <el-form-item label="验证码" prop="yanzhengma">
+        <el-input placeholder="请输入右图验证码" v-model="loginForm.yanzhengma" class="input-with-select">
+          <template slot="append">
+            <span>
+              <img src="../images/icon_people@2x.png">
+            </span>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" native-type="submit"
+                   style="width:100%;">登录</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+  <div class="footer">
+    <p>金碟软件 ALL RIGHTS RESERVED</p>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data () {
+      return {
+        loginForm: {
+          name: '',
+          password: '',
+          yanzhengma: ''
+        },
+        yanzhengma: 'smgs'
+      }
+    },
+    methods: {
+      submitForm: function () {
+        this.$message({type:'danger',content:'提交错误'})
+      }
+    }
+  })
+</script>
+</body>
+</html>

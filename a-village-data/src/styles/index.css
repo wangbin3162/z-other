@@ -1,0 +1,170 @@
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f7f7;
+}
+#app .header {
+  padding: 5px 20px;
+  background-color: #fff;
+}
+#app .header .logo {
+  display: inline-block;
+  vertical-align: middle;
+  width: 60px;
+  height: 100%;
+}
+#app .header .logo img {
+  width: 100%;
+}
+#app .header .header-tip img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+#app .header .bin-tooltip-inner {
+  padding: 12px 20px;
+  border-radius: 10px;
+}
+#app .main {
+  height: 100%;
+  overflow: hidden;
+}
+#app .main .inner {
+  min-width: 1200px;
+  height: 100%;
+  overflow: hidden;
+}
+#app .main .inner .wrapper .top-box {
+  margin-bottom: 20px;
+}
+#app .main .inner .wrapper .top-box .box-card {
+  width: 24%;
+  color: #fff;
+}
+#app .main .inner .wrapper .top-box .box-card .card-item {
+  padding-left: 84px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+#app .main .inner .wrapper .top-box .box-card .card-item.people {
+  background-image: url("../images/icon_people@2x.png");
+}
+#app .main .inner .wrapper .top-box .box-card .card-item.message {
+  background-image: url("../images/icon_message@2x.png");
+}
+#app .main .inner .wrapper .top-box .box-card .card-item.case {
+  background-image: url("../images/icon_case@2x.png");
+}
+#app .main .inner .wrapper .top-box .box-card .card-item.reward {
+  background-image: url("../images/icon_reward@2x.png");
+}
+#app .main .inner .wrapper .top-box .box-card .card-item h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+}
+#app .main .inner .wrapper .top-box .box-card .card-item h2 {
+  position: relative;
+  margin: 0;
+  font-size: 32px;
+  padding: 5px 0;
+  font-weight: 500;
+}
+#app .main .inner .wrapper .top-box .box-card .card-item h2:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-bottom: -4px;
+  width: 40px;
+  height: 2px;
+  background-color: #fff;
+}
+#app .main .inner .wrapper .top-box .box-card .card-item p {
+  margin: 0;
+  padding-top: 20px;
+  font-size: 14px;
+}
+#app .main .inner .wrapper .center {
+  margin-bottom: 20px;
+}
+#app .main .inner .wrapper .center .rank .tab {
+  background-color: #f7f7f7;
+  font-size: 0;
+}
+#app .main .inner .wrapper .center .rank .tab span {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #999;
+  transition: color 0.35s;
+}
+#app .main .inner .wrapper .center .rank .tab span.active {
+  position: relative;
+  color: #666;
+}
+#app .main .inner .wrapper .center .rank .tab span.active:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background-color: #2d8cf0;
+}
+.rank-box {
+  margin: 20px;
+  height: 400px;
+  overflow: hidden;
+}
+.rank-box .item {
+  width: 100%;
+  margin: 0;
+  padding: 0 30px;
+  box-sizing: border-box;
+  line-height: 40px;
+  color: #5e6d82;
+}
+.rank-box .item span {
+  font-size: 15px;
+}
+.rank-box .item span.top {
+  color: #0a98e4;
+}
+.rank-box .item span:first-child {
+  width: 50px;
+}
+.rank-box .item span:last-child {
+  width: 60px;
+}
+.header .el-cascader__label {
+  padding: 0 25px 0 5px;
+  color: #60b8f6;
+}
+.header .el-input__inner {
+  border: none;
+}
+.header .el-input__suffix {
+  display: none;
+}
+.main .inner .bin-scrollbar__wrap,
+.rank-box-wrap .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.bin-card.box-card .bin-card__header.has-tip {
+  position: relative;
+  font-size: 16px;
+  font-weight: 500;
+}
+.bin-card.rank .bin-card__body {
+  padding: 0;
+}
+.bin-divider,
+.bin-divider-vertical {
+  height: 1.2em;
+  width: 1px;
+  vertical-align: top;
+  top: 10px;
+  background: #afb1b3;
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>新云信用信息管理平台</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <script src="../js/lib/utils/velocity.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <!--<link rel="stylesheet" href="src/js/lib/element-ui@2.9.1/index.css">-->
+  <!--<script src="src/js/lib/element-ui@2.9.1/index.js"></script>-->
+  <!--bin-ui@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+  <!--自定义组件-->
+  <link rel="stylesheet" href="../styles/components/header.css">
+  <link rel="stylesheet" href="../styles/components/footer.css">
+  <script src="../js/components/v-header.js"></script>
+  <script src="../js/components/v-footer.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+<div id="app" v-cloak>
+  <!--header-->
+  <v-header></v-header>
+  <div class="main">
+    <!--查询-->
+    <div class="search-wrapper">
+      <div class="inner">
+        <div class="title">新云信用综合查询</div>
+        <div class="search-box">
+          <div class="tab" :class="'active'+searchType" flex>
+            <span :class="{'active':searchType===0}" @click="searchType=0">法人信用查询</span>
+            <span :class="{'active':searchType===1}" @click="searchType=1">个人信用查询</span>
+          </div>
+          <template class="search-input" v-for="(item,idx) in searchQuery" :key="idx">
+            <div class="search" v-show="searchType===item.type" flex>
+              <label flex-box="1">
+                <input type="text" v-model="item.query" :placeholder="item.placeholder"
+                       @keyup.enter="handleSearch(item)">
+              </label>
+              <span class="btn-search" @click="handleSearch(item)" v-waves>查询</span>
+            </div>
+          </template>
+          <div class="tip">
+            查看自然人、法人信用档案
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--区块-->
+    <div class="center-wrapper">
+      <div class="collect">
+        <transition name="fade-in-linear">
+          <div v-show="collectOpened" class="panel" flex="dir:top">
+            <a href="#">数据采集</a>
+            <a href="#">联合奖惩</a>
+            <a href="#">数据目录平台</a>
+            <span class="add"></span>
+          </div>
+        </transition>
+        <div class="btn" @click="collectOpened=!collectOpened">常用</div>
+      </div>
+      <div class="inner" flex="main:justify">
+        <div class="left">
+          <!--数据应用平台-->
+          <div class="block block1">
+            <div class="block-info">
+              <div class="title">数据应用平台</div>
+              <div class="title-small">DATA APPLICATION PLATFORM</div>
+              <div class="check" v-waves>查看</div>
+            </div>
+          </div>
+          <!--信用管理平台-->
+          <div class="block block2">
+            <div class="block-info">
+              <div class="title">信用管理平台</div>
+              <div class="title-small">DATA APPLICATION PLATFORM</div>
+              <div class="check" v-waves>查看</div>
+            </div>
+          </div>
+        </div>
+        <div class="center">
+          <div class="block3" flex="main:justify">
+            <a href="#" class="card1">
+              <img src="../images/home/icon-4@2x.png" height="64" width="64" alt="icon"/>
+              <span>联合奖惩系统</span>
+            </a>
+            <div flex="dir:top main:justify">
+              <a href="./gather.html" class="card2">
+                <img src="../images/home/icon-5@2x.png" height="64" width="64" alt="icon"/>
+                <span>数据采集系统</span>
+              </a>
+              <a href="#" class="card3">
+                <img src="../images/home/icon-6@2x.png" height="64" width="64" alt="icon"/>
+                <span>数据目录平台</span>
+              </a>
+            </div>
+          </div>
+          <!--专项应用系统-->
+          <div class="block block4">
+            <div class="block-info">
+              <div class="title">专项应用系统</div>
+              <div class="title-small">DATA APPLICATION PLATFORM</div>
+              <div class="check" v-waves>查看</div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="block block5">
+            <div class="news">
+              <div class="title" flex="main:justify">
+                <span class="label">通知公告</span>
+                <span class="more">MORE></span>
+              </div>
+              <div class="ul">
+                <a href="./record.html">
+                  <span t-ellipsis>公告展示001公告展示001公告展示001公告展示001公告展示001</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>公告展示001公告展示001公告展示001公告展示001公告展示001</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>公告展示001公告展示001公告展示001公告展示001公告展示001</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>公告展示001公告展示001公告展示001公告展示001公告展示001</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="block block6">
+            <div class="news">
+              <div class="title" flex="main:justify">
+                <span class="label">政策法规</span>
+                <span class="more">MORE></span>
+              </div>
+              <div class="ul">
+                <a href="#">
+                  <span t-ellipsis>解读《关于进一步加强科研诚信建设的盐城新撒旦法奇偶》</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>《严重违法失信企业名单管理暂行办法》</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>解读《关于进一步加强科研诚信建设的盐城新撒旦法奇偶》</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>解读《关于进一步加强科研诚信建设的盐城新撒旦法奇偶》</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+                <a href="#">
+                  <span t-ellipsis>解读《关于进一步加强科研诚信建设的盐城新撒旦法奇偶》</span>
+                  <span class="date">2019-06-05</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <v-footer></v-footer>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        searchType: 0,
+        searchQuery: [
+          {
+            type: 0,
+            query: '',
+            placeholder: '请输入 企业名称 工商注册号 组织机构代码等',
+            searchUrl: '',
+            param: 'legal'
+          },
+          {
+            type: 1,
+            query: '',
+            placeholder: '请输入姓名 身份证号等',
+            searchUrl: '',
+            param: 'person'
+          }
+        ],
+        collectOpened: false
+      }
+    },
+    methods: {
+      handleSearch: function (item) {
+        this.$message('查询' + item.query)
+        this.$print(item)
+      }
+    }
+  })
+</script>
+</body>
+</html>

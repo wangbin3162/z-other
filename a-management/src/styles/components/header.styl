@@ -1,0 +1,59 @@
+.v-header {
+  .header-inner {
+    width: 1300px;
+    height: 90px;
+    line-height: 90px;
+    margin: 0 auto;
+  }
+  .logo {
+    width: 340px;
+    height: 90px;
+    background: url("../../images/home/logo@2x.png") no-repeat 0 0;
+
+  }
+  .info {
+    user-select: none;
+    .user, .btn, .sys {
+      height: 34px;
+      line-height: 34px;
+    }
+    .user {
+      font-size: 16px;
+      padding: 0 30px;
+      background: url("../../images/home/ixon-user@2x.png") no-repeat 0 9px;
+    }
+    .btn {
+      font-size: 0;
+      .logout, .password {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        height: 34px;
+        line-height: 34px;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 0 20px;
+        background-color: #1badf8;
+        color: #fff;
+        border-radius: 17px;
+      }
+      .password {
+        margin: 0 26px 0 14px;
+        background-color: #36d8da;
+      }
+    }
+    .sys {
+      border-left: 1px solid #eee;
+      padding-left: 26px;
+      .sys-btn {
+        display: inline-block;
+        height: 34px;
+        line-height: 34px;
+        cursor: pointer;
+        font-size: 16px;
+        padding-left: 44px;
+        background: url("../../images/home/icon-manage@2x.png") no-repeat 0 2px;
+      }
+    }
+  }
+}

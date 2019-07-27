@@ -1,0 +1,26 @@
+.v-title.bordered {
+  border-bottom: 1px solid #eee;
+}
+.v-title .title-inner {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  color: #333;
+}
+.v-title .line-left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -5px;
+  width: 2px;
+  height: 10px;
+  background-color: #2d8cf0;
+}
+.v-title .line-bottom {
+  position: absolute;
+  border-bottom: 3px solid #2d8cf0;
+  left: 0;
+  bottom: 0;
+  margin-bottom: -2px;
+  width: 100%;
+}

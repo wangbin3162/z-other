@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市区块链政务诚信考核系统</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.5@1.4.5-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <link rel="stylesheet" href="../js/lib/echarts/v-charts/style.min.css">
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/echarts/extension/bmap.min.js"></script>
+  <script src="../js/lib/echarts/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/screen.css">
+  <script src="../js/lib/utils/mock.js"></script>
+  <script src="../mock/main.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <b-scrollbar style="height: 100%;" normal>
+    <div class="screen-wrapper lhjc" flex="dir:top">
+      <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市区块链政务诚信</v-header>
+      <div class="main" flex-box="1" flex>
+        <!--这里嵌套那个谁说的iframe^_^-->
+      </div>
+    </div>
+    <!--介绍弹窗-->
+    <b-drawer v-model="recommend" fullscreen footer-hide>
+      <div slot="header" class="recommend-header">
+        荣成市区块链政务诚信考核系统
+        <img @click="recommend=false" src="../images/icon-close.png" height="56" width="56" alt="close"/>
+      </div>
+      <div class="recommend-content" flex="main:justify">
+        <div class="left">
+          <div v-for="item in recData" :key="item.id" class="item"
+               :class="{'active':item.id===recActive}"
+               @click="recommendClick(item)">
+            {{item.name}}
+          </div>
+        </div>
+        <div class="right">
+          <b-scrollbar style="height:100%;" always ref="scroll">
+            <div class="inner">
+              <!--两种类型的box-->
+              <!--这里每个都不同，所以只能写死-->
+              <!--社会信用系统介绍-->
+              <div class="box">
+                <h2 :id="recData[0].id">{{recData[0].name}}</h2>
+                <div flex>
+                  <div class="section">
+                    <p> 荣成市政务诚信考核系统，不但提高政务诚信考核效率，还使考核过程公开透明、随时可查、报表多元化体现，考核结果真实可信，无法随意篡改，使政府工作目标明确，少走弯路。</p>
+                    <p>
+                      该系统需面向政府线下209个部门、国企公司和26个区域街道进行考核，负责考核的部门有26家。政务诚信考核判分的线上化、报表数据的多样化，判分数据的真实性、准确性，且不可篡改。系统引进区块链技术来监控系统的核心考核数据，防止政务诚信考核分数篡改，确保数据正确。</p>
+                    <p>
+                      荣成市政务诚信考核系统项目是荣成市政务诚信考核体系建设的重要平台。致力于加快政府对各部门的监管效率、问题发现效率、问题处理效率。并在一定程度上杜绝部分部门工作不作为现象。让各政府各部门工作成绩一目了然。根据数据分析出可能存在的问题与风险，提前做好预防工作，为政府工作指明方向。也可让各部门人员第一时间了解自身不足与工作问题，更迅速的加以改正，一切问题公开透明化。
+                    </p>
+                  </div>
+                  <div class="bg"><img src="../images/recommend/pic-1.png" height="767" width="482" alt="pic1"/></div>
+                </div>
+              </div>
+              <!--系统应用架构图-->
+              <div class="box">
+                <h2 :id="recData[1].id">{{recData[1].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-1.png" alt="pic-4-1"/></div>
+              </div>
+              <div class="box">
+                <h2 :id="recData[2].id">{{recData[2].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-2.png" alt="pic-4-2"/></div>
+              </div>
+              <div class="box">
+                <h2 :id="recData[3].id">{{recData[3].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-3.png" alt="pic-4-3"/></div>
+              </div>
+              <div class="box">
+                <h2 :id="recData[4].id">{{recData[4].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-4.png" alt="pic-4-4"/></div>
+              </div>
+              <div class="box">
+                <h2 :id="recData[5].id">{{recData[5].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-5.png" alt="pic-4-5"/></div>
+              </div>
+              <div class="box">
+                <h2 :id="recData[6].id">{{recData[6].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-4-6.png" alt="pic-4-6"/></div>
+              </div>
+            </div>
+          </b-scrollbar>
+        </div>
+      </div>
+    </b-drawer>
+  </b-scrollbar>
+</div>
+<script src="../js/components/v-header.js"></script>
+<script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-select.js"></script>
+<script src="../js/components/v-chart-bar.js"></script>
+<script src="../js/mixin.js"></script>
+<script>
+  new Vue({
+    mixins: [mixin],
+    data: function () {
+      return {
+        recommend: true,
+        recData: [
+          {id: 'r1', name: '政务诚信系统介绍'},
+          {id: 'r2', name: '区块链政务应用架构图'},
+          {id: 'r3', name: '区块链数据记录方式'},
+          {id: 'r4', name: '数据中心运营机制'},
+          {id: 'r5', name: '安全系统框架图'},
+          {id: 'r6', name: '政务诚信系统架构'},
+          {id: 'r7', name: '数据业务层架构'}
+        ],
+        recActive: 'r1'
+      }
+    },
+    created: function () {
+    },
+    methods: {
+      // 详情切换事件
+      recommendClick: function (item) {
+        if (this.recActive !== item.id) {
+          this.recActive = item.id
+        }
+        var dom = document.getElementById(item.id)
+        if (dom) {
+          this.scrollTo(dom.offsetTop)
+        }
+      },
+      scrollTo: function (to) {
+        // 如果父级是自定义滚动则绑定滚动为父级元素dom
+        if (!this.domEl) {
+          this.domEl = this.$refs.scroll.$el.querySelector('.bin-scrollbar__wrap')
+        }
+        var sTop = this.domEl.pageYOffset || this.domEl.scrollTop
+        this.$scrollTop(this.domEl, sTop, to, 1000)
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>荣成市联合奖惩应用分析平台</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
+  <script src="../js/lib/element-ui@2.9.1/index.js"></script>
+  <!--bin-ui@1.4.5@1.4.5-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <!--charts-->
+  <link rel="stylesheet" href="../js/lib/echarts/v-charts/style.min.css">
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/echarts/extension/bmap.min.js"></script>
+  <script src="../js/lib/echarts/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/screen.css">
+  <script src="../js/lib/utils/mock.js"></script>
+  <script src="../mock/main.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <b-scrollbar style="height: 100%;" normal>
+    <div class="screen-wrapper lhjc" flex="dir:top">
+      <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市联合奖惩应用分析平台</v-header>
+      <div class="main" flex-box="1" flex>
+        <div class="left">
+          <v-block label="数据归集情况">
+            <div class="block1 lhjc">
+              <div class="top" flex>
+                <img src="../images/icon3.png" height="72" width="72"/>
+                <div class="count">
+                  <p>入库数据总数</p>
+                  <h4><span>656.6</span>万条</h4>
+                </div>
+              </div>
+              <div flex="main:justify">
+                <div class="box">
+                  <span class="color">备忘录总数</span><span class="color fs16">38条</span>
+                </div>
+                <div class="box">
+                  <span class="fs16">12条</span><span>奖励</span>
+                </div>
+                <div class="box">
+                  <span class="fs16">26条</span><span>惩戒</span>
+                </div>
+              </div>
+              <div class="chart" flex="box:mean">
+                <div>
+                  <b-circle :percent="70" :size="85" stroke-color="#f03f58" trail-color="#394760">
+                    <p>奖惩措施</p>
+                    <span style="font-size:26px;">318</span>条
+                  </b-circle>
+                  <p>奖励：216条</p>
+                  <p>惩戒：102条</p>
+                </div>
+                <div>
+                  <b-circle :percent="55" :size="85" stroke-color="#ffa63d" trail-color="#394760">
+                    <p>奖惩措施</p>
+                    <span style="font-size:26px;">238</span>条
+                  </b-circle>
+                  <p>奖励：216条</p>
+                  <p>惩戒：102条</p>
+                </div>
+                <div>
+                  <b-circle :percent="37" :size="85" stroke-color="#00d98b" trail-color="#394760">
+                    <p>奖惩措施</p>
+                    <span style="font-size:26px;">338</span>条
+                  </b-circle>
+                  <p>奖励：216条</p>
+                  <p>惩戒：102条</p>
+                </div>
+                <div>
+                  <b-circle :percent="43" :size="85" stroke-color="#0097c7" trail-color="#394760">
+                    <p>奖惩措施</p>
+                    <span style="font-size:24px;">212</span>条
+                  </b-circle>
+                  <p>奖励：216条</p>
+                  <p>惩戒：102条</p>
+                </div>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="惩戒激励数据来源统计">
+            <div class="block-ring">
+              <div class="ring" flex="main:justify">
+                <ve-ring :data="jlData" :extend="ringExtend" width="170px" height="170px" :colors="colors"
+                         :tooltip-visible="false" :legend-visible="false"></ve-ring>
+
+                <ve-ring :data="cjData" :extend="ringExtend" width="170px" height="170px" :colors="colors"
+                         :tooltip-visible="false" :legend-visible="false"></ve-ring>
+              </div>
+              <div class="label l1">激励数据来源</div>
+              <div class="label l2">惩戒数据来源</div>
+              <div class="legend">
+                <span v-for="(item,index) in jlData.rows" class="item">
+                  <i :style="{backgroundColor:colors[index]}"></i><span>{{item.dept}}</span>
+                </span>
+              </div>
+            </div>
+          </v-block>
+          <v-block label="奖励激励记录数据变化趋势">
+            <div slot="header">
+              <div class="line-tab">
+                <span :class="{'active':lineQuery==='day'}" @click="changeType('day')">按日统计</span>
+                <span :class="{'active':lineQuery==='month'}" @click="changeType('month')">按月统计</span>
+              </div>
+            </div>
+            <ve-line :data="lineData" :tooltip-visible="false" height="220px" :colors="['#1E74C9','#a668f7']"
+                     :extend="lineExtend" :settings="lineSettings"></ve-line>
+          </v-block>
+        </div>
+        <div class="center" flex-box="1">
+          <div>联合奖惩</div>
+        </div>
+        <div class="right">
+          <v-block label="各部门执行数量排名">
+            <div>
+              <v-chart-bar :data="deptRankFormat" :max-length="10"
+                           hide-value bg-color="#232e4c" name-color="#556490"></v-chart-bar>
+            </div>
+          </v-block>
+          <v-block label="名单数量排名">
+            <div>
+              <v-chart-bar :data="nameRankFormat" :max-length="10" bar-color="#bc7efc"
+                           hide-value bg-color="#232e4c" name-color="#556490"></v-chart-bar>
+            </div>
+          </v-block>
+          <v-block label="处置措施Top10">
+            <div class="block-dispose">
+              <v-chart-bar :data="disposeRankFormat" :max-length="10" bar-color="#F3E491" left-show
+                           hide-index></v-chart-bar>
+            </div>
+          </v-block>
+        </div>
+      </div>
+    </div>
+    <!--介绍弹窗-->
+    <b-drawer v-model="recommend" fullscreen footer-hide>
+      <div slot="header" class="recommend-header">
+        荣成市联合奖惩应用分析平台
+        <img @click="recommend=false" src="../images/icon-close.png" height="56" width="56" alt="close"/>
+      </div>
+      <div class="recommend-content" flex="main:justify">
+        <div class="left">
+          <div v-for="item in recData" :key="item.id" class="item"
+               :class="{'active':item.id===recActive}"
+               @click="recommendClick(item)">
+            {{item.name}}
+          </div>
+        </div>
+        <div class="right">
+          <b-scrollbar style="height:100%;" always ref="scroll">
+            <div class="inner">
+              <!--两种类型的box-->
+              <!--这里每个都不同，所以只能写死-->
+              <!--社会信用系统介绍-->
+              <div class="box">
+                <h2 :id="recData[0].id">{{recData[0].name}}</h2>
+                <div flex>
+                  <div class="section">
+                    <p>
+                      荣成市按照“三库一网一平台 +N 应用”的模式建设了社会信用管理平台，包含自然人信用数据库、
+                      企业信用数据库、信用荣成门户网站、公共信用信息管理平台、政务诚信管理系统、村居组织信用管理系统、市场主体信用管理系统、信用大数据分析系统、自助服务终端等。系统归集了荣成市 140
+                      多个单位掌握的信用信息，实现了信用主体全覆盖，为政府监管、经济发展提供有利支撑，同时结合各项信用应用功能为荣成信用管理体系和理论的实践提供有效的支撑。
+                    </p>
+                    <p>
+                      荣成市奖惩并举，通过信用平台实现规范化的信用信息应用。该市将信用等级分为AAA 诚信模范、AA诚信优秀、A诚信、B 较诚信、C 诚信警示、D
+                      不诚信六个级别，根据信用主体的信用评估报告，依法在各类社会管理活动中给予激励或约束，在全社会形成“守信路路畅通、失信处处受制”的局面。通过建设政务、村居组织等信用管理系统，加强在专项领域的信用监管，辅助综合执法，创新性开展社会治理工作。为优化营商环境，荣成建设市场主体信用管理系统，借助移动
+                      APP，将执法巡查、信用二维码、商户消费者互评、综合监管实现便捷应用，有效提升全市营商投资环境；通过接入第三方资源，如：政府资源、商业资源、医疗资源等构建“信用骑”、“信用医”、“信用贷”等一系列便民惠企措施，设立自助信用报告打印机提升便民服务体验，从信用惠民应用的广度和细节上让每一位守信市民享受到更好的信用生活。
+                    </p>
+                  </div>
+                  <div class="bg"><img src="../images/recommend/pic-1.png" height="767" width="482" alt="pic1"/></div>
+                </div>
+              </div>
+              <!--系统应用架构图-->
+              <div class="box bg">
+                <h2 :id="recData[1].id">{{recData[1].name}}</h2>
+                <div class="img"><img src="../images/recommend/pic-2.png" alt="pic2"/></div>
+              </div>
+            </div>
+          </b-scrollbar>
+        </div>
+      </div>
+    </b-drawer>
+  </b-scrollbar>
+</div>
+<script src="../js/components/v-header.js"></script>
+<script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-select.js"></script>
+<script src="../js/components/v-chart-bar.js"></script>
+<script src="../js/mixin.js"></script>
+<script>
+  new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.colors = [
+        '#ffea68', '#01c9fd', '#ff8f5f', '#6fc36f',
+        '#fc5976', '#ae74f3', '#ff7391', '#ffb759',
+        '#4c83ff', '#60daab']
+      this.ringExtend = {
+        legend: {show: false},
+        series: {
+          center: ['50%', '50%'],
+          radius: [40, 75],
+          hoverAnimation: false,
+          label: {
+            position: 'inside',
+            formatter: '{c}'
+          }
+        }
+      }
+      this.lineSettings = {
+        labelMap: {
+          stimulate: '激励',
+          punish: '惩戒'
+        }
+      }
+      this.lineExtend = {
+        grid: {
+          top: 20,
+          bottom: 25
+        },
+        legend: {
+          bottom: 0,
+          textStyle: {
+            color: '#526394'
+          },
+          icon: 'roundRect',
+          itemWidth: 10,
+          itemHeight: 7
+        },
+        xAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {color: '#325a88'}
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            interval: 0,
+            fontSize: 10
+          }
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {color: '#325a88'}
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {color: '#072646'}
+          }
+        },
+        series: {
+          showSymbol: false,
+          lineStyle: {
+            width: 4
+          },
+          markPoint: {
+            symbol: 'rect',
+            symbolSize: [80, 18],
+            label: {
+              formatter: '{b} {c}',
+              lineHeight: 18
+            },
+            data: [
+              {type: 'max'},
+              {type: 'min'}
+            ]
+          },
+        }
+      }
+      return {
+        jlData: {
+          columns: ['dept', 'count'],
+          rows: [
+            {dept: '人社局', count: 170},
+            {dept: '民政局', count: 123},
+            {dept: '卫计委', count: 300},
+            {dept: '司法局', count: 170},
+            {dept: '政法委', count: 199},
+            {dept: '公安局', count: 200},
+            {dept: '城管局', count: 112},
+            {dept: '住建局', count: 332},
+            {dept: '人民法院', count: 130},
+            {dept: '发改委', count: 200}
+          ]
+        },
+        cjData: {
+          columns: ['dept', 'count'],
+          rows: [
+            {dept: '人社局', count: 170},
+            {dept: '民政局', count: 123},
+            {dept: '卫计委', count: 300},
+            {dept: '司法局', count: 170},
+            {dept: '政法委', count: 199},
+            {dept: '公安局', count: 200},
+            {dept: '城管局', count: 112},
+            {dept: '住建局', count: 332},
+            {dept: '人民法院', count: 130},
+            {dept: '发改委', count: 200}
+          ]
+        },
+        lineData: {
+          columns: ['date', 'stimulate', 'punish'],
+          rows: []
+        },
+        lineQuery: 'day',
+        deptRank: [],
+        nameRank: [],
+        disposeRank: [],
+        modal1: false,
+        modal2: false,
+        recommend: false,
+        recData: [
+          {id: 'r1', name: '社会信用系统介绍'},
+          {id: 'r2', name: '系统应用架构图'}
+        ],
+        recActive: 'r1'
+      }
+    },
+    created: function () {
+      // 奖励激励数据变化
+      this.getLineData()
+      this.getRankData()
+    },
+    methods: {
+      getLineData: function () {
+        // 根据按日还是按月获取数据
+        var _self = this
+        // 这里模拟获取数据，实际只需要一个接口，传入参数来获取天数数据或者月份数据
+        var url = this.lineQuery === 'day' ? '/getLineData1' : '/getLineData2'
+        this.getRequest(url).then(function (res) {
+          _self.lineData.rows = res.data.rows
+        })
+      },
+      getRankData () {
+        var _self = this
+        this.getRequest('/getRankData').then(function (res) {
+          _self.deptRank = res.data.deptRank
+          _self.nameRank = res.data.nameRank
+          _self.disposeRank = res.data.disposeRank
+        })
+      },
+      changeType: function (type) {
+        this.lineQuery = type
+        this.getLineData()
+      },
+      // 详情切换事件
+      recommendClick: function (item) {
+        if (this.recActive !== item.id) {
+          this.recActive = item.id
+        }
+        var dom = document.getElementById(item.id)
+        this.scrollTo(dom.offsetTop)
+      },
+      scrollTo: function (to) {
+        // 如果父级是自定义滚动则绑定滚动为父级元素dom
+        if (!this.domEl) {
+          this.domEl = this.$refs.scroll.$el.querySelector('.bin-scrollbar__wrap')
+        }
+        var sTop = this.domEl.pageYOffset || this.domEl.scrollTop
+        this.$scrollTop(this.domEl, sTop, to, 1000)
+      }
+    },
+    computed: {
+      deptRankFormat: function () {
+        if (this.deptRank.length === 0) {
+          return []
+        }
+        var max = this.deptRank[0].num
+        return this.deptRank.map(function (item) {
+          return {
+            name: item.dept,
+            value: item.num,
+            percent: item.num / max * 100,
+            label: item.num
+          }
+        })
+      },
+      nameRankFormat: function () {
+        if (this.nameRank.length === 0) {
+          return []
+        }
+        var max = this.nameRank[0].num
+        return this.nameRank.map(function (item) {
+          return {
+            name: item.name,
+            value: item.num,
+            percent: item.num / max * 100,
+            label: item.num
+          }
+        })
+      },
+      disposeRankFormat: function () {
+        if (this.disposeRank.length === 0) {
+          return []
+        }
+        var max = this.disposeRank[0].num
+        return this.disposeRank.map(function (item) {
+          return {
+            name: item.dispose,
+            value: item.num,
+            percent: item.num / max * 100,
+            label: item.num
+          }
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+.v-header .header-inner {
+  width: 1300px;
+  height: 90px;
+  line-height: 90px;
+  margin: 0 auto;
+}
+.v-header .logo {
+  width: 340px;
+  height: 90px;
+  background: url("../../images/home/logo@2x.png") no-repeat 0 0;
+}
+.v-header .info {
+  user-select: none;
+}
+.v-header .info .user,
+.v-header .info .btn,
+.v-header .info .sys {
+  height: 34px;
+  line-height: 34px;
+}
+.v-header .info .user {
+  font-size: 16px;
+  padding: 0 30px;
+  background: url("../../images/home/ixon-user@2x.png") no-repeat 0 9px;
+}
+.v-header .info .btn {
+  font-size: 0;
+}
+.v-header .info .btn .logout,
+.v-header .info .btn .password {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 34px;
+  line-height: 34px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 20px;
+  background-color: #1badf8;
+  color: #fff;
+  border-radius: 17px;
+}
+.v-header .info .btn .password {
+  margin: 0 26px 0 14px;
+  background-color: #36d8da;
+}
+.v-header .info .sys {
+  border-left: 1px solid #eee;
+  padding-left: 26px;
+}
+.v-header .info .sys .sys-btn {
+  display: inline-block;
+  height: 34px;
+  line-height: 34px;
+  cursor: pointer;
+  font-size: 16px;
+  padding-left: 44px;
+  background: url("../../images/home/icon-manage@2x.png") no-repeat 0 2px;
+}

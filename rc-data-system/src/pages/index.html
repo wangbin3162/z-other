@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>index</title>
+  <!--required-->
+  <!--核心库、动画库、请求库-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/utils/axios.min.js"></script>
+  <!--必须的自定义组件-->
+  <!--required end-->
+  <!--第三方库和自己编写的插件-->
+  <!--element-ui@2.9.1-->
+  <!--<link rel="stylesheet" href="src/js/lib/element-ui@2.9.1/index.css">-->
+  <!--<script src="src/js/lib/element-ui@2.9.1/index.js"></script>-->
+  <!--bin-ui@1.4.5@1.4.4-->
+  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.5/styles/index.css">
+  <script src="../js/lib/bin-ui@1.4.5/bin-ui.umd.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+<div id="app">
+  <b-scrollbar style="height: 100%;">
+    <div class="home">
+      <div class="earth-box">
+        <div class="inner">
+          <div class="circle">
+            <img class="c1" src="../images/home/circle1.png" height="710" width="709" alt="bg1"/>
+          </div>
+          <div class="circle">
+            <img class="c2" src="../images/home/circle2.png" height="480" width="480" alt="bg2"/>
+          </div>
+          <div class="circle">
+            <img class="c3" src="../images/home/circle3.png" height="570" width="570" alt="bg3"/>
+          </div>
+          <div class="circle">
+            <img class="c4" src="../images/home/circle4.png" height="660" width="660" alt="bg4"/>
+          </div>
+          <div class="earth">
+            <div class="earth-inner"></div>
+          </div>
+        </div>
+      </div>
+      <div class="title">
+        <img src="../images/home/title.png" height="163" width="852" alt="title"/>
+      </div>
+      <div class="btn-group">
+        <div @click="goTo('./public-credit.html')">公共信用</div>
+        <div @click="goTo('./public-entity.html')">市场主体</div>
+        <div @click="goTo('./public-unite.html')">联合奖惩</div>
+        <div @click="goTo('./public-zwcx.html')">政务诚信</div>
+      </div>
+    </div>
+  </b-scrollbar>
+</div>
+<script src="../js/mixin.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      return {
+        msg: ''
+      }
+    },
+    methods: {
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>信用简报</title>
+  <!--required-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/axios.min.js"></script>
+  <script src="../js/lib/mock.js"></script>
+
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <link rel="stylesheet" href="../js/lib/element-ui@2.7.0/index.css">
+  <link rel="stylesheet" href="../js/lib/v-charts/style.min.css">
+  <!--ui components-->
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <script src="../js/lib/element-ui@2.7.0/index.js"></script>
+  <!--charts-->
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/report.css">
+</head>
+<body>
+<div id="app" v-cloak>
+  <div class="main">
+    <b-scrollbar style="height: 100%;">
+      <div class="wrapper" style="margin: 20px;">
+        <b-card class="box-card" radius="0" :bordered="false">
+          <div class="top-wrap" flex="main:justify">
+            <div class="left">
+              <h2>西车脚河社区居委会信用状态简报</h2>
+              <p>信用工薪时间截止2019-01-11</p>
+            </div>
+            <div class="right" flex-box="1" flex="box:mean">
+              <div class="data">
+                <p>信用评分</p>
+                <p><strong>1056</strong></p>
+              </div>
+              <div class="data">
+                <p>镇街排名</p>
+                <p><strong>8</strong>/24</p>
+              </div>
+              <div class="data">
+                <p>全市排名</p>
+                <p><strong>18</strong>/204</p>
+              </div>
+            </div>
+          </div>
+        </b-card>
+        <!--综合信用指数排名-->
+        <b-card class="box-card" header="综合信用指数排名" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>截止2019-01-11 00:00:00，西车脚河社区居委会总体信用状况处于全市第18位，
+            俚岛镇第8位，综合信用评分1056，对应星级五星，西车脚河社区居委会近期排名如下：</b-alert>
+          <h4 class="rank-title">西车脚河社区居委会历史信用状况排名</h4>
+          <ve-line :data="lineData" :settings="chartSettings" :extend="chartExtend2"></ve-line>
+        </b-card>
+        <!--正面信息占比-->
+        <b-card class="box-card" header="正面信息占比" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>截止2019-01-11 00:00:00，西车脚河社区居委会人口总数5037人，信用信息数量5000条，负面信息37条，正面
+            信息占比99.26%，高于全市平均86.25%，并高于俚岛镇平均89.51%。</b-alert>
+          <div class="proportion-wrap" flex="main:justify">
+            <b-card class="box-card" radius="0" shadow="always">
+              <div class="top-wrap" flex="main:justify">
+                <div class="left">
+                  <h2>西车脚河社区居委会</h2>
+                  <p>正面信息占比</p>
+                  <h5>99.26%</h5>
+                </div>
+                <div class="right">
+                  <b-circle
+                      :size="100"
+                      :trail-width="9"
+                      :stroke-width="10"
+                      :percent="90"
+                      stroke-linecap="square"
+                      stroke-color="#43a3fb">
+                    <h5 style="color:#60b8f6;">99.26%</h5>
+                  </b-circle>
+                </div>
+              </div>
+            </b-card>
+            <b-card class="box-card" radius="0" shadow="always">
+              <div class="top-wrap" flex="main:justify">
+                <div class="left">
+                  <h2>全市</h2>
+                  <p>正面信息占比</p>
+                  <h5>86.25%</h5>
+                </div>
+                <div class="right">
+                  <b-circle
+                      :size="100"
+                      :trail-width="9"
+                      :stroke-width="10"
+                      :percent="86"
+                      stroke-linecap="square"
+                      stroke-color="#facc14">
+                    <h5 style="color:#facc14;">86.25%</h5>
+                  </b-circle>
+                </div>
+              </div>
+            </b-card>
+            <b-card class="box-card" radius="0" shadow="always">
+              <div class="top-wrap" flex="main:justify">
+                <div class="left">
+                  <h2>俚岛镇</h2>
+                  <p>正面信息占比</p>
+                  <h5>89.51%</h5>
+                </div>
+                <div class="right">
+                  <b-circle
+                      :size="100"
+                      :trail-width="9"
+                      :stroke-width="10"
+                      :percent="89"
+                      stroke-linecap="square"
+                      stroke-color="#55da8d">
+                    <h5 style="color:#55da8d;">89.51%</h5>
+                  </b-circle>
+                </div>
+              </div>
+            </b-card>
+          </div>
+        </b-card>
+        <b-card class="box-card" header="村民平均信用状况" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>村民平均信用状况村民平均信用状况村民平均信用状况村民平均信用状况村民平均信用状况村民平均信用状况村民平均信用状况村民平均信用状况</b-alert>
+        </b-card>
+        <b-card class="box-card" header="案例数量" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>案例数量案例数量案例数量案例数量案例数量案例数量案例数量案例数量</b-alert>
+        </b-card>
+        <b-card class="box-card" header="基金建设及使用情况" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>基金建设及使用情况基金建设及使用情况基金建设及使用情况基金建设及使用情况基金建设及使用情况</b-alert>
+        </b-card>
+        <b-card class="box-card" header="奖惩工作开展情况" head-tip radius="0" :bordered="false" divider="no">
+          <b-alert>奖惩工作开展情况奖惩工作开展情况奖惩工作开展情况奖惩工作开展情况奖惩工作开展情况</b-alert>
+        </b-card>
+        <!--信用评级计算详细-->
+        <b-card class="box-card" header="信用评级计算详细" head-tip radius="0" :bordered="false" divider="no">
+          <ul class="info-list" flex="dir:top">
+            <li flex>
+              <span flex-box="1">信息评级指标</span>
+              <span>得分</span>
+            </li>
+            <li flex>
+              <span flex-box="1">村民平均信用状况在850分以上</span>
+              <span>200</span>
+            </li>
+            <li flex>
+              <span flex-box="1">村民平均信用状况在850分以上</span>
+              <span>200</span>
+            </li>
+            <li flex>
+              <span flex-box="1">村民平均信用状况在850分以上</span>
+              <span>200</span>
+            </li>
+            <li flex>
+              <span flex-box="1">村民平均信用状况在850分以上</span>
+              <span>460</span>
+            </li>
+            <li flex>
+              <span flex-box="1"><strong>合计</strong></span>
+              <span><strong>1056</strong></span>
+            </li>
+          </ul>
+        </b-card>
+      </div>
+    </b-scrollbar>
+  </div>
+</div>
+
+<script src="../js/mixin.js"></script>
+<script src="../mock/report.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      // 折线图配置数据
+      this.chartSettings = {
+        smooth: false,
+        labelMap: {
+          'date': '日期',
+          'diqu': '地区排名',
+          'quanshi': '全市排名',
+          'zhenjie': '镇街排名'
+        },
+        dimension: ['date']
+      }
+      this.chartExtend2 = {
+        legend: {
+          right: 0
+        },
+        series: {
+          smooth: false
+        }
+      }
+      return {
+        lineData: {
+          columns: ['date', 'diqu'],
+          rows: []
+        }
+      }
+    },
+    created: function () {
+      this.getData()
+    },
+    methods: {
+      getData: function () {
+        this.getRequest('/getData').then(function (response) {
+          vm.lineData = response.data.lineData
+          console.log(response.data)
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>

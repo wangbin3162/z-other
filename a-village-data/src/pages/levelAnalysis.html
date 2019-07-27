@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>信用评级分析</title>
+  <!--required-->
+  <script src="../js/lib/vue.min.js"></script>
+  <script src="../js/lib/axios.min.js"></script>
+  <script src="../js/lib/mock.js"></script>
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <link rel="stylesheet" href="../js/lib/element-ui@2.7.0/index.css">
+  <link rel="stylesheet" href="../js/lib/v-charts/style.min.css">
+  <!--ui components-->
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
+  <script src="../js/lib/element-ui@2.7.0/index.js"></script>
+  <!--charts-->
+  <script src="../js/lib/echarts/echarts.min.js"></script>
+  <script src="../js/lib/v-charts/index.min.js"></script>
+  <!--self-->
+  <link rel="stylesheet" href="../styles/levelAnalysis.css">
+  <script src="../js/lib/lodash.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <div class="main">
+    <b-scrollbar style="height: 100%;">
+      <div class="wrapper" style="padding: 20px;">
+        <h2>信用评级结果分布占比</h2>
+        <div class="proportion-wrap" flex="main:justify">
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">诚信优秀级别</h3>
+                <i class="credit-percent">90%</i>
+                <b-rate value="5" disabled show-score score-template="5星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="90"
+                    stroke-linecap="circle"
+                    stroke-color="#43a3fb">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">诚信级别</h3>
+                <i class="credit-percent">90%</i>
+                <b-rate value="4" disabled show-score score-template="4星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="60"
+                    stroke-linecap="circle"
+                    stroke-color="#55da8d">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">一般诚信</h3>
+                <i class="credit-percent">50%</i>
+                <b-rate value="3" disabled show-score score-template="3星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="80"
+                    stroke-linecap="circle"
+                    stroke-color="#facc14">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">不诚信</h3>
+                <i class="credit-percent">25%</i>
+                <b-rate value="2" disabled show-score score-template="2星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="25"
+                    stroke-linecap="circle"
+                    stroke-color="#ba5eed">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">严重不诚信</h3>
+                <i class="credit-percent">5%</i>
+                <b-rate value="1" disabled show-score score-template="1星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="5"
+                    stroke-linecap="circle"
+                    stroke-color="#ff6e8c">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+          <b-card class="box-card" radius="0" :bordered="false">
+            <div class="top-wrap" flex="main:justify">
+              <div class="left">
+                <h3 class="credit-grade">严重不诚信</h3>
+                <i class="credit-percent">5%</i>
+                <b-rate value="0" disabled show-score score-template="0星"></b-rate>
+              </div>
+              <div class="right">
+                <b-circle
+                    :size="80"
+                    :trail-width="29"
+                    :stroke-width="30"
+                    :percent="5"
+                    stroke-linecap="circle"
+                    stroke-color="#ff6e8c">
+                </b-circle>
+              </div>
+            </div>
+          </b-card>
+        </div>
+        <div class="center" flex="main:justify">
+          <!--信用信息类型占比-->
+          <b-card class="box-card" width="50%" head-tip radius="0" :bordered="false" divider="no">
+            <span slot="header" class="slot-header">信用信息类型占比</span>
+            <ve-pie :data="typeData" :colors="colors" :settings="typeSettings" :extend="typeExtend"></ve-pie>
+          </b-card>
+          <!--信用指标维度PK-->
+          <b-card class="box-card" width="50%" head-tip radius="0" :bordered="false" divider="no">
+            <span slot="header" class="slot-header">信用指标维度PK</span>
+            <ve-radar :data="radarData" :extend="radarExtend"></ve-radar>
+          </b-card>
+        </div>
+        <div class="center" flex="main:justify">
+          <!--信息指标目录类型分析-->
+          <b-card class="box-card" width="50%" head-tip radius="0" :bordered="false" divider="no">
+            <span slot="header" class="slot-header">信息指标目录类型分析</span>
+            <ve-histogram :data="compareData" :settings="compareSettings" :extend="compareExtend"
+                          :colors="['#60b8f6','#ff6e8c']"></ve-histogram>
+          </b-card>
+          <!--指标使用热点-->
+          <b-card class="box-card" width="50%" head-tip radius="0" :bordered="false" divider="no">
+            <span slot="header" class="slot-header">指标使用热点</span>
+            <div class="barrage-box">
+              <div class="bg1"></div>
+              <div class="bg2"></div>
+              <div class="barrage-inner">
+                <b-hover-label v-for="(item,index) in hotWord"
+                               :key="item" ref="hoverLabel"
+                               :title="item"></b-hover-label>
+              </div>
+            </div>
+          </b-card>
+        </div>
+      </div>
+    </b-scrollbar>
+  </div>
+</div>
+
+<script src="../js/mixin.js"></script>
+<script src="../mock/levelAnalysis.js"></script>
+<script src="../js/components/lib/hover-label.min.js"></script>
+<script>
+  var vm = new Vue({
+    mixins: [mixin],
+    data: function () {
+      this.colors = ['#60b8f6', '#55da8d', '#ffcc41',
+        '#ba5eed', '#ff6e8c', '#1f9bff',
+        '#ca8622', '#bda29a', '#6e7074',
+        '#546570', '#c4ccd3']
+      // 分类统计的设置
+      this.typeSettings = {
+        labelMap: {name: '类别', number: '数量'},
+        radius: [120],
+        offsetY: 180,
+        selectedMode: 'single'
+      }
+      this.typeExtend = {
+        legend: {
+          bottom: 0
+        }
+      }
+      // 雷达图参数设置
+      this.radarExtend = {
+        radar: {
+          shape: 'polygon'
+        },
+        legend: {
+          bottom: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          icon: 'circle',
+          itemGap: 20
+        }
+      }
+      // 正负信息设置参数
+      this.compareSettings = {
+        labelMap: {
+          'area': '地区',
+          'front': '正面信息',
+          'negative': '负面信息'
+        },
+        dimension: ['area']
+      }
+      this.compareExtend = {
+        legend: {
+          itemWidth: 10,
+          itemHeight: 10,
+          icon: 'circle',
+          itemGap: 20
+        },
+        xAxis: {
+          axisLabel: {
+            rotate: 60
+          }
+        }
+      }
+      return {
+        typeData: {
+          columns: ['name', 'number'],
+          rows: []
+        },
+        radarData: {
+          columns: ['区域', '党建领域', '村居管理', '村容村貌', '公共秩序', '村居建设'],
+          rows: []
+        },
+        compareData: {
+          columns: ['area', 'front', 'negative'],
+          rows: []
+        },
+        hotWord: [
+          '组织成立农村公益组织且发挥作用的发挥作用的',
+          '组织成立农村公益',
+          '民主评议党员被服',
+          '组织成立不合格党员的',
+          '组织发挥作用的的弄能到点胶机干撒滴啊上高伤筋动骨',
+          '组织成立农村公益',
+          '民主评议党员被服',
+          '组织成立不合格党员的',
+          '组织发挥作用的的弄能到点胶机干撒滴啊上高伤筋动骨',
+          '组织成立农村公益',
+          '民主评议党员被服'
+        ]
+      }
+    },
+    created: function () {
+      this.getTypeData()
+      this.getRadar()
+      this.getCompareData()
+    },
+    mounted: function () {
+      this.startHotWords()
+    },
+    methods: {
+      // 获取分类统计的数据
+      getTypeData: function () {
+        this.getRequest('/typeData').then(function (response) {
+          vm.typeData.rows = response.data.rows
+        })
+      },
+      // 获取指标维度雷达图
+      getRadar: function () {
+        this.getRequest('/radarData').then(function (response) {
+          vm.radarData.rows = response.data
+        })
+      },
+      // 获取对比数据
+      getCompareData: function () {
+        this.getRequest('/compareData').then(function (response) {
+          vm.compareData.rows = response.data.rows
+        })
+      },
+      // 手动触发开启动画
+      startHotWords: function () {
+        var hots = this.$refs.hoverLabel
+        for (var i = 0; i < this.hotWord.length; i++) {
+          (function (index) {
+            setTimeout(function () {
+              hots[index].start()
+            }, index * 1000)
+          })(i)
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

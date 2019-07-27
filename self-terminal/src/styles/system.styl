@@ -1,0 +1,303 @@
+@import "./common/base.styl"
+@import "./common/menu-header.styl"
+#app {
+  .main {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: url("../images/bg3.jpg") no-repeat 0 0
+    .content {
+      position: absolute
+      top: 210px;
+      left: 90px;
+      bottom: 90px;
+      width: 1726px;
+      .left {
+        width: 314px;
+        user-select: none;
+        .top {
+          position: relative;
+          width: 100%;
+          height: 207px;
+          background: #6999f7;
+          margin-bottom: 8px;
+          img {
+            position: absolute
+            top: 0;
+            left: -14px;
+          }
+        }
+        .menu {
+          width: 100%;
+          height: 462px;
+          overflow: hidden;
+          margin-bottom: 8px;
+          .menu-scroll {
+            transition: .3s ease;
+            transform: translateY(-50%)
+            .item {
+              display: inline-block;
+              width: 100%
+              height: 86px;
+              line-height: 86px;
+              background: #6999f7;
+              color: #fff;
+              padding: 0 20px 0 40px;
+              font-size: 20px;
+              margin-bottom: 8px;
+              &.active {
+                background: #ffcf71;
+              }
+            }
+          }
+        }
+        .page {
+          > div {
+            display: inline-block;
+            width: 88px;
+            height: 88px;
+            background: #6999f7;
+            margin-right: 8px;
+            span {
+              display: inline-block;
+              width: 88px;
+              height: 88px;
+              color: #fff;
+              text-align: center;
+              padding-top: 55px;
+              box-sizing: border-box;
+              cursor: pointer;
+              font-size: 18px;
+            }
+            &.prev span {
+              background: url("../images/icon-up.png") no-repeat center 20px;
+            }
+            &.next span {
+              background: url("../images/icon-down.png") no-repeat center 20px;
+            }
+            &.disable span {
+              cursor: not-allowed;
+              opacity: .6;
+            }
+          }
+        }
+      }
+      .right {
+        width: 1398px;
+        background: #fff;
+        .step-wrap {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          .step {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .search-panel {
+          position: relative;
+          padding: 60px 100px;
+          h2 {
+            font-size: 48px;
+            color: #333;
+            font-weight: normal;
+          }
+          .form {
+            padding: 90px 0;
+            width: 850px;
+            .el-form-item {
+              margin-bottom: 32px;
+              .el-form-item__label {
+                font-size: 28px;
+                line-height: 50px;
+              }
+              .el-form-item__content {
+                line-height: 50px;
+                .el-input__inner {
+                  line-height: 50px;
+                  height: 50px;
+                }
+              }
+            }
+          }
+          .search-btn {
+            display: inline-block;
+            width: 378px;
+            heigth: 70px;
+            line-height: 70px;
+            text-align: center;
+            background: #6999f7;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+          }
+          .level-panel {
+            position: absolute
+            right: 0;
+            top: 150px;
+            width: 122px;
+            height: 516px;
+            box-sizing: border-box;
+            padding: 40px 0 40px 30px;
+            background-color: #f7f7f7;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            span {
+              width: 54px;
+              height: 54px;
+              line-height: 54px;
+              text-align: center;
+              border-radius: 50%;
+              color: #fff;
+              font-size: 20px;
+              cursor: pointer;
+              &:nth-child(1) {
+                background-color: #4e4ee6;
+              }
+              &:nth-child(2) {
+                background-color: #647dee;
+              }
+              &:nth-child(3) {
+                background-color: #7e95fb;
+              }
+              &:nth-child(4) {
+                background-color: #bcc7f5;
+              }
+              &:nth-child(5) {
+                background-color: #ffcf71;
+              }
+              &:nth-child(6) {
+                background-color: #ff8571;
+              }
+            }
+          }
+        }
+        .table-panel {
+          position: relative;
+          padding: 46px 96px 46px;
+          h2 {
+            font-size: 36px;
+            color: #333;
+            font-weight: normal;
+            text-align: center;
+            margin-bottom: 22px;
+          }
+          .key-table {
+            table {
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              width: 100%;
+              border-collapse: collapse;
+              border-spacing: 0;
+              border-left: 1px solid #eee;
+              border-top: 1px solid #eee;
+              tr {
+                td {
+                  padding: 15px 20px;
+                  border-bottom: 1px solid #eee;
+                  border-right: 1px solid #eee;
+                  &.key {
+                    width: 162px;
+                    background-color: #f2fbff;
+                  }
+                }
+              }
+            }
+          }
+          .common-table {
+            margin-bottom: 20px;
+            &.min {
+              min-height: 561px;
+            }
+            a {
+              color: #2d8cf0;
+              text-decoration: none;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+            .el-table th {
+              background: #f7f7f7;
+              color: #333;
+              font-weight: bold;
+              padding: 14px 0;
+            }
+            .el-table td, .el-table th.is-leaf {
+              border-bottom: none;
+            }
+            .el-table td {
+              color: #666;
+              padding: 14px 0;
+            }
+            .el-table__fixed-right::before, .el-table__fixed::before, .el-table::before {
+              background-color: #ffffff;
+            }
+          }
+          .common-page {
+            padding: 10px 0;
+            text-align: right;
+            .total {
+              line-height: 32px;
+              font-size: 14px;
+              color: #999;
+              padding-right: 80px;
+            }
+            .el-pagination {
+              font-weight: normal;
+              &.is-background .btn-next,
+              &.is-background .btn-prev {
+                padding: 0 10px;
+              }
+            }
+          }
+          .title-info {
+            font-size: 20px;
+            color: #f7b200;
+            line-height: 70px;
+          }
+          .info-tab {
+            margin-bottom: 20px;
+            span {
+              display: inline-block;
+              line-height: 38px;
+              width: 148px;
+              text-align: center
+              color: #666;
+              border: 1px solid #dfdfdf;
+              border-radius: 2px;
+              cursor: pointer;
+              margin-right: 20px;
+              transition: .3s;
+              &.active {
+                background-color: #6999f7;
+                color: #fff;
+              }
+            }
+          }
+          .back {
+            position: absolute;
+            top: 46px;
+            right: 46px;
+          }
+        }
+      }
+    }
+  }
+}
+.step .bin-scrollbar .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.move-transverse-enter-active, .move-transverse-leave-active {
+  transition: .5s;
+}
+.move-transverse-enter, .move-transverse-leave-to {
+  opacity: 0;
+  transform: translateX(50%)
+}
+
