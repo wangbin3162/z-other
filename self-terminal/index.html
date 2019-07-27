@@ -6,7 +6,15 @@
 </head>
 <body>
 <script>
-  window.location.href = document.location.origin + '/self-terminal/src/pages/index.html'
+    function goTo (url) {
+    let a = document.createElement('a')
+    a.setAttribute('href', url)
+    a.setAttribute('id', 'b-link-temp')
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(document.getElementById('b-link-temp'))
+  }
+  goTo('./src/pages/index.html')
 </script>
 </body>
 </html>
