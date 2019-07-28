@@ -1,6 +1,4 @@
 body {
-  width: 3840px;
-  height: 1080px;
   line-height: 1.5;
 }
 #app {
@@ -117,6 +115,22 @@ body {
         }
       }
     }
+    .v-full-block {
+      transition: .2s;
+      .more {
+        position: absolute;
+        top: 0;
+        right: 110px;
+        background: url("../images/button1-bg.png") no-repeat 0 0;
+        width: 154px;
+        height: 43px;
+        line-height: 43px;
+        font-size: 18px;
+        color: #2d8cf0;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
     .v-select {
       position: relative;
       display: block;
@@ -169,6 +183,72 @@ body {
         .legend {
           font-size: 12px;
           padding-right: 60px;
+        }
+      }
+    }
+    .v-modal {
+      background-color: #060c22;
+      border: 1px solid #586ea2;
+      border-radius: 5px;
+      height: 100%;
+      .top-header {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%)
+        font-size: 22px;
+        color: #fff;
+        padding: 2px 40px;
+        background-color: #00addd;
+        border-radius: 19px;
+      }
+      .content {
+        overflow: hidden;
+      }
+      .icon-ios-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 40px;
+        cursor: pointer;
+      }
+      .angle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-color: #15e9f2;
+        border-style: solid;
+        &.top-left {
+          top: 0;
+          left: 0;
+          margin-top: -1px;
+          margin-left: -1px;
+          border-top-width: 1px;
+          border-left-width: 1px;
+        }
+        &.top-right {
+          top: 0;
+          right: 0;
+          margin-top: -1px;
+          margin-right: -1px;
+          border-top-width: 1px;
+          border-right-width: 1px;
+        }
+        &.bottom-left {
+          bottom: 0;
+          left: 0;
+          margin-bottom: -1px;
+          margin-left: -1px;
+          border-bottom-width: 1px;
+          border-left-width: 1px;
+        }
+        &.bottom-right {
+          bottom: 0;
+          right: 0;
+          margin-bottom: -1px;
+          margin-right: -1px;
+          border-bottom-width: 1px;
+          border-right-width: 1px;
         }
       }
     }

@@ -21,6 +21,7 @@
 </head>
 <body>
 <div id="app" v-cloak>
+  <!--<b-scrollbar style="height:100%;">-->
   <div class="screen-wrapper">
     <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合分析平台</v-header>
     <div class="main">
@@ -190,10 +191,25 @@
                 </ul>
               </div>
             </div>
+          </v-full-block>
+          <v-full-block :rect="[20, 500, 919, 380]" show-more @on-click="showIndustryModal = true">
             <div class="table2">
-
+              <h2>企业信用等级top100</h2>
+              <b-table :columns="industryColumns" :data="industryTop5" border disabled-hover>
+                <template v-slot:level="scope">
+                  <span class="blue2">{{ scope.row.level }}</span>
+                </template>
+              </b-table>
             </div>
           </v-full-block>
+          <!--企业信用排名Top100 弹窗-->
+          <v-modal :rect="[20, 60, 919, 850]" label="企业信用排名Top100" v-model="showIndustryModal">
+            <b-table :columns="industryColumns" :data="industryTop" border disabled-hover style="margin-right: 20px;">
+              <template v-slot:level="scope">
+                <span class="blue2">{{ scope.row.level }}</span>
+              </template>
+            </b-table>
+          </v-modal>
         </div>
       </v-block>
       <v-block label="信用报告使用情况分析" :rect="[2900, 20, 920, 944]">
@@ -203,15 +219,17 @@
       </v-block>
     </div>
   </div>
+  <!--</b-scrollbar>-->
 </div>
 <script src="../js/components/v-header.js"></script>
 <script src="../js/components/v-block.js"></script>
 <script src="../js/components/v-full-block.js"></script>
 <script src="../js/components/v-dot-label.js"></script>
 <script src="../js/components/v-chart-bar.js"></script>
+<script src="../js/components/v-modal.js"></script>
 <!--测试模拟请求-->
-<!--<script src="../js/lib/utils/mock.js"></script>-->
-<!--<script src="../mock/main.js"></script>-->
+<script src="../js/lib/utils/mock.js"></script>
+<script src="../mock/main.js"></script>
 <script>
   var corp = [54800, 22486, 22486]
   var deptSub = [
@@ -294,8 +312,19 @@
             { num: 222, percent: 10 }, // C
             { num: 111, percent: 5 } // D
           ]
-        }
+        },
+        industryColumns: [
+          { title: '排名', type: 'index', width: '70px', align: 'center' },
+          { title: '名称', key: 'name', width: '400px' },
+          { title: '信用分', key: 'score', align: 'center' },
+          { title: '信用等级', slot: 'level', align: 'center' }
+        ],
+        industryTop: [],
+        showIndustryModal: false
       }
+    },
+    created: function () {
+      this.getTopIndustry()
     },
     computed: {
       allCityPeople: function () {
@@ -343,15 +372,17 @@
             label: item.num
           }
         })
+      },
+      industryTop5: function () {
+        return this.industryTop.slice(0, 5)
       }
     },
     methods: {
-      onClick: function () {
-        this.$log.print('测试发起请求')
-        axios.get('/demo').then(function (response) {
-          vm.$log.print('测试请求成功', 'success')
-          vm.$log.print(response.data.msg, 'danger')
-          vm.msg = response.data.msg
+      // 获取企业top100
+      getTopIndustry: function () {
+        var _self = this
+        axios.get('/getTopIndustry').then(function (res) {
+          _self.industryTop = res.data.list
         })
       }
     }

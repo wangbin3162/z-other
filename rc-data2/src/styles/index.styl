@@ -1,4 +1,5 @@
 @import "./common/base.styl"
+@import "./common/bin-ui.styl"
 #app {
   .screen-wrapper {
     user-select: none;
@@ -173,7 +174,7 @@
                   width: 50%;
                   height: 100%;
                   text-align: center;
-                  &:first-child{
+                  &:first-child {
                     border-right: 1px solid #181e3c;
                   }
                 }
@@ -181,8 +182,28 @@
             }
           }
         }
+        .table2 {
+          width: 100%;
+          height: 100%;
+          padding: 0 80px;
+          background: url("../images/foot.png") center bottom no-repeat;
+          > h2 {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #00ccff;
+            line-height: 50px;
+            background: url("../images/title-bg.png") center bottom no-repeat;
+          }
+        }
       }
     }
   }
 }
+
+#app .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+
+
 

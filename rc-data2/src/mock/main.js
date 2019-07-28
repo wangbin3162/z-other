@@ -3,7 +3,14 @@
  * author: wang bin
  */
 
-// 模拟获取顶部选择框
-Mock.mock('/demo', {
-  'msg|1-10': '★'
+// 获取企业top100
+Mock.mock('/getTopIndustry', {
+  max: 3600,
+  'list|100': [
+    {
+      name: 'xxxx股份有限公司',
+      'score|1000-3600': 1,
+      level: 'AAA'
+    }
+  ]
 })
