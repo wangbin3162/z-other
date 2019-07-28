@@ -19,7 +19,8 @@ Vue.component('v-full-block', {
     zIndex: {
       type: Number,
       default: 0
-    }
+    },
+    border: Boolean
   },
   computed: {
     boxStyle () {
@@ -28,7 +29,8 @@ Vue.component('v-full-block', {
         left: this.rect[0] + 'px',
         top: this.rect[1] + 'px',
         width: this.rect[2] + 'px',
-        height: this.rect[3] + 'px'
+        height: this.rect[3] + 'px',
+        border: this.border ? '1px solid #ffffff' : ''
       }
     }
   }

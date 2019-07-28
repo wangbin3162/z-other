@@ -182,11 +182,13 @@
             }
           }
         }
-        .table2 {
+        .table2, .table3 {
           width: 100%;
           height: 100%;
           padding: 0 80px;
           background: url("../images/foot.png") center bottom no-repeat;
+        }
+        .table2 {
           > h2 {
             font-size: 20px;
             font-weight: bold;
@@ -194,6 +196,67 @@
             color: #00ccff;
             line-height: 50px;
             background: url("../images/title-bg.png") center bottom no-repeat;
+          }
+        }
+        .table3 {
+          position: relative;
+          > h2 {
+            position: absolute;
+            left: 68px;
+            top: 64px;
+            height: 280px;
+            width: 66px;
+            padding: 30px 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2em;
+            color: #00ccff;
+            background: url("../images/title2-bg.png") center bottom no-repeat;
+          }
+        }
+      }
+      .block1-6 {
+        .top {
+          padding: 10px 40px;
+          background-color #0e132f;
+          margin-bottom: 15px;
+        }
+        .chart {
+          > h2 {
+            font-size: 16px;
+            color: #2d8cf0;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+          }
+        }
+        .left .chart {
+          padding: 10px 30px;
+          background: url("../images/foot2.png") center bottom no-repeat;
+        }
+        .table {
+          width: 200px;
+          ul {
+            border: 1px solid #171c4e;
+            background-color: #0e132e;
+            li {
+              line-height: 26px;
+              &.th {
+                background-color: #121943;
+                border-bottom: 1px solid #171c4e;
+                color: #fff;
+              }
+              span {
+                display: inline-block;
+                width: 38%;
+                text-align: center;
+                &:first-child {
+                  width: 62%;
+                  border-right: 1px solid #171c4e;
+                }
+              }
+            }
           }
         }
       }
