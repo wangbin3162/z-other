@@ -23,17 +23,6 @@ Vue.component('v-block', {
     },
     noHeader: Boolean
   },
-  data () {
-    return {
-      angleStyle: {
-        position: 'absolute',
-        width: '8px',
-        height: '8px',
-        borderColor: '#15e9f2',
-        borderStyle: 'solid',
-      }
-    }
-  },
   computed: {
     boxStyle () {
       return {

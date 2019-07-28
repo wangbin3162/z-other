@@ -4,7 +4,7 @@ Vue.component('v-header', {
       <div class="label"><slot>{{label}}</slot></div>
       <div class="btn">
         <span :class="{'active':activeMenu===0}" @click="$emit('on-menu-click',0)">全市信用综合分析平台</span>
-        <span :class="{'active':activeMenu===1}"  @click="$emit('on-menu-click',1)">联合奖惩分析平台</span>
+        <span :class="{'active':activeMenu===1}"  @click="$emit('on-menu-click',1)">重点人群重点行业分析</span>
         <span :class="{'active':activeMenu===1}"  @click="$emit('on-menu-click',2)">村居信用专项分析平台</span>
       </div>
       <div class="date">{{date}}</div>

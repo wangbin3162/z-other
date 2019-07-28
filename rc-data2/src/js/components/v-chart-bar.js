@@ -8,7 +8,7 @@ Vue.component('v-chart-bar', {
       <div class="item" v-for="(item,index) in data" flex="cross:center" v-if="index < maxLength"
             @click="$emit('on-click',item)">
         <div v-if="leftShow" :style="leftStyle">{{ item.name }}</div>
-        <div class="index" v-if="!leftShow||!hideIndex" :style="{color:index<3?'#fff':'#3f547a'}">{{index+1}}</div>
+        <div class="index" v-if="!leftShow||!hideIndex" :style="{color:index<3?'#fff':'#3f547a'}">{{index + startIndex}}</div>
         <div class="chart" flex-box="1">
           <template v-if="!leftShow">
             <div v-if="legendPos==='justify'" class="legend" flex="main:justify">
@@ -32,6 +32,10 @@ Vue.component('v-chart-bar', {
       default () {
         return []
       }
+    },
+    startIndex: {
+      type: Number,
+      default: 1
     },
     hideIndex: Boolean,
     hideValue: Boolean,

@@ -24,14 +24,14 @@
   <div class="screen-wrapper">
     <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合分析平台</v-header>
     <div class="main">
-      <v-block label="全市人口基础情况" :rect="[40, 20, 460, 462]">
-        <div class="block1">
+      <v-block label="全市人口基础情况" :rect="[40, 20, 460, 462]" no-border>
+        <div class="block1-1">
           <div class="top mb15 o-hide" flex>
             <span class="total t-justify">全市人口总数</span>
             <div class="number" v-html="allCityPeople"></div>
             <span class="ren">人</span>
           </div>
-          <div flex="main:justify wrap:wrap">
+          <div flex="main:justify wrap:wrap" class="mb10">
             <div class="box">
               <h2>601710</h2>
               <p>实际本地人口 (人)</p>
@@ -77,24 +77,123 @@
           </div>
         </div>
       </v-block>
-      <v-block label="部门数据报送量总量排行" :rect="[520, 20, 460, 462]">
-        <div class="block2">
-
+      <v-block label="数据归集情况" :rect="[40, 500, 460, 462]">
+        <div class="block1-2">
+          <div flex="cross:bottom" class="mb20">
+            <img src="../images/icon1.png" height="60" width="60" alt="icon1"/>
+            <div flex-box="1" class="ml20">
+              <p class="font16 fff">数据归集总量</p>
+              <p><span class="number" v-html="allData"></span><span class="num">条</span></p>
+            </div>
+          </div>
+          <div class="mb5">
+            <div class="item w33 fff">信用信息总数</div>
+            <div class="item w33" style="background-color: #182547;">
+              <p class="font20 blue2">1520088</p>
+              <p>自然人信用信息</p>
+            </div>
+            <div class="item w33" style="background-color: #182547;">
+              <p class="font20 blue2">57280</p>
+              <p>法人信用信息</p>
+            </div>
+          </div>
+          <div class="mb5">
+            <div class="item icon w5">
+              <p class="font22 fff">34864</p>
+              <p>自然人正面信息</p>
+            </div>
+            <div class="item icon w5">
+              <p class="font22 fff">39593</p>
+              <p>自然人负面信息</p>
+            </div>
+          </div>
+          <div class="mb5">
+            <div class="item icon w5">
+              <p class="font22 fff">113445</p>
+              <p>法人正面信息</p>
+            </div>
+            <div class="item icon w5">
+              <p class="font22 fff">2405</p>
+              <p>法人负面信息</p>
+            </div>
+          </div>
         </div>
       </v-block>
-      <v-block label="数据归集情况" :rect="[40, 500, 460, 462]">
-        <div class="block3">
-
+      <v-block label="部门数据报送量总量排行" :rect="[520, 20, 460, 462]">
+        <div class="block1-3">
+          <div class="top2" flex="main:center">
+            <div class="item" flex="main:justify">
+              <img src="../images/icon-top1.png" height="50" width="50" alt="top1"/>
+              <div flex-box="1">
+                <p>{{ deptSub[0].dept }}:</p>
+                <p class="font22 blue1">{{ deptSub[0].num }}</p>
+              </div>
+            </div>
+            <div class="item" flex="main:justify">
+              <img src="../images/icon-top2.png" height="50" width="50" alt="top1"/>
+              <div flex-box="1">
+                <p>{{ deptSub[1].dept }}:</p>
+                <p class="font22 blue1">{{ deptSub[1].num }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="mb10">
+            <v-chart-bar :data="deptSubFormat" :max-length="10" :start-index="3"
+                         hide-value bg-color="#232e4c" name-color="#556490"></v-chart-bar>
+          </div>
+          <p>注：当前展示（12个月内）部门报送数据总量</p>
         </div>
       </v-block>
       <v-block label="镇街部门报送总量排行" :rect="[520, 500, 460, 462]">
-        <div class="block2">
-
+        <div class="block1-4">
+          <div class="top2" flex="main:center">
+            <div class="item" flex="main:justify">
+              <img src="../images/icon-top1.png" height="50" width="50" alt="top1"/>
+              <div flex-box="1">
+                <p>{{ streetSub[0].dept }}:</p>
+                <p class="font22 blue1">{{ streetSub[0].num }}</p>
+              </div>
+            </div>
+            <div class="item" flex="main:justify">
+              <img src="../images/icon-top2.png" height="50" width="50" alt="top1"/>
+              <div flex-box="1">
+                <p>{{ streetSub[1].dept }}:</p>
+                <p class="font22 blue1">{{ streetSub[1].num }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="mb10">
+            <v-chart-bar :data="streetSubFormat" :max-length="10" :start-index="3"
+                         hide-value bg-color="#232e4c" name-color="#556490"></v-chart-bar>
+          </div>
+          <p>注：当前展示（12个月内）镇街报送数据总量</p>
         </div>
       </v-block>
       <v-block label="信用评级数据分析" :rect="[1000, 20, 1880, 944]">
-        <div class="block2">
+        <div class="block1-5" flex="box:mean">
+          <v-full-block :rect="[20,60,919,420]">
+            <div class="table1">
+              <div class="t" style="left:84px;">
+                <h2 class="t-center font20 blue2">自然人等级分布</h2>
+                <ul>
+                  <li v-for="(item,index) in levelData.zrr" :key="index">
+                    <span>{{item.num}}</span><span class="fff">{{item.percent}}%</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="t" style="right:82px;">
+                <h2 class="t-center font20 blue2">法人等级分布</h2>
+                <ul>
+                  <li v-for="(item,index) in levelData.fr" :key="index">
+                    <span>{{item.num}}</span><span class="fff">{{item.percent}}%</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="table2">
 
+            </div>
+          </v-full-block>
         </div>
       </v-block>
       <v-block label="信用报告使用情况分析" :rect="[2900, 20, 920, 944]">
@@ -107,12 +206,38 @@
 </div>
 <script src="../js/components/v-header.js"></script>
 <script src="../js/components/v-block.js"></script>
+<script src="../js/components/v-full-block.js"></script>
 <script src="../js/components/v-dot-label.js"></script>
+<script src="../js/components/v-chart-bar.js"></script>
 <!--测试模拟请求-->
 <!--<script src="../js/lib/utils/mock.js"></script>-->
 <!--<script src="../mock/main.js"></script>-->
 <script>
   var corp = [54800, 22486, 22486]
+  var deptSub = [
+    { dept: '交通部', num: 768435 },
+    { dept: '公安部', num: 68553 },
+    { dept: '广电局', num: 3000 },
+    { dept: '社保局', num: 2999 },
+    { dept: '气象局', num: 2800 },
+    { dept: '工商局', num: 2700 },
+    { dept: '证监局', num: 2600 },
+    { dept: '民局', num: 2400 },
+    { dept: '行政审批', num: 2300 },
+    { dept: '食药监', num: 1002 },
+  ]
+  var streetSub = [
+    { dept: '港西镇', num: 768435 },
+    { dept: '寻山街道', num: 68553 },
+    { dept: '城西街道', num: 3000 },
+    { dept: '东山街道', num: 2999 },
+    { dept: '宁津街道', num: 2800 },
+    { dept: '宁津街道', num: 2700 },
+    { dept: '宁津街道', num: 2224 },
+    { dept: '宁津街道', num: 2121 },
+    { dept: '宁津街道', num: 1002 },
+    { dept: '宁津街道', num: 345 },
+  ]
   var vm = new Vue({
     el: '#app',
     data: function () {
@@ -134,6 +259,7 @@
       }
       return {
         peopleTotal: 8156489,
+        dataTotal: 2668190,
         corp: corp,
         corpData: {
           columns: ['name', 'count'],
@@ -141,6 +267,32 @@
             { name: '企业法人', count: corp[0] },
             { name: '个体工商户', count: corp[1] },
             { name: '卫计委', count: corp[2] }
+          ]
+        },
+        deptSub: deptSub,
+        deptSubData: deptSub.slice(2),
+        streetSub: streetSub,
+        streetSubData: streetSub.slice(2),
+        levelData: {
+          zrr: [
+            { num: 333, percent: 5 }, // AAA
+            { num: 123, percent: 10 }, // AA
+            { num: 122, percent: 15 }, // A+
+            { num: 223, percent: 30 }, // A
+            { num: 444, percent: 20 }, // A-
+            { num: 333, percent: 12 }, // B
+            { num: 222, percent: 10 }, // C
+            { num: 111, percent: 5 } // D
+          ],
+          fr: [
+            { num: 333, percent: 5 }, // AAA
+            { num: 123, percent: 10 }, // AA
+            { num: 122, percent: 15 }, // A+
+            { num: 223, percent: 30 }, // A
+            { num: 444, percent: 20 }, // A-
+            { num: 333, percent: 12 }, // B
+            { num: 222, percent: 10 }, // C
+            { num: 111, percent: 5 } // D
           ]
         }
       }
@@ -154,6 +306,43 @@
           }).join('')
         }
         return ''
+      },
+      allData: function () {
+        var arr = this.dataTotal.toString().split('')
+        if (arr && arr.length > 0) {
+          return arr.map(function (item) {
+            return '<span>' + item + '</span>'
+          }).join('')
+        }
+        return ''
+      },
+      deptSubFormat: function () {
+        if (this.deptSubData.length === 0) {
+          return []
+        }
+        var max = this.deptSubData[0].num
+        return this.deptSubData.map(function (item) {
+          return {
+            name: item.dept,
+            value: item.num,
+            percent: item.num / max * 100,
+            label: item.num
+          }
+        })
+      },
+      streetSubFormat: function () {
+        if (this.streetSubData.length === 0) {
+          return []
+        }
+        var max = this.streetSubData[0].num
+        return this.streetSubData.map(function (item) {
+          return {
+            name: item.dept,
+            value: item.num,
+            percent: item.num / max * 100,
+            label: item.num
+          }
+        })
       }
     },
     methods: {
