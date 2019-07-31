@@ -1,9 +1,9 @@
 Vue.component('v-modal', {
   template: `
-    <transition name="zoom-in-bottom">
+    <transition :name="transitionName">
       <div class="v-modal" v-if="visible" :style="boxStyle">
         <div class="top-header">{{label}}</div>
-        <div class="content" style="height:100%;padding: 40px 60px;">
+        <div class="content" style="height:100%;padding: 40px 5px 40px 20px;">
           <b-scrollbar style="height: 100%;" always>
             <slot></slot>
           </b-scrollbar>
@@ -20,10 +20,14 @@ Vue.component('v-modal', {
       type: String,
       default: '主标题'
     },
+    transitionName: {
+      type: String,
+      default: 'zoom-in-bottom'
+    },
     rect: {
       type: Array, // x,y,w,h [460,462],[940,944]
       default () {
-        return [40, 20, 460, 462]
+        return [40, 20, 460, 462, 1000]
       }
     },
     value: Boolean
@@ -49,7 +53,8 @@ Vue.component('v-modal', {
         left: this.rect[0] + 'px',
         top: this.rect[1] + 'px',
         width: this.rect[2] + 'px',
-        height: this.rect[3] + 'px'
+        height: this.rect[3] + 'px',
+        zIndex: this.rect[4] ? this.rect[4] : 1000
       }
     }
   },

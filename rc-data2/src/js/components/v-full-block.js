@@ -1,7 +1,6 @@
 Vue.component('v-full-block', {
   template: `
     <div class="v-full-block" :style="boxStyle">
-      <div v-if="showMore" class="more" @click="$emit('on-click')">{{ moreLabel }}</div>
       <div class="inner" style="width: 100%;height:100%;"><slot></slot></div>
     </div>`,
   props: {
@@ -12,10 +11,6 @@ Vue.component('v-full-block', {
       }
     },
     showMore: Boolean,
-    moreLabel: {
-      type: String,
-      default: '查看更多'
-    },
     zIndex: {
       type: Number,
       default: 0

@@ -21,9 +21,13 @@
 <div id="app" v-cloak>
   <!--<b-scrollbar style="height:100%;">-->
   <div class="screen-wrapper">
-    <v-header @on-sys="recommend = true" @on-back="goTo('./index.html')">荣成市社会信用综合分析平台</v-header>
+    <v-header label="荣成市社会信用综合分析平台">
+      <a href="index.html" class="active">全市信用综合分析平台</a>
+      <a href="index2.html">重点人群重点行业分析</a>
+      <a href="index3.html">专项应用分析</a>
+    </v-header>
     <div class="main">
-      <v-block label="全市人口基本情况" :rect="[40,20,460,462]" no-border>
+      <v-block label="全市人口基本情况" :rect="[40,20,460,462]">
         <div class="block1-1">
           <div class="top mb15 o-hide" flex>
             <span class="total t-justify">全市人口总数</span>
@@ -96,21 +100,21 @@
             </div>
           </div>
           <div class="mb5">
-            <div class="item icon w5">
+            <div class="item icon icon1 w5">
               <p class="font22 fff">34864</p>
               <p>自然人正面信息</p>
             </div>
-            <div class="item icon w5">
+            <div class="item icon icon2 w5">
               <p class="font22 fff">39593</p>
               <p>自然人负面信息</p>
             </div>
           </div>
           <div class="mb5">
-            <div class="item icon w5">
+            <div class="item icon icon3 w5">
               <p class="font22 fff">113445</p>
               <p>法人正面信息</p>
             </div>
-            <div class="item icon w5">
+            <div class="item icon icon4 w5">
               <p class="font22 fff">2405</p>
               <p>法人负面信息</p>
             </div>
@@ -142,7 +146,7 @@
           <p>注：当前展示（12个月内）部门报送数据总量</p>
         </div>
       </v-block>
-      <v-block label="镇街部门报送总量排行" :rect="[520,500,460,462]">
+      <v-block label="镇街数据报送总量排行" :rect="[520,500,460,462]">
         <div class="block1-4">
           <div class="top2" flex="main:center">
             <div class="item" flex="main:justify">
@@ -189,10 +193,15 @@
               </div>
             </div>
           </v-full-block>
-          <v-full-block :rect="[20,500,919,380]" show-more @on-click="showIndustryModal = true">
+          <v-full-block :rect="[20,500,919,380]">
             <div class="table2">
-              <h2>企业信用等级top100</h2>
+              <h2>企业信用等级top100
+                <span class="more" @click="showIndustryModal = true">更多</span>
+              </h2>
               <b-table :columns="industryColumns" :data="industryTop5" border disabled-hover>
+                <template v-slot:name="scope">
+                  <span class="blue2 pointer" @click="showDetail(scope.row)">{{ scope.row.name }}</span>
+                </template>
                 <template v-slot:level="scope">
                   <span class="blue2">{{ scope.row.level }}</span>
                 </template>
@@ -200,12 +209,96 @@
             </div>
           </v-full-block>
           <!--企业信用排名Top100 弹窗-->
-          <v-modal :rect="[20,60,919,850]" label="企业信用排名Top100" v-model="showIndustryModal">
+          <v-modal :rect="[20,60,919,850]" label="企业信用等级Top100" v-model="showIndustryModal">
             <b-table :columns="industryColumns" :data="industryTop" border disabled-hover style="margin-right: 20px;">
+              <template v-slot:name="scope">
+                <span class="blue2 pointer" @click="showDetail(scope.row)">{{ scope.row.name }}</span>
+              </template>
               <template v-slot:level="scope">
                 <span class="blue2">{{ scope.row.level }}</span>
               </template>
             </b-table>
+          </v-modal>
+          <!--企业详情弹窗-->
+          <v-modal :rect="[20,60,919,850]" :label="compDetail.keyTable.name" v-model="compDetailModal">
+            <div class="top-content" style="margin-right: 15px;">
+              <div class="key-table">
+                <table>
+                  <tr>
+                    <td class="key">名称</td>
+                    <td>{{ compDetail.keyTable.name }}</td>
+                    <td class="key">法定代表人</td>
+                    <td>{{ compDetail.keyTable.corporation }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">注册资金</td>
+                    <td>{{ compDetail.keyTable.regCapital }}</td>
+                    <td class="key">联系方式</td>
+                    <td>{{ compDetail.keyTable.tel }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">开业时间</td>
+                    <td>{{ compDetail.keyTable.date }}</td>
+                    <td class="key">经济性质</td>
+                    <td>{{ compDetail.keyTable.economicNature }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">统一信用代码</td>
+                    <td>{{ compDetail.keyTable.unifiedCode }}</td>
+                    <td class="key">工商注册号</td>
+                    <td>{{ compDetail.keyTable.registration }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">地址</td>
+                    <td colspan="3">{{ compDetail.keyTable.address }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">经营范围</td>
+                    <td colspan="3">{{ compDetail.keyTable.scope }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">信用等级</td>
+                    <td colspan="3">
+                      {{ compDetail.keyTable.level }}
+                      <span style="margin-left:20px;color:#ffeda1;">信用分：{{ compDetail.keyTable.score }}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="title-info">正负面信息</div>
+              <div class="info-tab">
+                <span :class="{'active':infoTab===0}" @click="infoTab=0">正面信息 ({{ compDetail.plusData.length }})</span>
+                <span :class="{'active':infoTab===1}" @click="infoTab=1">负面信息 ({{ compDetail.minusData.length }})</span>
+              </div>
+              <!--正面信息-->
+              <div class="common-table" v-if="infoTab===0">
+                <b-table
+                    :columns="[
+                      { title: '序号', type: 'index', width: 50, align: 'center' },
+                      { title: '主体名称', key: 'name', width: 200 ,tooltip:true},
+                      { title: '统一社会信用代码', key: 'unifiedCode', width: 250 ,tooltip:true},
+                      { title: '发生日期', key: 'date',tooltip:true},
+                      { title: '描述', key: 'desc',tooltip:true},
+                      { title: '指标', key: 'index',tooltip:true},
+                      { title: '提交部门', key: 'submission',tooltip:true}
+                    ]"
+                    :data="compDetail.plusData" border disabled-hover></b-table>
+              </div>
+              <!--负面信息-->
+              <div class="common-table" v-if="infoTab===1">
+                <b-table
+                    :columns="[
+                      { title: '序号', type: 'index', width: 50, align: 'center' },
+                      { title: '主体名称', key: 'name', width: 200 ,tooltip:true},
+                      { title: '统一社会信用代码', key: 'unifiedCode', width: 250 ,tooltip:true},
+                      { title: '发生日期', key: 'date',tooltip:true},
+                      { title: '描述', key: 'desc',tooltip:true},
+                      { title: '指标', key: 'index',tooltip:true},
+                      { title: '提交部门', key: 'submission',tooltip:true}
+                    ]"
+                    :data="compDetail.minusData" border disabled-hover></b-table>
+              </div>
+            </div>
           </v-modal>
           <!--自然人信用指数变化趋势-->
           <v-full-block :rect="[940,60,919,380]">
@@ -223,7 +316,7 @@
           </v-full-block>
         </div>
       </v-block>
-      <v-block label="信用报告使用情况分析" :rect="[2900, 20, 920, 944]">
+      <v-block label="信用查询和报告使用情况分析" :rect="[2900, 20, 920, 944]">
         <div class="block1-6">
           <div class="top" flex="box:mean">
             <div>
@@ -238,46 +331,33 @@
           <div flex="box:mean">
             <div class="left" flex="dir:top">
               <div class="chart mb20">
-                <h2>自然人信用报告查询用途及分布</h2>
+                <h2>信用查询用途分析</h2>
                 <div id="zrrReportChart" style="width: 380px;height:300px;"></div>
               </div>
               <div class="chart">
-                <h2>法人信用报告查询用途及分布</h2>
+                <h2>信用报告用途分析</h2>
                 <div id="frReportChart" style="width: 380px;height:300px;"></div>
               </div>
             </div>
             <div class="right">
               <div class="chart">
-                <h2>五年信用报告使用趋势</h2>
+                <h2>信用查询和报告使用趋势分析</h2>
                 <div id="report5Chart" style="width: 435px;height:300px;"></div>
               </div>
               <div class="chart">
-                <h2>各个领域受限次数</h2>
-                <div flex="main:justify" style="padding: 0 16px;">
-                  <div class="table">
-                    <ul>
-                      <li class="th">
-                        <span>自然人领域</span><span>受限次数</span>
-                      </li>
-                      <li v-for="item in 14" :key="item">
-                        <span>领域{{item}}</span><span class="fff">{{item*100}}</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="table">
-                    <ul>
-                      <li class="th">
-                        <span>法人领域</span><span>受限次数</span>
-                      </li>
-                      <li v-for="item in 7" :key="item">
-                        <span>领域{{item}}</span><span class="fff">{{item*100}}</span>
-                      </li>
-                    </ul>
-                  </div>
+                <h2 class="lingYu">各个领域受限次数
+                  <span class="more" @click="lingYuModal=true">更多</span>
+                </h2>
+                <div style="padding: 0 16px;">
+                  <b-table :columns="lingYuColumns" :data="lingYuDataTop7" border disabled-hover></b-table>
                 </div>
               </div>
             </div>
           </div>
+          <v-modal :rect="[464,155,430,770]" label="各领域受限次数" v-model="lingYuModal">
+            <b-table :columns="lingYuColumns" :data="lingYuData" border disabled-hover
+                     style="margin-right: 15px;"></b-table>
+          </v-modal>
         </div>
       </v-block>
     </div>
@@ -287,12 +367,11 @@
 <script src="../js/components/v-header.js"></script>
 <script src="../js/components/v-block.js"></script>
 <script src="../js/components/v-full-block.js"></script>
-<script src="../js/components/v-dot-label.js"></script>
 <script src="../js/components/v-chart-bar.js"></script>
 <script src="../js/components/v-modal.js"></script>
 <!--测试模拟请求-->
 <script src="../js/lib/utils/mock.js"></script>
-<script src="../mock/main.js"></script>
+<script src="../mock/mockIndex.js"></script>
 <script>
   var corp = [54800, 22486, 22486]
   var deptSub = [
@@ -318,6 +397,32 @@
     { dept: '宁津街道', num: 2121 },
     { dept: '宁津街道', num: 1002 },
     { dept: '宁津街道', num: 345 },
+  ]
+  var lingYuData = [
+    { name: '领域1', count: 111 },
+    { name: '领域2', count: 111 },
+    { name: '领域3', count: 111 },
+    { name: '领域4', count: 111 },
+    { name: '领域5', count: 111 },
+    { name: '领域6', count: 111 },
+    { name: '领域7', count: 111 },
+    { name: '领域1', count: 111 },
+    { name: '领域2', count: 111 },
+    { name: '领域3', count: 111 },
+    { name: '领域4', count: 111 },
+    { name: '领域5', count: 111 },
+    { name: '领域6', count: 111 },
+    { name: '领域7', count: 111 },
+    { name: '领域5', count: 111 },
+    { name: '领域6', count: 111 },
+    { name: '领域7', count: 111 },
+    { name: '领域1', count: 111 },
+    { name: '领域2', count: 111 },
+    { name: '领域3', count: 111 },
+    { name: '领域4', count: 111 },
+    { name: '领域5', count: 111 },
+    { name: '领域6', count: 111 },
+    { name: '领域7', count: 111 }
   ]
   var vm = new Vue({
     el: '#app',
@@ -354,12 +459,25 @@
         },
         industryColumns: [
           { title: '排名', type: 'index', width: '70px', align: 'center' },
-          { title: '名称', key: 'name', width: '400px' },
+          { title: '企业名称', slot: 'name', width: '400px', tooltip: true },
           { title: '信用分', key: 'score', align: 'center' },
           { title: '信用等级', slot: 'level', align: 'center' }
         ],
         industryTop: [],
-        showIndustryModal: false
+        compDetail: {
+          keyTable: {},
+          plusData: [],
+          minusData: []
+        },
+        infoTab: 0,// 详情的正负面信息
+        showIndustryModal: false,
+        compDetailModal: false,
+        lingYuColumns: [
+          { title: '应用领域', key: 'name', maxWidth: 300 },
+          { title: '受限次数', key: 'count', align: 'center' }
+        ],
+        lingYuData: lingYuData,
+        lingYuModal: false
       }
     },
     created: function () {
@@ -423,14 +541,39 @@
       },
       industryTop5: function () {
         return this.industryTop.slice(0, 5)
+      },
+      lingYuDataTop7: function () {
+        return this.lingYuData.slice(0, 7)
       }
     },
     methods: {
+      handleMenuClick: function (index) {
+        var target = ''
+        if (index === 0) {
+          target = './index.html'
+        } else if (index === 1) {
+          target = './index2.html'
+        } else if (index === 2) {
+          target = './index3.html'
+        }
+        this.$message(target)
+      },
       // 获取企业top100
       getTopIndustry: function () {
         var _self = this
-        axios.get('/getTopIndustry').then(function (res) {
+        axios.get('/getTopIndustryMock').then(function (res) {
           _self.industryTop = res.data.list
+        })
+      },
+      // 根据企业名称查询详情
+      showDetail: function (item) {
+        this.showIndustryModal = false
+        var _self = this
+        // 需要根据item拼接查询参数
+        axios.get('/compDetail', { id: item.id }).then(function (response) {
+          _self.compDetail = response.data
+          _self.infoTab = 0 // 默认显示正面信息
+          _self.compDetailModal = true// 打开模态框3
         })
       },
       renderRing: function () {
@@ -549,7 +692,7 @@
         // 指定图表的配置项和数据
         var option = {
           legend: false,
-          color: ['#0b95ff', '#330494'],//数据蛛网线条的颜色，示例中为红黄绿
+          color: ['#d20f60', '#0b87ed'],//数据蛛网线条的颜色，示例中为红黄绿
           radar: [
             {//每个网格的指数名称，类似于X轴或Y轴上的数据的值大小
               indicator: [
@@ -634,7 +777,7 @@
         var myChart = echarts.init(document.getElementById('frReportChart'))
         // 指定图表的配置项和数据
         var option = {
-          color: ['#0b95ff', '#330494'],//数据蛛网线条的颜色，示例中为红黄绿
+          color: ['#d20f60', '#0b87ed'],//数据蛛网线条的颜色，示例中为红黄绿
           radar: [
             {//每个网格的指数名称，类似于X轴或Y轴上的数据的值大小
               indicator: [
@@ -714,14 +857,17 @@
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option)
       },
-      // 五年信用报告图表
+      // 信用查询和报告使用趋势分析
       renderReport5Chart: function () {
         var myChart = echarts.init(document.getElementById('report5Chart'))
         // 指定图表的配置项和数据
         var option = {
-          color: ['#0b87ed', '#0f36ac'],
+          color: ['#0b87ed', '#ffcc00'],
           tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross'
+            }
           },
           legend: {
             data: ['查询次数', '打印次数'],
@@ -732,7 +878,6 @@
           },
           grid: {
             top: 40,
-            right: 5,
             bottom: 40
           },
           xAxis: {
@@ -750,6 +895,7 @@
           yAxis: [
             {
               type: 'value',
+              name: '查询次数',
               splitNumber: 10,
               axisTick: {
                 show: false
@@ -761,6 +907,23 @@
               splitLine: {
                 show: true,
                 lineStyle: { color: '#0f1534' }
+              }
+            },
+            {
+              type: 'value',
+              name: '打印次数',
+              min: 0,
+              max: 2500,
+              splitNumber: 10,
+              axisTick: {
+                show: false
+              },
+              axisLine: {
+                show: true,
+                lineStyle: { color: '#424b69' }
+              },
+              splitLine: {
+                show: false
               }
             }
           ],
@@ -785,6 +948,7 @@
               type: 'bar',
               data: [300, 456, 756, 1000, 1567, 2223],
               barMaxWidth: 14,
+              yAxisIndex: 1,
               itemStyle: {
                 barBorderRadius: [3, 3, 0, 0]
               },
