@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="../js/lib/element-ui@2.9.1/index.css">
   <script src="../js/lib/element-ui@2.9.1/index.js"></script>
   <!--bin-ui@1.4.4-->
-  <link rel="stylesheet" href="../js/lib/bin-ui@1.4.4/styles/index.css">
-  <script src="../js/lib/bin-ui@1.4.4/bin-ui.umd.min.js"></script>
+  <link rel="stylesheet" href="../js/lib/bin-ui/styles/index.css">
+  <script src="../js/lib/bin-ui/bin-ui.umd.min.js"></script>
 
   <!--self-->
   <link rel="stylesheet" href="../styles/system.css">
@@ -184,6 +184,130 @@
             </div>
           </v-table-panel>
         </v-steps>
+        <!--红名单查询-->
+        <v-steps :active="step" v-if="activeIndex===6">
+          <div class="red-black" slot="step0">
+            <div class="filter">
+              <div flex>
+                <div class="title">主体类型：</div>
+                <span class="type-btn" :class="{active:form6.type==='FO'}" @click="changeMainType('FO')">法人</span>
+                <span class="type-btn" :class="{active:form6.type==='ZRP'}" @click="changeMainType('ZRP')">自然人</span>
+              </div>
+              <!--法人条件-->
+              <div class="params" flex="cross:center" v-if="form6.type==='FO'">
+                <span>统一社会信用代码：</span>
+                <b-input size="large" v-model="form6.unifiedCode" style="width: 200px;"></b-input>&nbsp;&nbsp;
+                <span>工商注册号：</span>
+                <b-input size="large" v-model="form6.registration" style="width: 200px;"></b-input>&nbsp;&nbsp;
+                <span>企业名称：</span>
+                <b-input size="large" v-model="form6.compName" style="width: 200px;"></b-input>&nbsp;&nbsp;
+                <b-button type="primary" size="large" style="width: 120px;" @click="search6">查询</b-button>
+              </div>
+              <!--自然人条件-->
+              <div class="params" flex="cross:center" v-if="form6.type==='ZRP'">
+                <span>证件号码：</span>
+                <b-input size="large" v-model="form6.codeNum" style="width: 200px;"></b-input>&nbsp;&nbsp;
+                <span>名称：</span>
+                <b-input size="large" v-model="form6.name" style="width: 200px;"></b-input>&nbsp;&nbsp;
+                <b-button type="primary" size="large" style="width: 120px;" @click="search6">查询</b-button>
+              </div>
+            </div>
+            <div class="line">
+              <img src="../images/line.png" height="15" width="1398" alt="line"/>
+            </div>
+            <div class="table">
+              <div class="common-table min">
+                <el-table :data="tableData6" stripe>
+                  <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                  <el-table-column prop="name" label="姓名" width="150">
+                    <template slot-scope="scope">
+                      <a href="#" @click.stop.prevent="getDetail6(scope.row)">{{ scope.row.name }}</a>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="codeNum" label="证件号" width="250"></el-table-column>
+                  <el-table-column prop="behavior" label="守信行为" show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="Award" width="130" label="获得奖励" show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="date" width="130" label="日期"></el-table-column>
+                </el-table>
+              </div>
+              <div class="common-page" flex="main:right">
+                <div class="total">共{{total}}条记录&nbsp;&nbsp;第{{tablePage}}/{{totalPage}}页</div>
+                <el-pagination background layout="prev, pager, next"
+                               prev-text="上一页" next-text="下一页" @current-change="pageChange"
+                               :total="total" :current-page.sync="tablePage"></el-pagination>
+              </div>
+            </div>
+          </div>
+          <v-table-panel slot="step2" :label="detail0.keyTable.name" @on-back="step=0">
+            <div class="key-table">
+              <table>
+                <tr>
+                  <td class="key">名称</td>
+                  <td>{{ detail0.keyTable.name }}</td>
+                  <td class="key">法定代表人</td>
+                  <td>{{ detail0.keyTable.corporation }}</td>
+                </tr>
+                <tr>
+                  <td class="key">注册资金</td>
+                  <td>{{ detail0.keyTable.regCapital }}</td>
+                  <td class="key">联系方式</td>
+                  <td>{{ detail0.keyTable.tel }}</td>
+                </tr>
+                <tr>
+                  <td class="key">开业时间</td>
+                  <td>{{ detail0.keyTable.date }}</td>
+                  <td class="key">经济性质</td>
+                  <td>{{ detail0.keyTable.economicNature }}</td>
+                </tr>
+                <tr>
+                  <td class="key">统一信用代码</td>
+                  <td>{{ detail0.keyTable.unifiedCode }}</td>
+                  <td class="key">工商注册号</td>
+                  <td>{{ detail0.keyTable.registration }}</td>
+                </tr>
+                <tr>
+                  <td class="key">地址</td>
+                  <td colspan="3">{{ detail0.keyTable.address }}</td>
+                </tr>
+                <tr>
+                  <td class="key">经营范围</td>
+                  <td colspan="3">{{ detail0.keyTable.scope }}</td>
+                </tr>
+                <tr>
+                  <td class="key">信用等级</td>
+                  <td colspan="3">{{ detail0.keyTable.level }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="title-info">正负面信息</div>
+            <div class="info-tab">
+              <span :class="{'active':infoTab===0}" @click="infoTab=0">正面信息 ({{ detail0.plusData.length }})</span>
+              <span :class="{'active':infoTab===1}" @click="infoTab=1">负面信息 ({{ detail0.minusData.length }})</span>
+            </div>
+            <!--正面信息-->
+            <div class="common-table" v-if="infoTab===0">
+              <el-table :data="detail0.plusData" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" width="300" label="描述" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="index" width="250" label="指标" show-overflow-tooltip></el-table-column>
+              </el-table>
+            </div>
+            <!--负面信息-->
+            <div class="common-table" v-if="infoTab===1">
+              <el-table :data="detail0.minusData" stripe>
+                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="主体名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="unifiedCode" label="统一社会信用代码" width="250"></el-table-column>
+                <el-table-column prop="date" width="100" label="发生日期"></el-table-column>
+                <el-table-column prop="desc" width="300" label="描述" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="index" width="250" label="指标" show-overflow-tooltip></el-table-column>
+              </el-table>
+            </div>
+          </v-table-panel>
+        </v-steps>
       </div>
     </div>
   </div>
@@ -201,16 +325,16 @@
     data: function () {
       return {
         menuData: [
-          {id: '1', name: '企业信用等级查询'},
-          {id: '2', name: '个体工商户信用查询'},
-          {id: '3', name: '社会团体信息查询'},
-          {id: '4', name: '中介服务机构信息查询'},
-          {id: '5', name: '民办非企业信息查询'},
-          {id: '6', name: '重点人群信息查询'},
-          {id: '7', name: '社会法人黑名单'},
-          {id: '8', name: '自然人黑名单'},
-          {id: '9', name: '机关事业单位信息查询'},
-          {id: '10', name: '村居组织信息查询'}
+          { id: '1', name: '企业信用等级查询' },
+          { id: '2', name: '个体工商户信用查询' },
+          { id: '3', name: '社会团体信息查询' },
+          { id: '4', name: '中介服务机构信息查询' },
+          { id: '5', name: '民办非企业信息查询' },
+          { id: '6', name: '重点人群信息查询' },
+          { id: '7', name: '红名单查询' },
+          { id: '8', name: '黑名单查询' },
+          { id: '9', name: '机关事业单位信息查询' },
+          { id: '10', name: '村居组织信息查询' }
         ],
         activeIndex: 0, // 选中菜单项索引
         currentPage: 0, // 页数只有0 和 1
@@ -224,13 +348,22 @@
           unifiedCode: '',
           corporation: ''
         },
+        form6: {
+          type: 'FO',// 法人和自然人 ZRP
+          registration: '',
+          unifiedCode: '',
+          compName: '',
+          codeNum: '',
+          name: ''
+        },
         tableData0: [],
         detail0: {
           keyTable: {},
           plusData: [],
           minusData: []
         },
-        tableData1: []
+        tableData1: [],
+        tableData6: []
       }
     },
     created: function () {
@@ -245,6 +378,7 @@
         var itemIndex = this.menuData.findIndex(function (item) {
           return item.id === id
         })
+        console.log(itemIndex)
         if (itemIndex) {
           this.activeIndex = itemIndex
           this.currentPage = itemIndex > 4 ? 1 : 0
@@ -255,6 +389,9 @@
         switch (this.current.name) {
           case '个体工商户信用查询':
             this.search1()
+            break
+          case '红名单查询':
+            this.search6()
             break
         }
       },
@@ -302,12 +439,42 @@
           _self.step = 0
         })
       },
+      // 红黑名单查询方法
+      search6: function () {
+        var _self = this
+        this.getRequest('/tableData6', this.form6).then(function (response) {
+          _self.tableData6 = response.data.rows
+          _self.total = response.data.total
+          _self.step = 0
+          _self.$message('查询红黑名单')
+        })
+      },
       // 获取详情并跳转
       getDetail0: function (item) {
         var _self = this
         this.$message('查询 [' + item.id + '] 详情')
         // 需要根据item拼接查询参数
-        this.getRequest('/tableDetail0', {id: item.id}).then(function (response) {
+        this.getRequest('/tableDetail0', { id: item.id }).then(function (response) {
+          console.log(response)
+          _self.detail0 = response.data
+          _self.infoTab = 0 // 默认显示正面信息
+          _self.step = 2 // 跳转到第二个
+        })
+      },
+      // 红黑名单逻辑操作
+      changeMainType: function (type) {
+        if (this.form6.type !== type) {
+          this.form6.type = type
+          // 调用查询功能
+          this.search6()
+        }
+      },
+      // 红黑名单逻辑操作获取详情并跳转
+      getDetail6: function (item) {
+        var _self = this
+        this.$message('查询 [' + item.name + '] 详情')
+        // 需要根据item拼接查询参数
+        this.getRequest('/tableDetail0', { id: item.id }).then(function (response) {
           console.log(response)
           _self.detail0 = response.data
           _self.infoTab = 0 // 默认显示正面信息
@@ -318,9 +485,9 @@
     computed: {
       menuScroll: function () {
         if (this.currentPage === 0) {
-          return {transform: 'translateY(0)'}
+          return { transform: 'translateY(0)' }
         } else {
-          return {transform: 'translateY(-50%)'}
+          return { transform: 'translateY(-50%)' }
         }
       },
       // 当前的菜单数据

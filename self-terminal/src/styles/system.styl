@@ -210,52 +210,6 @@
               }
             }
           }
-          .common-table {
-            margin-bottom: 20px;
-            &.min {
-              min-height: 561px;
-            }
-            a {
-              color: #2d8cf0;
-              text-decoration: none;
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-            .el-table th {
-              background: #f7f7f7;
-              color: #333;
-              font-weight: bold;
-              padding: 14px 0;
-            }
-            .el-table td, .el-table th.is-leaf {
-              border-bottom: none;
-            }
-            .el-table td {
-              color: #666;
-              padding: 14px 0;
-            }
-            .el-table__fixed-right::before, .el-table__fixed::before, .el-table::before {
-              background-color: #ffffff;
-            }
-          }
-          .common-page {
-            padding: 10px 0;
-            text-align: right;
-            .total {
-              line-height: 32px;
-              font-size: 14px;
-              color: #999;
-              padding-right: 80px;
-            }
-            .el-pagination {
-              font-weight: normal;
-              &.is-background .btn-next,
-              &.is-background .btn-prev {
-                padding: 0 10px;
-              }
-            }
-          }
           .title-info {
             font-size: 20px;
             color: #f7b200;
@@ -286,6 +240,93 @@
             right: 46px;
           }
         }
+        .common-table {
+          margin-bottom: 20px;
+          &.min {
+            min-height: 561px;
+          }
+          a {
+            color: #2d8cf0;
+            text-decoration: none;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          .el-table th {
+            background: #f7f7f7;
+            color: #333;
+            font-weight: bold;
+            padding: 14px 0;
+          }
+          .el-table td, .el-table th.is-leaf {
+            border-bottom: none;
+          }
+          .el-table td {
+            color: #666;
+            padding: 14px 0;
+          }
+          .el-table__fixed-right::before, .el-table__fixed::before, .el-table::before {
+            background-color: #ffffff;
+          }
+        }
+        .common-page {
+          padding: 10px 0;
+          text-align: right;
+          .total {
+            line-height: 32px;
+            font-size: 14px;
+            color: #999;
+            padding-right: 80px;
+          }
+          .el-pagination {
+            font-weight: normal;
+            &.is-background .btn-next,
+            &.is-background .btn-prev {
+              padding: 0 10px;
+            }
+          }
+        }
+        .red-black {
+          .filter {
+            padding: 30px 80px;
+            .title {
+              font-size: 22px;
+              font-weight: 500;
+              line-height: 40px;
+            }
+            .type-btn {
+              width: 120px;
+              font-size: 22px;
+              text-align: center;
+              cursor: pointer;
+              user-select: none;
+              line-height: 40px;
+              background: #f9f9f9;
+              margin-right: 5px;
+              border-radius: 5px;
+              &.active {
+                background-color #6999f7;
+                color: #fff;
+              }
+            }
+            .params {
+              padding-top: 30px;
+            }
+          }
+
+          .table {
+            padding: 10px 80px;
+            .common-table {
+              &.min {
+                min-height: 490px;
+              }
+              .el-table td {
+                color: #666;
+                padding: 10px 0;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -299,5 +340,9 @@
 .move-transverse-enter, .move-transverse-leave-to {
   opacity: 0;
   transform: translateX(50%)
+}
+
+.bin-message-notice-content, .bin-message-notice .bg-wrap {
+  border-radius: 5px;
 }
 
